@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stress_sheild/feature/aiTherapyChatbot/screen/containertocreate.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/faceDetection.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/article.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_courses.dart';
@@ -19,7 +20,7 @@ class AppRouter {
 
   static final routes = {
     '/': (BuildContext context) => WelcomeScreen(),
-    // '/': (BuildContext context) => EmotionDetectorPage(),
+    // '/': (BuildContext context) => DummyContainer(),
     // '/': (BuildContext context) => FaceDetectionLandingPage(),
     'landingHomePage': (BuildContext context) => LandingHomePage(),
     'welcome': (BuildContext context) => WelcomeScreen(),

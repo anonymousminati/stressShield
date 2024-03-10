@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:stress_sheild/feature/aiTherapyChatbot/screen/detectorHome.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/faceDetection.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindful_activities.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_landing_page.dart';
@@ -626,7 +627,7 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FaceDetectionLandingPage()),
+                                  builder: (context) => DetectorHome()),
                             );
                           }),
                       _buildCard('🔥 Streak', '83', Color(0xFF2ACAD9),

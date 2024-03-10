@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/playcourse.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/global_widgets/audio/audioplayer%20widget.dart';
-import 'package:stress_sheild/global_widgets/audio/firebaseStorageService.dart';
+import 'package:stress_sheild/global_widgets/service/firebaseStorageService.dart';
 import 'package:stress_sheild/model/dataModels.dart';
 
 class Course extends StatefulWidget {
