@@ -1,0 +1,17 @@
+# Ignore generated files
+.dart_tool/
+.packages
+.pub/
+build/
+
+
+# Ignore documentation and cache
+**/doc/api/
+.history
+
+# Ignore IDE configuration files
+.idea/
+.vscode/
+
+# Example: Ignore locally generated thumbnails (if applicable)
+**/thumbnails/*

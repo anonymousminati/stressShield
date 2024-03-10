@@ -1,0 +1,1 @@
+ E:\\flutter\\code\\stress_sheild\\.dart_tool\\flutter_build\\70edd704258f0293473817b0f0d0b039\\native_assets.yaml: 

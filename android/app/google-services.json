@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "192727806596",
+    "project_id": "stressshield-833ce",
+    "storage_bucket": "stressshield-833ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192727806596:android:c3ec8a9264b3c03e0908d1",
+        "android_client_info": {
+          "package_name": "com.example.stress_shield"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stress_shield",
+            "certificate_hash": "d6f2c0c5241a84a5dbd62a3bc8fcf7017c673c76"
+          }
+        },
+        {
+          "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo8QVUVaFIcbtb8IJbweEC_2rPYksMu7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.stressShield"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
