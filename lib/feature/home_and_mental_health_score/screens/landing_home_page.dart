@@ -1,14 +1,20 @@
 import 'package:card_slider/card_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/detectorHome.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/faceDetection.dart';
+import 'package:stress_sheild/feature/aiTherapyChatbot/screen/resultScreen.dart';
+import 'package:stress_sheild/feature/chatBot/screens/chatScreen.dart';
+import 'package:stress_sheild/feature/communityChat/pages/community_chat_landing_page.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindful_activities.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_landing_page.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/OurResources.dart';
+import 'package:stress_sheild/feature/profile/acountSettings.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/audio_therapy/songs.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
 
 class LandingHomePage extends StatefulWidget {
@@ -20,6 +26,22 @@ class LandingHomePage extends StatefulWidget {
 
 class _LandingHomePageState extends State<LandingHomePage> {
   final ScrollController _scrollController = ScrollController();
+  int _currentIndex = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pageController = PageController();
+  }
+
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +78,42 @@ class _LandingHomePageState extends State<LandingHomePage> {
           ),
         ]),
       ),
-      bottomNavigationBar: BottomNavigationBar(),
+      // bottomNavigationBar: BottomNavigationBar(),
+      bottomNavigationBar:   NavigationBar(
+        destinations: [
+          NavigationDestination(
+            icon: IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => LandingHomePage()));
+              },
+            ),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon:IconButton(
+              icon: Icon(Icons.chat),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
+              },
+            ),
+            label: 'chat',
+          ),
+          NavigationDestination(
+            icon:IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) =>  AccountSettings()));
+              },
+            ),
+            label: 'Profile',
+          ),
+        ],
+      ),
+
     );
   }
 }
@@ -163,6 +220,8 @@ class ListOfMindfullTracker extends StatelessWidget {
     );
   }
 }
+
+
 
 class BottomNavigationBar extends StatelessWidget {
   const BottomNavigationBar({
@@ -457,21 +516,30 @@ class AiTherapistContainer extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        width: 150.0,
-                        height: 50.0,
-                        margin: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Chat Now',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFFEC7D1C),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatScreen()),
+                          );
+                        },
+                        child: Container(
+                          width: 150.0,
+                          height: 50.0,
+                          margin: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Chat Now',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFFEC7D1C),
+                              ),
                             ),
                           ),
                         ),
@@ -627,11 +695,17 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetectorHome()),
+                                  builder: (context) => DummyContainer()),
                             );
                           }),
-                      _buildCard('🔥 Streak', '83', Color(0xFF2ACAD9),
-                          onTap: null),
+                      _buildCard('🔥 Audios', '83', Color(0xFF2ACAD9),
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SongRecommendationPage()),
+                            );
+                          }),
 
                       _buildCard('🗣️ Chats', '95', Color(0xFFC86E6E),
                           onTap: null),

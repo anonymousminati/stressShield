@@ -56,10 +56,10 @@ class FaceDetectionLandingPage extends StatelessWidget {
                                         fixedSize: Size.fromHeight(150),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => const DetectorHome()),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(builder: (context) => const DetectorHome()),
+                                        // );
                                       },
                                       child: const Text('Live From Camera'),
                                     ),

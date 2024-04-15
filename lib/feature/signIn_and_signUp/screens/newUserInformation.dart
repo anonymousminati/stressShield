@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/screens/register_success.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
 class UserInfo {
+  String fullName;
   String uid;
   DateTime dateOfBirth;
   String gender;
@@ -11,34 +13,40 @@ class UserInfo {
   double weight;
   String mobileNo;
   String governmentId;
-
+  String emailId;
   UserInfo({
+
     required this.uid,
+    required this.fullName,
     required this.dateOfBirth,
     required this.gender,
     required this.location,
     required this.weight,
     required this.mobileNo,
     required this.governmentId,
+    required this.emailId,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
+      'fullName': fullName,
       'dateOfBirth': dateOfBirth,
       'gender': gender,
       'location': location,
       'weight': weight,
       'mobileNo': mobileNo,
       'governmentId': governmentId,
+      'emailId': emailId,
     };
   }
 }
 
 class UserInfoPage extends StatefulWidget {
   final String uid;
+  final String emailId;
 
-  const UserInfoPage({Key? key, required this.uid}) : super(key: key);
+  const UserInfoPage({Key? key, required this.uid, required this.emailId}) : super(key: key);
 
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
@@ -46,12 +54,15 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _mobileNoController = TextEditingController();
   final TextEditingController _governmentIdController = TextEditingController();
+
+
 
   DateTime selectedDate = DateTime.now();
 
@@ -69,8 +80,22 @@ class _UserInfoPageState extends State<UserInfoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Date of Birth
-                // Date of Birth
+
+                TextFormField(
+                  controller:_fullNameController,
+                  decoration: InputDecoration(
+                    labelText: 'FullName',
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  style: TextStyle(fontSize: 16.0),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your location';
+                    }
+                    return null;
+                  },
+                ),
+
                 ListTile(
                   title: Text(
                     'Date of Birth',
@@ -107,8 +132,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   })
                       .toList(),
                 ),
+        //fullname
 
-        // Location
                 TextFormField(
                   controller: _locationController,
                   decoration: InputDecoration(
@@ -178,18 +203,20 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       // Form is valid, save data to Firestore
                       UserInfo userInfo = UserInfo(
                         uid: widget.uid,
+                        fullName: _fullNameController.text.trim(),
                         dateOfBirth: selectedDate,
                         gender: _genderController.text.trim(),
                         location: _locationController.text.trim(),
                         weight: double.parse(_weightController.text.trim()),
                         mobileNo: _mobileNoController.text.trim(),
                         governmentId: _governmentIdController.text.trim(),
+                        emailId: widget.emailId,
                       );
                       // Save user information to Firestore
                       FirebaseAuthService().saveUserInfo('users', userInfo.toMap(), widget.uid);
 
                       // Navigate back to login screen
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterSuccessPage()));
                     }
                   },
                   style: ButtonStyle(

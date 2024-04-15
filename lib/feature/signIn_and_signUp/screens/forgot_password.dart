@@ -1,102 +1,127 @@
-import 'package:flutter/material.dart';
-import 'package:stress_sheild/feature/signIn_and_signUp/widgets/customized_button.dart';
 
-import '../widgets/customized_textfield.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:stress_sheild/global_widgets/common.dart';
+import 'package:stress_sheild/global_widgets/custom_widgets.dart';
+import 'package:stress_sheild/global_widgets/fadeanimationtest.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({super.key});
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final TextEditingController _emailController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_sharp),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text("Forgot Password?",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                  "Dont worry it occurs to us all. We will send you a link to reset your password.",
-                  style: TextStyle(
-                    color: Color(0xff8391A1),
-                    fontSize: 20,
-                    // fontWeight: FontWeight.bold,
-                  )),
-            ),
-            CustomizedTextfield(
-              myController: _emailController,
-              hintText: "Enter your Email",
-              isPassword: false,
-            ),
-            CustomizedButton(
-              buttonText: "Send Code",
-              buttonColor: Colors.black,
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Spacer(
-              flex: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(68, 8, 8, 8.0),
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text("Remember Password?",
-                      style: TextStyle(
-                        color: Color(0xff1E232C),
-                        fontSize: 15,
+    return Scaffold(
+      //backgroundColor: const Color(0xFFE8ECF4),
+      body: Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FadeInAnimation(
+                  delay: 1,
+                  child: IconButton(
+                      onPressed: () {
+                        GoRouter.of(context).pop();
+                      },
+                      icon: const Icon(
+                        CupertinoIcons.back,
+                        size: 35,
                       )),
-                  InkWell(
-                    onTap: () {},
-                    child: const Text("  Login",
-                        style: TextStyle(
-                          color: Color(0xff35C2C1),
-                          fontSize: 15,
-                        )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FadeInAnimation(
+                        delay: 1.3,
+                        child: Text(
+                          "Forgot Password?",
+                          style: Common().titelTheme,
+                        ),
+                      ),
+                      FadeInAnimation(
+                        delay: 1.6,
+                        child: Text(
+                          "Don't worry! It occurs. Please enter the email address linked with your account.",
+                          style: Common().mediumTheme.copyWith(color: Colors.black45),
+
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        FadeInAnimation(
+                          delay: 1.9,
+                          child: const CustomTextFormField(
+                            hinttext: 'Enter your email',
+                            obsecuretext: false,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        FadeInAnimation(
+                          delay: 2.1,
+                          child: CustomElevatedButton(
+                            message: "Send Code ",
+                            function: () {
+                              Navigator.pushNamed(context, 'otpverification');
+                            },
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Spacer(),
+                FadeInAnimation(
+                  delay: 2.4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 50),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don’t have an account?",
+                          style: Common().hinttext,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                'register',
+                              );
+                            },
+                            child: Text(
+                              "Register Now",
+                              style: Common().mediumTheme,
+                            )),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
-    ));
+    );
   }
 }

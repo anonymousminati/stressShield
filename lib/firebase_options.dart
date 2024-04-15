@@ -67,6 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '192727806596',
     projectId: 'stressshield-833ce',
     storageBucket: 'stressshield-833ce.appspot.com',
+    androidClientId: '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
+    iosClientId: '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
     iosBundleId: 'com.example.stressShield',
   );
 
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '192727806596',
     projectId: 'stressshield-833ce',
     storageBucket: 'stressshield-833ce.appspot.com',
+    androidClientId: '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
+    iosClientId: '192727806596-mrn8ou2gvenj8fr7m4lknnrahjpa6c0k.apps.googleusercontent.com',
     iosBundleId: 'com.example.stressShield.RunnerTests',
   );
 }

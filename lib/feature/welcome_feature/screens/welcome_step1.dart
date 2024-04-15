@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/screens/authenticationUI.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/signInwelcome_screen.dart';
 import 'package:stress_sheild/feature/welcome_feature/widgets/welcome_screen_reusable_steps.dart';
 
@@ -78,7 +79,8 @@ class _WelcomeScreen1State extends State<WelcomeScreen1> {
       //   // Navigator.pushReplacementNamed(context, '/signIn');
       // }
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return SignInWelcomeScreen();
+        // return SignInWelcomeScreen();
+        return AuthenticationUI();
       }));
     }
   }

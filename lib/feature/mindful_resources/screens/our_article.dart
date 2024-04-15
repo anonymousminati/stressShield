@@ -2,11 +2,36 @@
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/article.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/dynamic_article_card.dart';
 
-class OurArticle extends StatelessWidget {
+class OurArticle extends StatefulWidget {
   const OurArticle({super.key});
 
+  @override
+  State<OurArticle> createState() => _OurArticleState();
+}
+
+class _OurArticleState extends State<OurArticle> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3000),
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+    _controller.forward();
+
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -262,6 +287,16 @@ class OurArticle extends StatelessWidget {
                           ),
                         ],
                       ),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: Padding(
+                          padding:
+                          EdgeInsets.only(left: 20.0, right: 15.0),
+                          child: ArticleListViewBuilder(),
+                        ),
+                      ),
+
+                      SizedBox(height: 30),
                       ListView.separated(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
