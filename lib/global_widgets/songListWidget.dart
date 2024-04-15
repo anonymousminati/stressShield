@@ -8,94 +8,75 @@ import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
-class SongListWidget extends StatefulWidget {
-  final AsyncSnapshot<DocumentSnapshot> snapshot;
-  final String detectedLabel;
-  final Function(Map<String, dynamic>) onSongClicked; // Callback function
-
-  const SongListWidget({
-    Key? key,
-    required this.snapshot,
-    required this.detectedLabel,
-    required this.onSongClicked,
-  }) : super(key: key);
-
-  @override
-  State<SongListWidget> createState() => _SongListWidgetState();
-}
-
-class _SongListWidgetState extends State<SongListWidget> {
+class AudioListWidget extends StatelessWidget {
+  AudioListWidget({super.key, required this.musicList, required this.playAudio});
+  final List<Map<String, dynamic>> musicList;
+  final Function(String, String, String) playAudio;
   @override
   Widget build(BuildContext context) {
-    if (widget.snapshot.connectionState == ConnectionState.waiting) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (!widget.snapshot.hasData ||
-        widget.snapshot.data == null ||
-        !widget.snapshot.data!.exists) {
-      return Center(
-        child: Text(
-          'No songs found for ${widget.detectedLabel}',
-          style: TextStyle(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
             color: Colors.white,
+            width: 1,
           ),
+          borderRadius: BorderRadius.circular(10),
         ),
-      );
-    }
-
-    // Extract the list of songs from the document data
-    List<dynamic>? songsData = widget.snapshot.data!.get('musics');
-    if (songsData == null || songsData.isEmpty) {
-      return Center(
-        child: Text(
-          'No songs found for ${widget.detectedLabel}',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-
-    // Display the list of songs
-    return ListView.builder(
-      itemCount: songsData.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final song = songsData[index];
-        return GestureDetector(
-          onTap: () {
-            // Call the callback function to play the song
-            widget.onSongClicked(song);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: ListTile(
-                title: Text(
-                  song['name'],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+        child: musicList.isNotEmpty? ListView.builder(
+          itemCount: musicList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                playAudio(
+                  musicList[index]['song_url'].toString(),
+                  musicList[index]['name'].toString(),
+                  musicList[index]['image_url'].toString(),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      musicList[index]['name'].toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(
+                        musicList[index]['image_url'].toString(),
+                      ),
+                    ),
                   ),
                 ),
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(song['image_url']),
-                ),
-                trailing: Icon(Icons.play_arrow, color: Colors.white),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        )
+            :Center(child: Text('There is no Audio list ',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,)
+        ),
+
+        ),
+
+      ),
     );
   }
 }

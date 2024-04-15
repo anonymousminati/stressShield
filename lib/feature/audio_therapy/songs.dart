@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:stress_sheild/feature/audio_therapy/music_player.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart';
 
 class SongRecommendationPage extends StatefulWidget {
@@ -248,11 +249,7 @@ class _SongRecommendationPageState extends State<SongRecommendationPage>
             .doc(detectedLabel.toLowerCase())
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          return SongListWidget(
-            snapshot: snapshot,
-            detectedLabel: detectedLabel,
-            onSongClicked: _playSong,
-          );
+          return MusicPlay();
         },
       ),
     );

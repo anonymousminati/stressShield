@@ -7,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/detectorHome.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/faceDetection.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/resultScreen.dart';
+import 'package:stress_sheild/feature/audio_therapy/music_player.dart';
 import 'package:stress_sheild/feature/chatBot/screens/chatScreen.dart';
 import 'package:stress_sheild/feature/communityChat/pages/community_chat_landing_page.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindful_activities.dart';
@@ -703,7 +704,7 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SongRecommendationPage()),
+                                  builder: (context) => MusicPlay()),
                             );
                           }),
 
