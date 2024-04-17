@@ -2,6 +2,7 @@ import 'package:card_slider/card_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/detectorHome.dart';
@@ -14,6 +15,7 @@ import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindf
 import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_landing_page.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/OurResources.dart';
 import 'package:stress_sheild/feature/profile/acountSettings.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/audio_therapy/songs.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
@@ -27,6 +29,7 @@ class LandingHomePage extends StatefulWidget {
 
 class _LandingHomePageState extends State<LandingHomePage> {
   final ScrollController _scrollController = ScrollController();
+  final UserInformation _userInformation = Get.put(UserInformation());
   int _currentIndex = 0;
   late PageController _pageController;
 
@@ -60,7 +63,7 @@ class _LandingHomePageState extends State<LandingHomePage> {
               children: [
                 //first above part
                 LandingprofileContainer(
-                    formattedDate: formattedDate, formattedTime: formattedTime),
+                    formattedDate: formattedDate, formattedTime: formattedTime, userInformation: _userInformation.userInformation,),
                 //second part slider
                 MentalHealthSliderContainer(
                     scrollController: _scrollController),
@@ -80,40 +83,40 @@ class _LandingHomePageState extends State<LandingHomePage> {
         ]),
       ),
       // bottomNavigationBar: BottomNavigationBar(),
-      bottomNavigationBar:   NavigationBar(
-        destinations: [
-          NavigationDestination(
-            icon: IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => LandingHomePage()));
-              },
-            ),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon:IconButton(
-              icon: Icon(Icons.chat),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
-              },
-            ),
-            label: 'chat',
-          ),
-          NavigationDestination(
-            icon:IconButton(
-              icon: Icon(Icons.person),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) =>  AccountSettings()));
-              },
-            ),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      // bottomNavigationBar:   NavigationBar(
+      //   destinations: [
+      //     NavigationDestination(
+      //       icon: IconButton(
+      //         icon: Icon(Icons.home),
+      //         onPressed: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (_) => BottomNavWithAnimations()));
+      //         },
+      //       ),
+      //       label: 'Home',
+      //     ),
+      //     NavigationDestination(
+      //       icon:IconButton(
+      //         icon: Icon(Icons.chat),
+      //         onPressed: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
+      //         },
+      //       ),
+      //       label: 'chat',
+      //     ),
+      //     NavigationDestination(
+      //       icon:IconButton(
+      //         icon: Icon(Icons.person),
+      //         onPressed: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (_) =>  AccountSettings()));
+      //         },
+      //       ),
+      //       label: 'Profile',
+      //     ),
+      //   ],
+      // ),
 
     );
   }
@@ -522,7 +525,7 @@ class AiTherapistContainer extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ChatScreen()),
+                                builder: (context) => ChatBotChatScreen()),
                           );
                         },
                         child: Container(
@@ -696,7 +699,7 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DummyContainer()),
+                                  builder: (context) => DummyContainer(),),
                             );
                           }),
                       _buildCard('🔥 Audios', '83', Color(0xFF2ACAD9),
@@ -725,14 +728,17 @@ class MentalHealthSliderContainer extends StatelessWidget {
 }
 
 class LandingprofileContainer extends StatelessWidget {
+
   const LandingprofileContainer({
     super.key,
     required this.formattedDate,
-    required this.formattedTime,
+    required this.formattedTime, required this.userInformation,
   });
+
 
   final String formattedDate;
   final String formattedTime;
+  final Map userInformation;
 
   @override
   Widget build(BuildContext context) {
@@ -834,14 +840,16 @@ class LandingprofileContainer extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Tiya Jagtap',
+
+                      Obx(() => Text(
+                        userInformation['fullName'] ?? "User",
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+          fontSize: 24.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+                      ),),
+
                       Text(
                         '🌸 80%, 😊 Happy',
                         style: TextStyle(

@@ -5,8 +5,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/signup_screen.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/splash_and_loading/screens/loading_screen_quote.dart';
@@ -21,6 +23,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final UserInformation _userInformation = Get.put(UserInformation());
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -44,8 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
           _emailController.text.trim(), _passwordController.text.trim());
       if (FirebaseAuth.instance.currentUser != null) {
         // if (!mounted) return;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => LoadingScreenQuote()));
+        _userInformation.fetchUserInformation();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BottomNavWithAnimations(),
+            // builder: (context) => LoadingScreenQuote(),
+          ),
+        );
       }
 
       //  This code is gone inside the catch block

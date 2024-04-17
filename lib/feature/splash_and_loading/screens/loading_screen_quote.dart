@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 
 //create a new stateless widget called LoadingScreenQuote it should return Scafold with body showing motivation quotes every time the app is loading . alsoo background should have funky colors for modern look
@@ -13,7 +14,7 @@ class LoadingScreenQuote extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => LandingHomePage(),
+          builder: (context) => BottomNavWithAnimations(),
         ),
       );
     });

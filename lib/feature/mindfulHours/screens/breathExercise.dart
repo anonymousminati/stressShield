@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 import 'package:stress_sheild/global_widgets/exerciseCompletePopUp.dart';
 
@@ -38,7 +39,7 @@ class _BreathExerciseState extends State<BreathExercise> {
             Navigator.push(
 
               context,
-              MaterialPageRoute(builder: (context) =>  LandingHomePage()),
+              MaterialPageRoute(builder: (context) =>  BottomNavWithAnimations()),
             );
           }
       );

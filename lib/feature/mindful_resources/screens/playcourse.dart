@@ -1,11 +1,209 @@
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/global_widgets/audioPlayertest.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
-class PlayCourse extends StatelessWidget {
-  const PlayCourse({super.key});
+class PlayCourse extends StatefulWidget {
+  const PlayCourse(
+      {super.key,
+      required this.audioUrl,
+      required this.audioTitle,
+      required this.imageUrl});
+
+  final String audioTitle;
+  final String imageUrl;
+  final String audioUrl;
+
+  // final Function(String, String, String) playAudio;
+
+  @override
+  State<PlayCourse> createState() => _PlayCourseState();
+}
+
+class _PlayCourseState extends State<PlayCourse> {
+  Duration currentPosition = Duration.zero;
+  Duration totalDuration = Duration.zero;
+
+  String currentTitle = '';
+
+  String currentImageUrl = '';
+
+  String currentAudioUrl = '';
+
+  bool isPlaing = false;
+
+  late AudioPlayer audioPlayer;
+  PlayerState audioPlayerState = PlayerState.stopped;
+
+  int currentIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    audioPlayer = AudioPlayer();
+
+    _initializeAudioPlayer();
+    playAudio(
+      widget.audioUrl,
+      widget.audioTitle,
+      widget.imageUrl,
+    );
+
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) {
+        setState(() {
+          audioPlayerState = state!;
+        });
+      }
+    });
+
+    audioPlayer.onPlayerComplete.listen((event) {
+      // Show completed popup when audio is completed
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Audio Completed'),
+          content: Text('The audio has been completed.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    });
+    audioPlayer.onPositionChanged.listen((Duration duration) {
+      if (mounted) {
+        setState(() {
+          currentPosition = duration;
+        });
+      }
+    });
+
+    audioPlayer.onDurationChanged.listen((Duration duration) {
+      if (mounted) {
+        setState(() {
+          totalDuration = duration;
+        });
+      }
+    });
+  }
+
+  Future<void> _initializeAudioPlayer() async {
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) {
+        setState(() {
+          audioPlayerState = state!;
+        });
+      }
+    });
+    audioPlayer.onPlayerComplete.listen((event) {
+      _showCompletedDialog();
+    });
+  }
+
+  void _showCompletedDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Audio Completed'),
+        content: Text('The audio has been completed.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _seekForward() async {
+    final Duration? currentPosition = await audioPlayer.getCurrentPosition();
+    final Duration newPosition = currentPosition! + Duration(seconds: 25);
+    await audioPlayer
+        .seek(newPosition)
+        .then((value) => print('Seeked to $newPosition '));
+  }
+
+  Future<void> playAudio(String url, String title, String imageUrl) async {
+    try {
+      if (currentAudioUrl == url) {
+        if (audioPlayerState == PlayerState.playing) {
+          await audioPlayer.pause();
+        } else if (audioPlayerState == PlayerState.paused) {
+          await audioPlayer.resume();
+        }
+      } else {
+        await audioPlayer.stop();
+        setState(() {
+          currentTitle = title;
+          currentImageUrl = imageUrl;
+          currentAudioUrl = url;
+        });
+
+        print('this line printed0');
+
+        final ref = FirebaseStorage.instance.refFromURL(url);
+        print('this line printed1');
+
+        final downloadUrl = await ref.getDownloadURL();
+        print('this line printed2');
+
+        final response = await http.get(Uri.parse(downloadUrl));
+        print('this line printed3');
+
+        final appDir = await getApplicationDocumentsDirectory();
+        print('this line printed4');
+
+        final audioPath = '${appDir.path}/audio.mp3';
+        print('this line printed5');
+
+        final audioFile = File(audioPath);
+        print('this line printed6');
+
+        await audioFile.writeAsBytes(response.bodyBytes);
+        print('this line printed7');
+        await audioPlayer.play(DeviceFileSource(audioPath));
+        // await audioPlayer.setSourceBytes(audioFile as Uint8List ); // Use setUrl instead of setSource
+        // await audioPlayer.play(url);
+      }
+
+      setState(() {
+        currentTitle = title;
+        currentImageUrl = imageUrl;
+        currentAudioUrl = url;
+      });
+    } catch (e) {
+      print('Error playing audio: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error playing audio. Please try again.'),
+        ),
+      );
+      playAudio(url, title, imageUrl);
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    audioPlayer.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +268,7 @@ class PlayCourse extends StatelessWidget {
                                     constraints: BoxConstraints(),
                                     // Remove any default constraints
                                     splashRadius:
-                                    24.0, // Adjust the splash radius as needed
+                                        24.0, // Adjust the splash radius as needed
                                     // You can also add other properties like tooltip, alignment, etc. if needed
                                   ),
                                 ),
@@ -109,13 +307,11 @@ class PlayCourse extends StatelessWidget {
                                       color: Colors.white,
                                     ),
                                     splashRadius:
-                                    24.0, // Adjust the splash radius as needed
+                                        24.0, // Adjust the splash radius as needed
                                   ),
                                 )
                               ],
                             ),
-
-
                           ],
                         ),
                       ),
@@ -124,49 +320,95 @@ class PlayCourse extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-
                   Container(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Mindfullness Meditation Intro",
-                            textAlign: TextAlign.center,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 400,
+                            height: 400,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: Offset(0.0, 1.0), //(x,y)
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: NetworkImage(widget.imageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            widget.audioTitle,
                             style: TextStyle(
-
-                                fontSize: 40.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                      //   create a circular progress indecater  to show  the progress of audio
-                    Container(
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.blue, // Border color
-                          width: 2.0, // Border width
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5), // Shadow color
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 2), // changes position of shadow
+                              color: Colors.white,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  if (audioPlayerState == PlayerState.playing) {
+                                    audioPlayer.pause();
+                                  } else if (audioPlayerState ==
+                                      PlayerState.paused) {
+                                    audioPlayer.resume();
+                                  }
+                                },
+                                icon: Icon(
+                                  audioPlayerState == PlayerState.playing
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 40.0,
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 1.0), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: _seekForward,
+                                child: Text('Seek Forward 5s'),
+                              ),
+                            ],
+                          ),
+                          Slider(
+                            min: 0.0,
+                            max: totalDuration.inMilliseconds.toDouble(),
+                            value: currentPosition.inMilliseconds.toDouble(),
+                            onChanged: (value) {
+                              final Duration newPosition =
+                                  Duration(milliseconds: value.toInt());
+                              audioPlayer.seek(newPosition);
+                            },
+                            activeColor: Colors.white,
+                            inactiveColor: Colors.grey,
                           ),
                         ],
                       ),
-                      child: CircularProgressIndicator(
-                        value: 0.5, // Set the value to indicate the progress (0.0 to 1.0)
-                        strokeWidth: 8.0, // Adjust the thickness of the progress indicator
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // Set the color of the progress indicator
-                        backgroundColor: Colors.grey[300], // Set the background color of the progress indicator
-                        semanticsLabel: 'Audio Progress', // Optional label for accessibility
-                      ),
-                    ),
-                        // CourseAudioPlayer(audioUrl: 'http://traffic.libsyn.com/mindfulorg/12MM_-_Part_III__A_Meditation_to_Replenish_Cognitive_Energy__-_Shalini_Bahl-Milne_-_Jan._19_2024.mp3',),
-                        AudioPlayerTest(),
-                    ],
                     ),
                   )
                 ],
@@ -175,77 +417,6 @@ class PlayCourse extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-
-
-class CourseAudioPlayer extends StatefulWidget {
-  final String audioUrl;
-
-  const CourseAudioPlayer({super.key, required this.audioUrl}); // Add a field to store the network audio URL
-
-  @override
-  _CourseAudioPlayerState createState() => _CourseAudioPlayerState();
-}
-
-class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
-  final _audioPlayer = AudioPlayer();
-  double _playbackProgress = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayer.positionStream.listen((position) {
-      setState(() {
-        _playbackProgress = position.inSeconds / _audioPlayer.duration!.inSeconds;
-      });
-    });
-    _audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(widget.audioUrl))); // Set the network audio source
-  }
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
-
-  void _playPause() {
-    if (_audioPlayer.playing) {
-      _audioPlayer.pause();
-    } else {
-      _audioPlayer.play();
-    }
-  }
-
-  void _playNext() {
-    // Replace this with your logic to play the next audio source
-    print('Playing next audio');
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircularProgressIndicator(
-          value: _playbackProgress,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(_audioPlayer.playing ? Icons.pause : Icons.play_arrow),
-              onPressed: _playPause,
-            ),
-            IconButton(
-              icon: Icon(Icons.skip_next),
-              onPressed: _playNext,
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

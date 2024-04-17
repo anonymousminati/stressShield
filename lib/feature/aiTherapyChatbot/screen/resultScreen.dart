@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 
 import 'package:lottie/lottie.dart';
@@ -137,7 +138,7 @@ class _DetectorHomeState extends State<DetectorHome>
         // Navigate to home screen directly when back button is pressed
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => LandingHomePage()),
+          MaterialPageRoute(builder: (context) => BottomNavWithAnimations()),
           (Route<dynamic> route) => false,
         );
         return false;
@@ -193,7 +194,7 @@ class _DetectorHomeState extends State<DetectorHome>
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                LandingHomePage())); // Pop until the root route
+                                                BottomNavWithAnimations())); // Pop until the root route
                                   },
                                   icon: Icon(Icons.arrow_back),
                                   color: Colors.white,

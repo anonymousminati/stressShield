@@ -1,11 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+
+
+class UserInformation extends GetxController {
+  var userInformation = {}.obs; // use .obs to make it observable
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserInformation();
+  }
+
+  Future<void> fetchUserInformation() async {
+    try {
+      // Fetch user information from Firestore
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      // Convert userDoc to Map and assign to userInformation
+      userInformation.value = (userDoc.data() as Map<String, dynamic>?) ?? {};
+      print('User Information: $userInformation' );
+    } catch (e) {
+      print('Error fetching user information: $e');
+      // Handle error here
+    }
+  }
+}
 
 class FirebaseAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+
 
   Future<User?> signInWithGoogle() async {
     final GoogleSignInAccount? googleSignInAccount =
@@ -29,6 +60,12 @@ class FirebaseAuthService {
     return null;
   }
 
+  // create a function which will fetch user information from firebase with collection "users" and document with current user uid
+  Future<Map<String, dynamic>> fetchUserInformation() async {
+    final User? user = auth.currentUser;
+    final DocumentSnapshot<Map<String, dynamic>> userInformation = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+    return userInformation.data()!;
+  }
 
 
   Future<void> signOutGoogle() async {

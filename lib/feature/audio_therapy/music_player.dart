@@ -57,9 +57,16 @@ class _MusicPlayState extends State<MusicPlay> {
 
 
   }
+  @override
+  void dispose() {
+    super.dispose();
+    audioPlayer.dispose();
+  }
 
   Future<void> _fetchSongsData() async {
     try {
+      audioPlayer.stop();
+      currentIndex=0;
       setState(() {
         musicList = [];
       });
@@ -214,6 +221,7 @@ class _MusicPlayState extends State<MusicPlay> {
                           setState(() {
                             detectedLabel = emotion['emotion'];
                           });
+                          audioPlayer.stop();
                           _fetchSongsData();
                         },
                         child: Column(

@@ -4,6 +4,8 @@ import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landi
 import 'package:stress_sheild/feature/mindful_resources/screens/course.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_article.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/global_widgets/articleList.dart';
+import 'package:stress_sheild/global_widgets/courseList.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
 import 'package:stress_sheild/global_widgets/video_courseTile.dart';
 import 'package:stress_sheild/model/dataModels.dart';
@@ -336,77 +338,7 @@ class OurResources extends StatelessWidget {
                           SizedBox(
                             height: 20.0,
                           ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: (){
-
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MindFullResourceCard(
-                                      titleImg: 'assets/icons/profileUser.svg',
-                                      title: 'Mental Health',
-                                      description: 'Will Meditation Help Me Sleep Better?',
-                                      likes: 100,
-                                      views: 100,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MindFullResourceCard(
-                                      titleImg: 'assets/icons/profileUser.svg',
-                                      title: 'Stress Management',
-                                      description: 'Tips to Manage Stress in Daily Life',
-                                      likes: 150,
-                                      views: 200,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MindFullResourceCard(
-                                      titleImg: 'assets/icons/profileUser.svg',
-                                      title: 'Mindfulness Meditation',
-                                      description: 'How to Practice Mindfulness Meditation',
-                                      likes: 120,
-                                      views: 180,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MindFullResourceCard(
-                                      titleImg: 'assets/icons/profileUser.svg',
-                                      title: 'Emotional Wellness',
-                                      description: 'Understanding and Nurturing Your Emotions',
-                                      likes: 90,
-                                      views: 150,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MindFullResourceCard(
-                                      titleImg: 'assets/icons/profileUser.svg',
-                                      title: 'Self-care Practices',
-                                      description:
-                                      'Effective Self-care Tips for Better Well-being',
-                                      likes: 110,
-                                      views: 170,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          ArticleListViewBuilder(),
                         ],
                       ),
                     ),
@@ -441,7 +373,9 @@ class OurResources extends StatelessWidget {
               SizedBox(
                 height: 20.0,
               ),
-              ListOfOurCources(), // Use the customListTile directly
+
+              CourseListViewBuilder()
+              // ListOfOurCources(), // Use the customListTile directly
             ],
           ),
         ),
@@ -456,35 +390,35 @@ class OurResources extends StatelessWidget {
     );
   }
 }
-
-
-class ListOfOurCources extends StatelessWidget {
-  const ListOfOurCources({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children:courseData.map((course) {
-        return VideoCourseTile(
-          leadingIcon: Icons.accessibility_new,
-          title: course['CourseTitle'],
-          subtitle: course['CourseLevel'],
-          color: Color(0xFF926247),
-          headingColor: Color(0xFF926247),
-          subheadingColor: Color(0xFF926247),
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Course(course: course),
-              ),
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-}
+//
+//
+// class ListOfOurCources extends StatelessWidget {
+//   const ListOfOurCources({Key? key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children:courseData.map((course) {
+//         return VideoCourseTile(
+//           leadingIcon: Icons.accessibility_new,
+//           title: course['CourseTitle'],
+//           subtitle: course['CourseLevel'],
+//           color: Color(0xFF926247),
+//           headingColor: Color(0xFF926247),
+//           subheadingColor: Color(0xFF926247),
+//           onPress: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => Course(course: course),
+//               ),
+//             );
+//           },
+//         );
+//       }).toList(),
+//     );
+//   }
+// }
 
 
 

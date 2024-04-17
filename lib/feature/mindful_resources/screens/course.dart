@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,27 +10,230 @@ import 'package:flutter_svg/svg.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/playcourse.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/global_widgets/audio/audioplayer%20widget.dart';
+import 'package:stress_sheild/global_widgets/courseContentListWidget.dart';
 import 'package:stress_sheild/global_widgets/service/firebaseStorageService.dart';
+import 'package:stress_sheild/global_widgets/songListWidget.dart';
 import 'package:stress_sheild/model/dataModels.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 class Course extends StatefulWidget {
-  final Map<String, dynamic> course;
+  final Map<String, dynamic> data;
 
-  Course({Key? key, required this.course}) : super(key: key);
+
+  Course({Key? key, required this.data}) : super(key: key);
 
   @override
   State<Course> createState() => _CourseState();
 }
 
 class _CourseState extends State<Course> {
+  late Stream<DocumentSnapshot> snapshotStream;
+
+  List<Map<String, dynamic>> musicList = [];
+
+  String currentTitle = '';
+
+  String currentImageUrl = '';
+
+  String currentAudioUrl = '';
+
+  bool isPlaing = false;
+
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  int currentIndex = 0;
+
+  PlayerState audioPlayerState = PlayerState.stopped;
+
   final firebaseStorageService = FirebaseStorageService();
+  @override
+  void initState() {
+    super.initState();
+    // _fetchSongsData();
+
+
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) {
+        setState(() {
+          audioPlayerState = state!;
+        });
+      }
+    });
+
+
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    audioPlayer.dispose();
+  }
+
+  // Future<void> _fetchSongsData() async {
+  //   try {
+  //     audioPlayer.stop();
+  //     currentIndex=0;
+  //     setState(() {
+  //       musicList = [];
+  //     });
+  //
+  //     // musicList = List<Map<String, dynamic>>.from(widget.data['course_content'] as List<dynamic>);
+  //     currentImageUrl =widget.data['img_url'] ?? '';
+  //
+  //     // // snapshotStream = widget.data['course_content'].snapshots();
+  //     // snapshotStream = FirebaseFirestore.instance.collection('courses').doc().snapshots();
+  //     // snapshotStream.listen((snapshot) {
+  //     //   if (snapshot.exists) {
+  //     //     setState(() {
+  //     //       musicList = List<Map<String, dynamic>>.from(snapshot['course_content'] as List<dynamic>);
+  //     //       currentImageUrl = widget.data['img_url'] ?? '';
+  //     //       musicList.forEach((element) {
+  //     //         element['img_url'] = currentImageUrl;
+  //     //     });
+  //     //
+  //     //     });
+  //     //
+  //     //     // playAudio(
+  //     //     //   musicList[currentIndex]['song_url'].toString(),
+  //     //     //   musicList[currentIndex]['name'].toString(),
+  //     //     //   musicList[currentIndex]['image_url'].toString(),
+  //     //     // );
+  //     //   }
+  //     // });
+  //   } catch (e) {
+  //     print('Error fetching songs data: $e');
+  //     setState(() {
+  //       musicList = [];
+  //     });
+  //   }
+  // }
+
+  Future<void> playAudio(String url, String title, String imageUrl) async {
+    try {
+      if (currentAudioUrl == url) {
+        if (audioPlayerState == PlayerState.playing) {
+          await audioPlayer.pause();
+        } else if (audioPlayerState == PlayerState.paused) {
+          await audioPlayer.resume();
+        }
+      } else {
+        await audioPlayer.stop();
+        setState(() {
+          currentTitle = title;
+          currentImageUrl = imageUrl;
+          currentAudioUrl = url;
+        });
+
+        print('this line printed0');
+
+        final ref = FirebaseStorage.instance.refFromURL(url);
+        print('this line printed1');
+
+        final downloadUrl = await ref.getDownloadURL();
+        print('this line printed2');
+
+        final response = await http.get(Uri.parse(downloadUrl));
+        print('this line printed3');
+
+        final appDir = await getApplicationDocumentsDirectory();
+        print('this line printed4');
+
+        final audioPath = '${appDir.path}/audio.mp3';
+        print('this line printed5');
+
+        final audioFile = File(audioPath);
+        print('this line printed6');
+
+        await audioFile.writeAsBytes(response.bodyBytes);
+        print('this line printed7');
+        await audioPlayer.play(DeviceFileSource(audioPath));
+        // await audioPlayer.setSourceBytes(audioFile as Uint8List ); // Use setUrl instead of setSource
+        // await audioPlayer.play(url);
+      }
+
+      setState(() {
+        currentTitle = title;
+        currentImageUrl = imageUrl;
+        currentAudioUrl = url;
+      });
+
+
+    } catch (e) {
+      print('Error playing audio: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error playing audio. Please try again.'),
+        ),
+      );
+      playAudio(url, title, imageUrl );
+    }
+  }
+
   // late  String audioUrl;
 Future<String> getAudioUrl(String filename) async {
     final url = await firebaseStorageService.getAudioUrl(filename);
     return url;
   }
+
   @override
   Widget build(BuildContext context) {
+    // List<Widget> courseContainers = [];
+    musicList = [];
+    if (widget.data != null &&
+        widget.data.isNotEmpty &&
+        widget.data['course_content'] != null) {
+      for (var course in widget.data['course_content']) {
+        musicList.add({
+          'name': course['audio_title'],
+          'song_url': course['file_url'],
+          'image_url': widget.data['img_url'],
+        });
+
+
+        // courseContainers.add(
+        //   GestureDetector(
+        //     onTap: () async {
+        //       String url = await getAudioUrl(course['file_url']);
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (context) => AudioPlayerWidget(audioUrl: url)),
+        //       );
+        //     },
+        //     child: Container(
+        //       padding: EdgeInsets.all(16),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //          Row(
+        //            children: [
+        //              Image.network(
+        //                widget.data['img_url'] ?? '', // Add null check for 'image_url'
+        //                width: 60,
+        //                height: 60,
+        //                fit: BoxFit.cover,
+        //              ),
+        //              SizedBox(width: 10),
+        //              Text(
+        //                course['audio_title'] ?? '', // Add null check for 'title'
+        //                style: TextStyle(
+        //                  fontSize: 22,
+        //                  fontWeight: FontWeight.normal,
+        //                ),
+        //              ),
+        //            ],
+        //          ),
+        //
+        //
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // );
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -37,6 +245,7 @@ Future<String> getAudioUrl(String filename) async {
               height: double.infinity,
             ),
             SingleChildScrollView(
+
               child: Column(
                 children: [
                   Container(
@@ -191,7 +400,7 @@ Future<String> getAudioUrl(String filename) async {
                             ),
 
                             Text(
-                              widget.course['CourseTitle'],
+                            widget.data['course_title'],
                               style: TextStyle(
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.w600,
@@ -216,7 +425,7 @@ Future<String> getAudioUrl(String filename) async {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.course['star'].toString(),
+                                  widget.data['star'].toString(),
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -232,7 +441,7 @@ Future<String> getAudioUrl(String filename) async {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.course['views'],
+                                  widget.data['views'],
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -248,7 +457,7 @@ Future<String> getAudioUrl(String filename) async {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.course['comments'].toString(),
+                                  widget.data['comments'].toString(),
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -259,63 +468,7 @@ Future<String> getAudioUrl(String filename) async {
                               height: 20.0,
                             ),
                             //create a container with text "By: John Doe" and a profile picture with background white. make follow button
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 40.0,
-                                      height: 40.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadius.circular(50.0),
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 30.0,
-                                        child: SvgPicture.asset(
-                                          'assets/icons/profileUser.svg',
-                                          width: 60.0,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
-                                    Text(
-                                      // course['author'],
-                                      "Tiya Jagtap",
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 20.0,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  // Adjust padding as needed
-                                  decoration: BoxDecoration(
-                                    color: Colors.white, // Border color
-                                    borderRadius: BorderRadius.circular(
-                                        25), // Border radius
-                                  ),
-                                  child: Text(
-                                    "Follow",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFF4F3422),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+
                           ],
                         ),
                       ),
@@ -345,7 +498,7 @@ Future<String> getAudioUrl(String filename) async {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      widget.course['description'],
+                     widget.data['desc'],
                       softWrap: true,
                       style: TextStyle(
                         fontSize: 18.0,
@@ -416,7 +569,7 @@ Future<String> getAudioUrl(String filename) async {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '10 total',
+                          musicList.length.toString() + " Audios",
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.w600,
@@ -490,63 +643,17 @@ Future<String> getAudioUrl(String filename) async {
                   //   ),
                   // )
 
+                  Container(
 
-                  ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: widget.course['course'].length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          String url = await getAudioUrl(widget.course['course'][index]['fileName']);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AudioPlayerWidget(audioUrl: url)));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                              leading: Icon(
-                                Icons.play_circle_fill,
-                                size: 40.0,
-                                color: Colors.green,
-                              ),
-                              title: Text(
-                                widget.course['course'][index]['audioTitle'],
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "⭐ 4.5",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }, separatorBuilder: (BuildContext context, int index) { return SizedBox(
-                    height: 10.0,
-                  );},
+                    height: 400,
+                    child: CourseAudioListWidget(musicList: musicList, playAudio: playAudio),
                   ),
+
+                 // ListView(
+                 //    shrinkWrap: true,
+                 //    physics: NeverScrollableScrollPhysics(),
+                 //    children: courseContainers,
+                 //  ),
                   SizedBox(
                     height: 20.0,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/communityChat/pages/community_chat_landing_page.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 import 'package:stress_sheild/feature/profile/acountSettings.dart';
 
@@ -16,7 +17,7 @@ class NavigationMenu extends StatelessWidget {
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => LandingHomePage()));
+                    MaterialPageRoute(builder: (_) => BottomNavWithAnimations()));
               },
             ),
             label: 'Home',

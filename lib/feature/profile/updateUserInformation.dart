@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
@@ -250,6 +251,6 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
         .doc(widget.uid)
         .update(userInfo.toMap());
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LandingHomePage()));
+        context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations()));
   }
 }

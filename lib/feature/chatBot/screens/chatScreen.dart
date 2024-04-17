@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatBotChatScreen extends StatefulWidget {
+  const ChatBotChatScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatBotChatScreen> createState() => _ChatBotChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
   ScrollController _chatScrollController = ScrollController();
   TextEditingController _userInput = TextEditingController();
 
@@ -81,15 +81,15 @@ class _ChatScreenState extends State<ChatScreen> {
           },
 
           color: Colors.white,
-          splashRadius: 25, // Adjust as needed
+          splashRadius: 25,
           highlightColor: Colors.white.withOpacity(0.3), // Highlight color when pressed
-          iconSize: 30, // Adjust as needed
+          iconSize: 30,
         ),
         title: Text( // Title
           'Talk with Dr. Alex',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18, // Adjust as needed
+            fontSize: 18,
           ),
         ),
         centerTitle: true,
