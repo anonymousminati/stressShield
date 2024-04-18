@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:stress_sheild/feature/chatBot/screens/chatScreen.dart';
+import 'package:stress_sheild/feature/communityChat/pages/postCommunity.dart';
 import 'package:stress_sheild/feature/communityChat/pages/profile_page.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/nav_item_mode.dart';
+import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_stats.dart';
 import 'package:stress_sheild/feature/profile/acountSettings.dart';
 
 
@@ -23,7 +25,7 @@ class _BottomNavWithAnimationsState extends State<BottomNavWithAnimations> {
   List<SMIBool> riveIconInputs = [];
   List<StateMachineController?> controllers=[];
   int selectedNavIndex = 0;
-  List<Widget> pages=[LandingHomePage(),Center(child: Text('community'),) ,Center(child: Text('search'),)  , AccountSettings()];
+  List<Widget> pages=[LandingHomePage(),CommunityHomePage(posts: []),MindFullHoursStats()  , AccountSettings()];
 
   void animateTheIcon(int index) {
     setState(() {

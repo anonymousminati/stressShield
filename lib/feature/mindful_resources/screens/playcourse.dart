@@ -4,10 +4,15 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/global_widgets/audioPlayertest.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+final UserInformation _userInformation = Get.put(UserInformation());
 
 class PlayCourse extends StatefulWidget {
   const PlayCourse(
@@ -64,24 +69,7 @@ class _PlayCourseState extends State<PlayCourse> {
       }
     });
 
-    audioPlayer.onPlayerComplete.listen((event) {
-      // Show completed popup when audio is completed
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Audio Completed'),
-          content: Text('The audio has been completed.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    });
+
     audioPlayer.onPositionChanged.listen((Duration duration) {
       if (mounted) {
         setState(() {
@@ -108,7 +96,14 @@ class _PlayCourseState extends State<PlayCourse> {
       }
     });
     audioPlayer.onPlayerComplete.listen((event) {
-      _showCompletedDialog();
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return _popup();
+          },
+        );
+
     });
   }
 
@@ -204,9 +199,85 @@ class _PlayCourseState extends State<PlayCourse> {
     super.dispose();
     audioPlayer.dispose();
   }
+  Widget _popup(){
 
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                Image.asset('images/popup (2).jpg'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Well Done!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F3422),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'You have successfully completed the article. You have earned 5 points.',
+                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF4F3422),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: (){
+                      var addScore = 5;
+                      _userInformation.freud_score.value += addScore;
+                      print('Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.audio_score.value +=addScore;
+                      print('audio Score: ${_userInformation.audio_score}');
+                      _userInformation.uploadUserInformation();
+                      // Handle 'Mark as Read' button press
+                      print('Mark as Read Pressed!');
+                      _userInformation.fetchUserInformation();
+                      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) =>BottomNavWithAnimations() ,) , (route) => false);
+
+                    },
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                    ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Great. Thanks!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
   @override
   Widget build(BuildContext context) {
+
+    final maxValue = totalDuration.inMilliseconds.ceil().toDouble();
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -362,6 +433,21 @@ class _PlayCourseState extends State<PlayCourse> {
                           SizedBox(
                             height: 20.0,
                           ),
+                          Slider(
+                            min: 0.0,
+                            max: maxValue,
+                            value: currentPosition.inMilliseconds.toDouble(),
+                            onChanged: (value) {
+                              final Duration newPosition =
+                              Duration(milliseconds: value.toInt());
+                              audioPlayer.seek(newPosition);
+                            },
+                            activeColor: Colors.white,
+                            inactiveColor: Colors.grey,
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -390,23 +476,45 @@ class _PlayCourseState extends State<PlayCourse> {
                                 ),
                               ),
                               ElevatedButton(
-                                onPressed: _seekForward,
+                                onPressed: audioPlayerState == PlayerState.completed ? null : _seekForward,
                                 child: Text('Seek Forward 5s'),
                               ),
                             ],
                           ),
-                          Slider(
-                            min: 0.0,
-                            max: totalDuration.inMilliseconds.toDouble(),
-                            value: currentPosition.inMilliseconds.toDouble(),
-                            onChanged: (value) {
-                              final Duration newPosition =
-                                  Duration(milliseconds: value.toInt());
-                              audioPlayer.seek(newPosition);
-                            },
-                            activeColor: Colors.white,
-                            inactiveColor: Colors.grey,
+
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            // Adjust padding as needed
+                            child: ElevatedButton(
+
+                              onPressed:(){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return _popup();
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Color(0xFF4F3422), // Text color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                padding: EdgeInsets.all(20),
+                                // Adjust padding as needed
+                              ),
+                              child: Text(
+                                'Mark as Complete',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
+
                         ],
                       ),
                     ),

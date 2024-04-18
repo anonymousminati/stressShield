@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CarouselWithTigerIndicator extends StatefulWidget {
+class CarouselWithEmotionIndicator extends StatefulWidget {
   final String detectedLabel; // Add detectedLabel parameter
-  const CarouselWithTigerIndicator({Key? key, required this.detectedLabel}) : super(key: key);
+  const CarouselWithEmotionIndicator({Key? key, required this.detectedLabel}) : super(key: key);
 
   @override
-  _CarouselWithTigerIndicatorState createState() => _CarouselWithTigerIndicatorState();
+  _CarouselWithEmotionIndicatorState createState() => _CarouselWithEmotionIndicatorState();
 }
 
-class _CarouselWithTigerIndicatorState extends State<CarouselWithTigerIndicator> {
+class _CarouselWithEmotionIndicatorState extends State<CarouselWithEmotionIndicator> {
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
   List<String> _imageUrls = []; // List to store fetched image URLs
@@ -59,7 +59,7 @@ class _CarouselWithTigerIndicatorState extends State<CarouselWithTigerIndicator>
           widget.detectedLabel.toUpperCase(),
           textAlign: TextAlign.center,
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.blueGrey,
             fontWeight: FontWeight.w700,
             fontFamily: 'SF Pro',
             fontSize: 15,
@@ -89,7 +89,7 @@ class _CarouselWithTigerIndicatorState extends State<CarouselWithTigerIndicator>
                   margin: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.white, width: 0.5),
+                    border: Border.all(color: Colors.black, width: 0.5),
                     image: DecorationImage(
                       image: NetworkImage(imageUrl),
                       fit: BoxFit.cover,
@@ -107,7 +107,7 @@ class _CarouselWithTigerIndicatorState extends State<CarouselWithTigerIndicator>
           effect: const ExpandingDotsEffect(
             dotWidth: 15.0,
             dotHeight: 5.0,
-            activeDotColor: Colors.white,
+            activeDotColor: Colors.black,
           ),
         ),
       ],

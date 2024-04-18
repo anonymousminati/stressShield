@@ -7,12 +7,72 @@ import 'package:flutter/material.dart';
 
 class UserInformation extends GetxController {
   var userInformation = {}.obs; // use .obs to make it observable
+  var fullname = ''.obs;
+  var email = ''.obs;
+  var uid = ''.obs;
+  var gender = ''.obs;
+  var dateOfBirth = DateTime.timestamp().obs;
+  var location = ''.obs;
+  var weight = 0.0.obs;
+  var governmentId = ''.obs;
+  var mobileNo = ''.obs;
+  var meditaion_score = 0.obs;//meditation
+  var mindfulness_score = 0.obs;//mindfulness minute
+  var mood_label= 'neutral'.obs;//mood tracker mood label from mood detector
+  var stress_score = 0.obs;//stress score
+  var community_score = 0.obs;//community score and mindfullness are same
+  var trending_song = 'Relaxation Guidline'.obs;// show one song randomly from trending songs
+  var trending_video = 'Relaxation Guidline'.obs;// show one video randomly from trending videos
+  var mindful_hours_score = 0.obs;//mindful hours card score
+  var mood_score = 0.obs;//mood card score
+  var audio_score = 0.obs;//stress card score
+  var chatbot_score = 0.obs;//chatbot card score
+  var articles_scores = 0.obs;//articles card score
+  var course_score  = 0.obs;//course card score
+  var freud_score = 0.obs;//freud card score
+
 
   @override
   void onInit() {
     super.onInit();
     fetchUserInformation();
   }
+
+  //create a function to upload user information to firestore
+Future<void> uploadUserInformation() async {
+    try {
+      userInformation['scores'] = {
+        'mindful_hours_score': mindful_hours_score.value,
+        'mood_score': mood_score.value,
+        'audio_score': audio_score.value,
+        'chatbot_score': chatbot_score.value,
+        'articles_scores': articles_scores.value,
+        'course_score': course_score.value,
+        'total_score': freud_score.value,
+
+      };
+
+      userInformation['fullname'] = fullname.value;
+      userInformation['email'] = email.value;
+      userInformation['gender'] = gender.value;
+      userInformation['dateOfBirth'] = dateOfBirth.value;
+      userInformation['location'] = location.value;
+      userInformation['weight'] = weight.value;
+      userInformation['governmentId'] = governmentId.value;
+      userInformation['mobileNo'] = mobileNo.value;
+
+
+      // Upload user information to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(userInformation.toJson()).then((value) => print('uploaded'));
+    } catch (e) {
+      print('Error uploading user information: $e');
+      // Handle error here
+    }
+  }
+
 
   Future<void> fetchUserInformation() async {
     try {
@@ -23,14 +83,27 @@ class UserInformation extends GetxController {
           .get();
 
       // Convert userDoc to Map and assign to userInformation
-      userInformation.value = (userDoc.data() as Map<String, dynamic>?) ?? {};
+      userInformation.value =await (userDoc.data() as Map<String, dynamic>?) ?? {};
+      print('User Information: $userInformation' );
+      mindful_hours_score.value = await userInformation['scores']['mindful_hours_score'];
+      mood_score.value = await userInformation['scores']['mood_score'];
+      audio_score.value = await userInformation['scores']['audio_score'];
+      chatbot_score.value = await userInformation['scores']['chatbot_score'];
+      articles_scores.value = await userInformation['scores']['articles_scores'];
+      freud_score.value = await userInformation['scores']['total_score'];
+      course_score.value = await userInformation['scores']['course_score'];
+
+
       print('User Information: $userInformation' );
     } catch (e) {
       print('Error fetching user information: $e');
       // Handle error here
     }
   }
+
+
 }
+
 
 class FirebaseAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;

@@ -194,10 +194,12 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
+import 'package:get/get.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/resultScreen.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
 import '../../../main.dart';
-
+UserInformation userInformation = Get.put(UserInformation());
 class DummyContainer extends StatefulWidget {
   const DummyContainer({Key? key}) : super(key: key);
 
@@ -240,7 +242,7 @@ class _DummyContainerState extends State<DummyContainer> {
       // Handle scenario where no cameras are available
       return;
     }
-    cameraController = CameraController(cameras[0], ResolutionPreset.high);
+    cameraController = CameraController(cameras[1], ResolutionPreset.high);
     try {
       await cameraController!.initialize();
       setState(() {
@@ -312,12 +314,12 @@ class _DummyContainerState extends State<DummyContainer> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Detected Species Name:'),
+            title: Text('Detected Mood is:'),
             content: Text(currentOutput),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  userInformation.mood_label.value = currentOutput.toString();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -379,7 +381,7 @@ class _DummyContainerState extends State<DummyContainer> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'Species Recognition',
+                        'Mood Recognition',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

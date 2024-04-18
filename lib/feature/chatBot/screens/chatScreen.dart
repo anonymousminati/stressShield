@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
+
+
+final UserInformation _userInformation = Get.put(UserInformation());
 class ChatBotChatScreen extends StatefulWidget {
   const ChatBotChatScreen({super.key});
 
@@ -25,6 +31,82 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
 
     firstMessage();
   }
+
+  Widget _popup(){
+
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                Image.asset('images/popup (3).jpg'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Well Done!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F3422),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'You have successfully completed the article. You have earned 5 points.',
+                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF4F3422),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: (){
+                      var addScore = 5;
+                      _userInformation.freud_score.value += addScore;
+                      print('Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.chatbot_score.value +=addScore;
+                      print('chatbot Score: ${_userInformation.chatbot_score}');
+                      _userInformation.uploadUserInformation();
+                      // Handle 'Mark as Read' button press
+                      print('Mark as Read Pressed!');
+                      _userInformation.fetchUserInformation();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations(),), (route) => false);
+
+                    },
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                    ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Great. Thanks!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
+
 
   Future<void> firstMessage() async {
     final content = [
@@ -77,7 +159,14 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
           ),
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop(); // Go back
+
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return _popup();
+              },
+            );
+            // Go back
           },
 
           color: Colors.white,

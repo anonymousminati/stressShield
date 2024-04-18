@@ -1,6 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/global_widgets/indicatior.dart';
+
+
+
+final UserInformation _userInformation = Get.put(UserInformation());
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({Key? key}) : super(key: key);
@@ -14,7 +21,7 @@ class PieChart2State extends State<PieChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Obx(() =>  Padding(
       padding: const EdgeInsets.all(16.0),
       child: Center( // Wrap the Column with Center widget
         child: Container(
@@ -126,47 +133,67 @@ class PieChart2State extends State<PieChartSample2> {
               ),
 
 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Indicator(
-                    color: Color(0xff9BB167),
-                    text: 'Breathing',
-                    value: '80%', // Example value
-                    isSquare: false,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Indicator(
+                        color: Color(0xff003f5c),
+                        text: 'MindFul Hours',
+                        value: '${_userInformation.mindful_hours_score}', // Example value
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xff444e86),
+                        text: 'Chat Thearapy',
+                        value: '${_userInformation.chatbot_score}', // Example value
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xff955196),
+                        text: 'Mood Rate',
+                        value: '${_userInformation.mood_score}', // Example value
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xffdd5182),
+                        text: 'Audio',
+                        value: '${_userInformation.audio_score}', // Example value
+                        isSquare: false,
+                      ), SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xffff6e54),
+                        text: 'Article',
+                        value: '${_userInformation.articles_scores}', // Example value
+                        isSquare: false,
+                      ),SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xffffa600),
+                        text: 'Course',
+                        value: '${_userInformation.course_score}', // Example value
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: Color(0xffED7E1C),
-                    text: 'Mindfulness',
-                    value: '65%', // Example value
-                    isSquare: false,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: Color(0xffFFCE5C),
-                    text: 'Relax',
-                    value: '50%', // Example value
-                    isSquare: false,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: Color(0xff4F3422),
-                    text: 'Sleep',
-                    value: '90%', // Example value
-                    isSquare: false,
-                  ),
-                  SizedBox(
-                    height: 18,
-                  ),
-                ],
+                ),
               ),
 
               const SizedBox(
@@ -176,11 +203,11 @@ class PieChart2State extends State<PieChartSample2> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+    return List.generate(6, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -188,8 +215,8 @@ class PieChart2State extends State<PieChartSample2> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Color(0xff9BB167),
-            value: 20,
+            color: Color(0xff003f5c),
+            value: _userInformation.mindful_hours_score.toDouble() == 0 ? 0 : (_userInformation.mindful_hours_score.toInt()/_userInformation.freud_score.toInt())*100,
             title: '',
             radius: radius,
             titleStyle: TextStyle(
@@ -201,8 +228,8 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 1:
           return PieChartSectionData(
-            color: Color(0xffED7E1C),
-            value: 17,
+            color: Color(0xff444e86),
+            value: _userInformation.chatbot_score.toDouble() == 0 ? 0 : (_userInformation.chatbot_score.toInt()/_userInformation.freud_score.toInt())*100,
             title: '',
             radius: radius,
             titleStyle: TextStyle(
@@ -214,8 +241,8 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 2:
           return PieChartSectionData(
-            color: Color(0xffFFCE5C),
-            value: 40,
+            color: Color(0xff955196),
+            value: _userInformation.mood_score.toDouble() == 0 ? 0 : (_userInformation.mood_score.toInt()/_userInformation.freud_score.toInt())*100,
             title: '',
             radius: radius,
             titleStyle: TextStyle(
@@ -227,8 +254,34 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 3:
           return PieChartSectionData(
-            color: Color(0xff4F3422),
-            value: 80,
+            color: Color(0xffdd5182),
+            value: _userInformation.audio_score.toDouble() == 0 ? 0 : (_userInformation.audio_score.toInt()/_userInformation.freud_score.toInt())*100,
+            title: '',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              shadows: shadows,
+            ),
+          );
+          case 4:
+          return PieChartSectionData(
+            color: Color(0xffff6e54),
+            value: _userInformation.articles_scores.toDouble() == 0 ? 0 : (_userInformation.articles_scores.toInt()/_userInformation.freud_score.toInt())*100,
+            title: '',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              shadows: shadows,
+            ),
+          );
+          case 5:
+          return PieChartSectionData(
+            color: Color(0xffffa600),
+            value: _userInformation.course_score.toDouble() == 0 ? 0 : (_userInformation.course_score.toInt()/_userInformation.freud_score.toInt())*100,
             title: '',
             radius: radius,
             titleStyle: TextStyle(

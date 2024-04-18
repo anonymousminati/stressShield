@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/register_success.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
+
+final UserInformation _userInformation = Get.put(UserInformation());
 class UserInfo {
   String fullName;
   String uid;
@@ -14,6 +17,16 @@ class UserInfo {
   String mobileNo;
   String governmentId;
   String emailId;
+  Map scores = {
+    'articles_scores':0,
+    'audio_score': 0,
+    'chatbot_score': 0,
+    'course_score': 0,
+    'mindful_hours_score': 0,
+    'mood_score':0,
+    'total_score':0,
+
+  };
   UserInfo({
 
     required this.uid,
@@ -25,6 +38,7 @@ class UserInfo {
     required this.mobileNo,
     required this.governmentId,
     required this.emailId,
+    required this.scores,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +52,7 @@ class UserInfo {
       'mobileNo': mobileNo,
       'governmentId': governmentId,
       'emailId': emailId,
+      'scores': scores,
     };
   }
 }
@@ -201,6 +216,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Form is valid, save data to Firestore
+
                       UserInfo userInfo = UserInfo(
                         uid: widget.uid,
                         fullName: _fullNameController.text.trim(),
@@ -210,7 +226,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         weight: double.parse(_weightController.text.trim()),
                         mobileNo: _mobileNoController.text.trim(),
                         governmentId: _governmentIdController.text.trim(),
-                        emailId: widget.emailId,
+                        emailId: widget.emailId, scores: {
+                          'articles_scores':0,
+                          'audio_score': 0,
+                          'chatbot_score': 0,
+                          'course_score': 0,
+                          'mindful_hours_score': 0,
+                          'mood_score':0,
+                          'total_score':0,
+
+                      },
+
                       );
                       // Save user information to Firestore
                       FirebaseAuthService().saveUserInfo('users', userInfo.toMap(), widget.uid);

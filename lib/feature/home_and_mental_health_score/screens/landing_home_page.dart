@@ -1,6 +1,7 @@
 import 'package:card_slider/card_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -14,11 +15,14 @@ import 'package:stress_sheild/feature/communityChat/pages/community_chat_landing
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindful_activities.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_landing_page.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/OurResources.dart';
+import 'package:stress_sheild/feature/mindful_resources/screens/our_article.dart';
+import 'package:stress_sheild/feature/mindful_resources/screens/our_courses.dart';
 import 'package:stress_sheild/feature/profile/acountSettings.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/audio_therapy/songs.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
+final UserInformation _userInformation = Get.put(UserInformation());
 
 class LandingHomePage extends StatefulWidget {
   LandingHomePage({super.key});
@@ -29,7 +33,6 @@ class LandingHomePage extends StatefulWidget {
 
 class _LandingHomePageState extends State<LandingHomePage> {
   final ScrollController _scrollController = ScrollController();
-  final UserInformation _userInformation = Get.put(UserInformation());
   int _currentIndex = 0;
   late PageController _pageController;
 
@@ -47,77 +50,92 @@ class _LandingHomePageState extends State<LandingHomePage> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EE').format(now);
     String formattedTime = DateFormat('h:mm a').format(now);
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(fit: StackFit.expand, children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-                child: Column(
-              children: [
-                //first above part
-                LandingprofileContainer(
-                    formattedDate: formattedDate, formattedTime: formattedTime, userInformation: _userInformation.userInformation,),
-                //second part slider
-                MentalHealthSliderContainer(
-                    scrollController: _scrollController),
-
-                MindfulTrackerContainer(
-                    customListTile: ListOfMindfullTracker()),
-
-                //Ai therapist
-                AiTherapistContainer(),
-
-                //mindfull resources
-
-                MindfulResourceContainer(),
-              ],
-            )),
-          ),
-        ]),
+    return RefreshIndicator(
+      onRefresh:
+        _userInformation.fetchUserInformation,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBotChatScreen()));
+          },
+          elevation: 5,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+          tooltip: 'AI Therapist',
+          child: Icon(Icons.adb_outlined, color: Colors.white,),
+          backgroundColor: Color(0xFFEC7D1C),
+        ),
+        body: SafeArea(
+          child: Stack(fit: StackFit.expand, children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  //first above part
+                  LandingprofileContainer(
+                      formattedDate: formattedDate, formattedTime: formattedTime, userInformation: _userInformation.userInformation,),
+                  //second part slider
+                  MentalHealthSliderContainer(
+                      scrollController: _scrollController),
+      
+                  MindfulTrackerContainer(
+                      mindfulTrackerCustomListTile: ListOfMindfullTracker()),
+      
+                  //Ai therapist
+                  AiTherapistContainer(),
+      
+                  //mindfull resources
+      
+                  MindfulResourceContainer(),
+                ],
+              )),
+            ),
+          ]),
+        ),
+        // bottomNavigationBar: BottomNavigationBar(),
+        // bottomNavigationBar:   NavigationBar(
+        //   destinations: [
+        //     NavigationDestination(
+        //       icon: IconButton(
+        //         icon: Icon(Icons.home),
+        //         onPressed: () {
+        //           Navigator.push(context,
+        //               MaterialPageRoute(builder: (_) => BottomNavWithAnimations()));
+        //         },
+        //       ),
+        //       label: 'Home',
+        //     ),
+        //     NavigationDestination(
+        //       icon:IconButton(
+        //         icon: Icon(Icons.chat),
+        //         onPressed: () {
+        //           Navigator.push(context,
+        //               MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
+        //         },
+        //       ),
+        //       label: 'chat',
+        //     ),
+        //     NavigationDestination(
+        //       icon:IconButton(
+        //         icon: Icon(Icons.person),
+        //         onPressed: () {
+        //           Navigator.push(context,
+        //               MaterialPageRoute(builder: (_) =>  AccountSettings()));
+        //         },
+        //       ),
+        //       label: 'Profile',
+        //     ),
+        //   ],
+        // ),
+      
       ),
-      // bottomNavigationBar: BottomNavigationBar(),
-      // bottomNavigationBar:   NavigationBar(
-      //   destinations: [
-      //     NavigationDestination(
-      //       icon: IconButton(
-      //         icon: Icon(Icons.home),
-      //         onPressed: () {
-      //           Navigator.push(context,
-      //               MaterialPageRoute(builder: (_) => BottomNavWithAnimations()));
-      //         },
-      //       ),
-      //       label: 'Home',
-      //     ),
-      //     NavigationDestination(
-      //       icon:IconButton(
-      //         icon: Icon(Icons.chat),
-      //         onPressed: () {
-      //           Navigator.push(context,
-      //               MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
-      //         },
-      //       ),
-      //       label: 'chat',
-      //     ),
-      //     NavigationDestination(
-      //       icon:IconButton(
-      //         icon: Icon(Icons.person),
-      //         onPressed: () {
-      //           Navigator.push(context,
-      //               MaterialPageRoute(builder: (_) =>  AccountSettings()));
-      //         },
-      //       ),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      // ),
-
     );
   }
 }
@@ -127,12 +145,12 @@ class ListOfMindfullTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Obx(() => Column(
       children: [
         CustomListTile(
           leadingIcon: Icons.accessibility_new,
           title: 'Meditation',
-          subtitle: 'Daily 10 minutes',
+          subtitle: '${_userInformation.meditaion_score} minutes',
           trailingIcon: Icons.arrow_forward_ios,
           color: Color(0xFFA694F5),
           headingColor: Color(0xFF2ACAD9),
@@ -147,7 +165,7 @@ class ListOfMindfullTracker extends StatelessWidget {
         CustomListTile(
           leadingIcon: Icons.schedule,
           title: 'Mindful Hours',
-          subtitle: '2.5h/8h Today',
+          subtitle: '${_userInformation.mindfulness_score}min Today',
           trailingIcon: Icons.timer,
           color: Color(0xFF9BB167),
           headingColor: Color(0xFFB2B60F),
@@ -160,68 +178,82 @@ class ListOfMindfullTracker extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
-          leadingIcon: Icons.bedtime,
-          title: 'Sleep Quality',
-          subtitle: 'Insomniac (~2hrAvg)',
-          trailingIcon: Icons.nights_stay,
-          color: Color(0xFFA694F5),
-          headingColor: Color(0xFFC86E6E),
-          subheadingColor: Color(0xFFC86E6E),
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MindfulActivities()),
-            );
-          },
-        ),
-        CustomListTile(
-          leadingIcon: Icons.book,
-          title: 'Mindful Journal',
-          subtitle: '64 Day Streak',
-          trailingIcon: Icons.assignment,
-          color: Color(0xFFED7E1C),
-          headingColor: Color(0xFF6E6EC8),
-          subheadingColor: Color(0xFF6E6EC8),
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MindfulActivities()),
-            );
-          },
-        ),
+        // CustomListTile(
+        //   leadingIcon: Icons.bedtime,
+        //   title: 'Sleep Quality',
+        //   subtitle: 'Insomniac (~2hrAvg)',
+        //   trailingIcon: Icons.nights_stay,
+        //   color: Color(0xFFA694F5),
+        //   headingColor: Color(0xFFC86E6E),
+        //   subheadingColor: Color(0xFFC86E6E),
+        //   onPress: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => MindfulActivities()),
+        //     );
+        //   },
+        // ),
+        // CustomListTile(
+        //   leadingIcon: Icons.book,
+        //   title: 'Mindful Journal',
+        //   subtitle: '64 Day Streak',
+        //   trailingIcon: Icons.assignment,
+        //   color: Color(0xFFED7E1C),
+        //   headingColor: Color(0xFF6E6EC8),
+        //   subheadingColor: Color(0xFF6E6EC8),
+        //   onPress: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => MindfulActivities()),
+        //     );
+        //   },
+        // ),
         CustomListTile(
           leadingIcon: Icons.favorite,
-          title: 'Stress Level',
-          subtitle: 'Normal',
+          title: 'Mood',
+          subtitle: '${_userInformation.mood_label}',
           trailingIcon: Icons.mood,
           color: Color(0xFFFFBD19),
           headingColor: Color(0xFF6E6EC8),
           subheadingColor: Color(0xFF6E6EC8),
           onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MindfulActivities()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => DummyContainer()),
+            // );
           },
         ),
         CustomListTile(
           leadingIcon: Icons.face,
-          title: 'Mood Tracker',
-          subtitle: 'Happy',
+          title: 'Chatty Community',
+          subtitle: '${_userInformation.mindfulness_score} minutes',
           trailingIcon: Icons.emoji_emotions,
           color: Color(0xFF926247),
           headingColor: Color(0xFF6E6EC8),
           subheadingColor: Color(0xFF6E6EC8),
           onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MindfulActivities()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => MindfulActivities()),
+            // );
+          },
+        ), CustomListTile(
+          leadingIcon: Icons.audio_file_outlined,
+          title: 'Trending Audio',
+          subtitle: '${_userInformation.trending_song} ',
+          trailingIcon: Icons.audiotrack,
+            color: Color(0xFFA694F5),
+            headingColor: Color(0xFFC86E6E),
+            subheadingColor: Color(0xFFC86E6E),
+          onPress: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => MindfulActivities()),
+            // );
           },
         ),
       ],
-    );
+    ));
   }
 }
 
@@ -579,10 +611,10 @@ class AiTherapistContainer extends StatelessWidget {
 class MindfulTrackerContainer extends StatelessWidget {
   const MindfulTrackerContainer({
     Key? key,
-    required this.customListTile,
+    required this.mindfulTrackerCustomListTile,
   }) : super(key: key);
 
-  final Widget customListTile; // Adjusted to accept any Widget
+  final Widget mindfulTrackerCustomListTile; // Adjusted to accept any Widget
 
   @override
   Widget build(BuildContext context) {
@@ -610,7 +642,7 @@ class MindfulTrackerContainer extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            customListTile, // Use the customListTile directly
+            mindfulTrackerCustomListTile, // Use the customListTile directly
           ],
         ),
       ),
@@ -628,12 +660,12 @@ class MentalHealthSliderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(() => Container(
       //create a slider with 3 cards
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(16.0),
       child: Column(
-          //create a row having text "mental health" and an icon of three dots . make them space between
+        //create a row having text "mental health" and an icon of three dots . make them space between
           children: [
             //text "mental health" and an icon of three dots
             Row(
@@ -661,7 +693,7 @@ class MentalHealthSliderContainer extends StatelessWidget {
                 thumbColor: MaterialStateProperty.all<Color>(Color(0xFFEC7D1C)),
                 // Color of the thumb
                 trackColor:
-                    MaterialStateProperty.all<Color>(Colors.transparent),
+                MaterialStateProperty.all<Color>(Colors.transparent),
                 // Color of the track
                 crossAxisMargin: -20,
                 // Margin on the cross axis
@@ -684,25 +716,27 @@ class MentalHealthSliderContainer extends StatelessWidget {
                     controller: _scrollController, // Pass the ScrollController
 
                     children: [
-                      _buildCard('🧠 MindFull', '12', Color(0xFF736B66),
+                      _buildCard('🧠 MindFull', '${_userInformation.mindfulness_score}', Color(0xFF736B66),
                           onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MindFullHoursLandingPage()),
-                        );
-                      }),
-                      _buildCard('🤍 Health', '80', Color(0xFF9AB067),
-                          onTap: null),
-                      _buildCard('😔 Mood', '30', Color(0xFFB2B60F),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MindFullHoursLandingPage()),
+                            );
+                          }),
+                      _buildCard('📃 Articles', '${_userInformation.articles_scores}', Color(0xFF9AB067),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => OurArticle()));
+                          }),
+                      _buildCard('😔 Mood', '${_userInformation.mood_score}', Color(0xFFB2B60F),
                           onTap: (){
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DummyContainer(),),
+                                builder: (context) => DummyContainer(),),
                             );
                           }),
-                      _buildCard('🔥 Audios', '83', Color(0xFF2ACAD9),
+                      _buildCard('🔥 Audios', '${_userInformation.audio_score}', Color(0xFF2ACAD9),
                           onTap: (){
                             Navigator.push(
                               context,
@@ -711,10 +745,22 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             );
                           }),
 
-                      _buildCard('🗣️ Chats', '95', Color(0xFFC86E6E),
-                          onTap: null),
-                      _buildCard('📃 Journal', '50', Color(0xFF6E6EC8),
-                          onTap: null),
+                      _buildCard('🗣️ Chats', '${_userInformation.chatbot_score}', Color(0xFFC86E6E),
+                          onTap:  (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatBotChatScreen(),),
+                            );
+                          }),
+                      _buildCard('🔉 Courses', '${_userInformation.course_score}', Color(0xFF6E6EC8),
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OurCourses(),),
+                            );
+                          } ),
 
                       // Add more cards as needed
                     ],
@@ -723,7 +769,7 @@ class MentalHealthSliderContainer extends StatelessWidget {
               ),
             ),
           ]),
-    );
+    ));
   }
 }
 
@@ -761,20 +807,20 @@ class LandingprofileContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //create a hamburger menu
-                  IconButton(
-                    onPressed: () {
-                     Navigator.pushNamed(context, 'accountSettings');
-                    },
-                    icon: Icon(
-                      Icons.menu,
-                      size: 24.0,
-                      color: Colors.white,
-                    ),
-                    iconSize: 24.0,
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                    splashRadius: 24.0,
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //    Navigator.pushNamed(context, 'accountSettings');
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.menu,
+                  //     size: 24.0,
+                  //     color: Colors.white,
+                  //   ),
+                  //   iconSize: 24.0,
+                  //   padding: EdgeInsets.zero,
+                  //   constraints: BoxConstraints(),
+                  //   splashRadius: 24.0,
+                  // ),
                   Text(
                     '📅$formattedDate, $formattedTime',
                     style: TextStyle(
@@ -825,14 +871,23 @@ class LandingprofileContainer extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(50.0),
+                      border: Border.all(width: 2,style: BorderStyle.solid,color: Colors.lightBlueAccent)
                     ),
-                    child: CircleAvatar(
-                      radius: 30.0,
-                      child: SvgPicture.asset(
-                        'assets/icons/profileUser.svg',
-                        width: 60.0,
-                      ),
-                    ),
+                    // child: CircleAvatar(
+                    //   radius: 30.0,
+                    //   child: SvgPicture.asset(
+                    //     'assets/icons/profileUser.svg',
+                    //     width: 60.0,
+                    //   ),
+                    // ),
+                    child:   Obx(() => ProfilePicture(
+                      name: _userInformation.userInformation['fullName'] ?? "User",
+                      role: '',
+                      radius: 30,
+                      fontsize: 21,
+                      tooltip: true,
+                      random: true,
+                    ), ),
                   ),
                   SizedBox(
                     width: 20.0,
@@ -850,14 +905,14 @@ class LandingprofileContainer extends StatelessWidget {
         ),
                       ),),
 
-                      Text(
-                        '🌸 80%, 😊 Happy',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                     Obx(() =>  Text(
+                       '🌸 ${_userInformation.freud_score}, 😊 Happy',
+                       style: TextStyle(
+                         fontSize: 20.0,
+                         fontWeight: FontWeight.w600,
+                         color: Colors.white,
+                       ),
+                     ),)
                     ],
                   ),
                 ],

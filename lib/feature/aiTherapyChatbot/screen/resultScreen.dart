@@ -1,15 +1,21 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 
 import 'package:lottie/lottie.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/carousel_slider.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart'; // Import Lottie package
+
+
+UserInformation _userInformation = Get.put(UserInformation());
 
 class DetectorHome extends StatefulWidget {
   final String detectedLabel;
@@ -130,7 +136,80 @@ class _DetectorHomeState extends State<DetectorHome>
       });
     });
   }
+  Widget _popup(){
 
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                Image.asset('images/popup (2).jpg'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Well Done!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F3422),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'You have successfully completed the Mood. You have earned 5 points.',
+                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF4F3422),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: TextButton.icon(
+                    onPressed: (){
+                      var addScore = 5;
+                      _userInformation.freud_score.value += addScore;
+                      print('Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.mood_score.value +=addScore;
+                      print('Articles Score: ${_userInformation.mood_score}');
+                      _userInformation.uploadUserInformation();
+                      // Handle 'Mark as Read' button press
+                      print('Mark as Read Pressed!');
+                      _userInformation.fetchUserInformation();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations()), (route) => false);
+
+                    },
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                    ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Great. Thanks!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -190,11 +269,19 @@ class _DetectorHomeState extends State<DetectorHome>
                                 child: IconButton(
                                   onPressed: () {
                                     // Close the camera session and the app
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                BottomNavWithAnimations())); // Pop until the root route
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return _popup();
+                                      },
+                                    );
+
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             BottomNavWithAnimations())); // Pop until the root route
                                   },
                                   icon: Icon(Icons.arrow_back),
                                   color: Colors.white,
@@ -219,7 +306,7 @@ class _DetectorHomeState extends State<DetectorHome>
                         SizedBox(height: 10),
                         FadeTransition(
                             opacity: _fadeAnimation,
-                            child: CarouselWithTigerIndicator(
+                            child: CarouselWithEmotionIndicator(
                                 detectedLabel: widget.detectedLabel)),
                         SizedBox(height: 30),
                         Image(
@@ -231,10 +318,10 @@ class _DetectorHomeState extends State<DetectorHome>
                           opacity: _fadeAnimation,
                           child: Center(
                             child: Text(
-                              'RECOMMENDED SONGS',
+                              'RECOMMENDED Articles',
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.blueGrey,
                                 fontSize: 15,
                                 fontFamily: 'SF Pro',
                                 fontWeight: FontWeight.w700,
@@ -243,31 +330,24 @@ class _DetectorHomeState extends State<DetectorHome>
                           ),
                         ),
                         SizedBox(height: 20),
-                        Container(
-                          height: 300,
-                          //add border and border-radius
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1,
+
+
+                       Container(
+                              padding: EdgeInsets.all(10),
+                            //add border and border-radius
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            child:SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
+                              child: ArticleListViewBuilder(),
+                            )
                           ),
-                          child:StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('Music')
-                                .doc(widget.detectedLabel.toLowerCase())
-                                .snapshots(),
-                            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              // return SongListWidget(
-                              //   snapshot: snapshot,
-                              //   detectedLabel: widget.detectedLabel, onSongClicked: (Map<String, dynamic> ) {  },
-                              //
-                              // );
-                              return Container();
-                            },
-                          ),
-                        ),
+
                         SizedBox(height: 20),
                         Image(
                           image: AssetImage('images/line.png'),
