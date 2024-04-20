@@ -14,6 +14,7 @@ import 'package:stress_sheild/feature/chatBot/screens/chatScreen.dart';
 import 'package:stress_sheild/feature/communityChat/pages/community_chat_landing_page.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/mindful_activities.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/mindfull_hours_landing_page.dart';
+import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/OurResources.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_article.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_courses.dart';
@@ -61,6 +62,7 @@ class _LandingHomePageState extends State<LandingHomePage> {
         _userInformation.fetchUserInformation,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
+          heroTag: "chatBotFloatingButton",
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBotChatScreen()));
           },
@@ -335,6 +337,7 @@ class MindfulResourceContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: remove this container and create a Card which will redirect to mindfull resource
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -615,7 +618,7 @@ class MindfulTrackerContainer extends StatelessWidget {
   }) : super(key: key);
 
   final Widget mindfulTrackerCustomListTile; // Adjusted to accept any Widget
-
+//TODO : ADD updated values to tiles
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -716,12 +719,12 @@ class MentalHealthSliderContainer extends StatelessWidget {
                     controller: _scrollController, // Pass the ScrollController
 
                     children: [
-                      _buildCard('🧠 MindFull', '${_userInformation.mindfulness_score}', Color(0xFF736B66),
+                      _buildCard('🧠 MindFull', '${_userInformation.mindful_hours_score}', Color(0xFF736B66),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MindFullHoursLandingPage()),
+                                  builder: (context) => NewExercise()),
                             );
                           }),
                       _buildCard('📃 Articles', '${_userInformation.articles_scores}', Color(0xFF9AB067),
@@ -906,7 +909,7 @@ class LandingprofileContainer extends StatelessWidget {
                       ),),
 
                      Obx(() =>  Text(
-                       '🌸 ${_userInformation.freud_score}, 😊 Happy',
+                       'Freud Score: ${_userInformation.freud_score}',
                        style: TextStyle(
                          fontSize: 20.0,
                          fontWeight: FontWeight.w600,
@@ -921,41 +924,41 @@ class LandingprofileContainer extends StatelessWidget {
                 height: 20.0,
               ),
               //create a search bar
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.0,
-                        blurRadius: 40,
-                        offset: Offset(0, 3),
-                      ),
-                    ]),
-                child: TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.all(15.0),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.search,
-                      size: 40.0,
-                      color: Colors.grey,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(50.0),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Colors.grey.withOpacity(0.5),
+              //           spreadRadius: 0.0,
+              //           blurRadius: 40,
+              //           offset: Offset(0, 3),
+              //         ),
+              //       ]),
+              //   child: TextField(
+              //     decoration: InputDecoration(
+              //       filled: true,
+              //       fillColor: Colors.white,
+              //       contentPadding: EdgeInsets.all(15.0),
+              //       hintText: 'Search',
+              //       hintStyle: TextStyle(
+              //         fontSize: 20.0,
+              //         fontWeight: FontWeight.w600,
+              //         color: Colors.grey,
+              //       ),
+              //       suffixIcon: Icon(
+              //         Icons.search,
+              //         size: 40.0,
+              //         color: Colors.grey,
+              //       ),
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(50.0),
+              //         borderSide: BorderSide.none,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

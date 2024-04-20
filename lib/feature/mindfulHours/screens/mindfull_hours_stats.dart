@@ -16,6 +16,9 @@ class MindFullHoursStats extends StatelessWidget {
     "Play": 2.21,
   };
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,37 +27,7 @@ class MindFullHoursStats extends StatelessWidget {
             await _userInformation.fetchUserInformation();
           },
       child: Scaffold(
-        floatingActionButton: //add floating action button with plus icon and green color make it to bottom center and make it size large
-            FloatingActionButton.large(
-          onPressed: () {
-            // Add your onPressed code here!
-            //navigate to new exercise page
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => NewExercise()));
-          },
-          child: const Icon(Icons.add),
-          backgroundColor: Colors.green,
-          elevation: 10,
-          splashColor: Colors.blue,
-          focusColor: Colors.red,
-          hoverColor: Colors.yellow,
-          tooltip: 'Add Mindful Hours',
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: const BorderSide(
-              color: Color(0xFF35A84E20), // Translucent white border
-              width: 5.0, // Adjust border width as needed
-            ),
-          ),
-          materialTapTargetSize: MaterialTapTargetSize.padded,
-          clipBehavior: Clip.antiAlias,
-          // optional
-          heroTag: null, // optional
-          // Set the dimensions
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        backgroundColor: Colors.white,
+         backgroundColor: Colors.white,
         body: Stack(
           fit: StackFit.expand,
           children: [

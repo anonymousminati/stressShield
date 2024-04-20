@@ -4,7 +4,8 @@ import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise3.dart';
 import 'package:wheel_picker/wheel_picker.dart';
 
 class NewExercise2 extends StatefulWidget {
-  const NewExercise2({super.key});
+  const NewExercise2({super.key, required  this.selectedGoal, });
+  final String selectedGoal;
 
   @override
   State<NewExercise2> createState() => _NewExercise2State();
@@ -14,6 +15,9 @@ class _NewExercise2State extends State<NewExercise2> {
   Duration _duration = Duration(hours: 0, minutes: 0);
   final secondsWheel = WheelPickerController(itemCount: 59);
   final minutesWheel = WheelPickerController(itemCount: 59);
+
+  
+  
   static const textStyle = TextStyle(fontSize: 70, height: 1.5 , color: Colors.white);
 
   @override
@@ -88,9 +92,25 @@ class _NewExercise2State extends State<NewExercise2> {
           ),
           backgroundColor: Colors.brown,
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewExercise3()));
+            int selectedMinutes = minutesWheel.selected;
+            int selectedSeconds = secondsWheel.selected;
+            print('Selected Duration: ${selectedMinutes} minutes ${selectedSeconds} seconds');
+            if (selectedMinutes != 0 || selectedSeconds != 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NewExercise3(
+                  selectedGoal: widget.selectedGoal,
+                  selectedDuration: Duration(minutes: selectedMinutes, seconds: selectedSeconds),
+                )),
+              );
+            } else {
+              // Handle the case when duration is 0, for example, show a snackbar
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('duration must be more than 0 seconds!'),
+                ),
+              );
+            }
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40.0),
@@ -108,7 +128,7 @@ class _NewExercise2State extends State<NewExercise2> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "How much time do you have for exercise?",
+                "How much time do you have for '${widget.selectedGoal}'?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff4F3422),
@@ -208,33 +228,7 @@ class _NewExercise2State extends State<NewExercise2> {
                               height: 20,
                             ),
                             //create a Container with sound logo and text " sound: Chirping Birds" with color D2CECB and font size 24,make background color E8DDD9
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Color(0xffE8DDD9),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.volume_up,
-                                    color: Color(0xff756D68),
-                                    size: 24,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Sound: Chirping Birds',
-                                    style: TextStyle(
-                                      color: Color(0xff9A6D54),
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
                           ],
                         ),
                       )

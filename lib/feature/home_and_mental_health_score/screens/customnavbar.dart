@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 import 'package:stress_sheild/feature/chatBot/screens/chatScreen.dart';
 import 'package:stress_sheild/feature/communityChat/pages/postCommunity.dart';
@@ -25,6 +26,8 @@ class _BottomNavWithAnimationsState extends State<BottomNavWithAnimations> {
   List<SMIBool> riveIconInputs = [];
   List<StateMachineController?> controllers=[];
   int selectedNavIndex = 0;
+  //TODO: add task manager and generalize notitifications
+  //TODO: add complaint box
   List<Widget> pages=[LandingHomePage(),CommunityHomePage(posts: []),MindFullHoursStats()  , AccountSettings()];
 
   void animateTheIcon(int index) {
@@ -63,59 +66,116 @@ class _BottomNavWithAnimationsState extends State<BottomNavWithAnimations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: selectedNavIndex,
-        children: pages,
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(12),
-          margin: EdgeInsets.only(left: 24,right: 24, bottom: 24,top:12 ),
-          decoration: BoxDecoration(
-            color: bottomNavBgColor,
-            borderRadius: const BorderRadius.all(Radius.circular(24)),
-            boxShadow: [
-              BoxShadow(
-                color: bottomNavBgColor.withOpacity(0.3),
-                offset: Offset(0, 20),
-                blurRadius: 20,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          IndexedStack(
+            index: selectedNavIndex,
+            children: pages,
+          ),
+          Positioned(
+            bottom: 0,
+
+            child: Container(
+              width: MediaQuery.of(context).size.width*0.9,
+              padding: EdgeInsets.all(12),
+              margin: EdgeInsets.only(left: 24,right: 24, bottom: 24,top:12 ),
+              decoration: BoxDecoration(
+                color: bottomNavBgColor,
+                borderRadius: const BorderRadius.all(Radius.circular(24)),
+                boxShadow: [
+                  BoxShadow(
+                    color: bottomNavBgColor.withOpacity(0.7),
+                    offset: Offset(0, 20),
+                    blurRadius: 20,
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(bottomNavItems.length, (index) {
-              final riveIcon = bottomNavItems[index].rive;
-              return GestureDetector(
-                onTap: () {
-                  animateTheIcon(index);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selectedNavIndex == index),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selectedNavIndex == index ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          riveIcon.src,
-                          artboard: riveIcon.artboard,
-                          onInit: (artboard) {
-                            riveOnInIt(artboard,
-                                stateMachineName: riveIcon.stateMachine);
-                          },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(bottomNavItems.length, (index) {
+                  final riveIcon = bottomNavItems[index].rive;
+                  return GestureDetector(
+                    onTap: () {
+                      animateTheIcon(index);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedBar(isActive: selectedNavIndex == index),
+                        SizedBox(
+                          height: 36,
+                          width: 36,
+                          child: Opacity(
+                            opacity: selectedNavIndex == index ? 1 : 0.5,
+                            child: RiveAnimation.asset(
+                              riveIcon.src,
+                              artboard: riveIcon.artboard,
+                              onInit: (artboard) {
+                                riveOnInIt(artboard,
+                                    stateMachineName: riveIcon.stateMachine);
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }),
+                  );
+                }),
+              ),
+            ),
           ),
-        ),
-      ),
+        ],
+      )
+      // bottomNavigationBar: SafeArea(
+      //   child: Container(
+      //     padding: EdgeInsets.all(12),
+      //     margin: EdgeInsets.only(left: 24,right: 24, bottom: 24,top:12 ),
+      //     decoration: BoxDecoration(
+      //       color: bottomNavBgColor,
+      //       borderRadius: const BorderRadius.all(Radius.circular(24)),
+      //       boxShadow: [
+      //         BoxShadow(
+      //           color: bottomNavBgColor.withOpacity(0.3),
+      //           offset: Offset(0, 20),
+      //           blurRadius: 20,
+      //         ),
+      //       ],
+      //     ),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: List.generate(bottomNavItems.length, (index) {
+      //         final riveIcon = bottomNavItems[index].rive;
+      //         return GestureDetector(
+      //           onTap: () {
+      //             animateTheIcon(index);
+      //           },
+      //           child: Column(
+      //             mainAxisSize: MainAxisSize.min,
+      //             children: [
+      //               AnimatedBar(isActive: selectedNavIndex == index),
+      //               SizedBox(
+      //                 height: 36,
+      //                 width: 36,
+      //                 child: Opacity(
+      //                   opacity: selectedNavIndex == index ? 1 : 0.5,
+      //                   child: RiveAnimation.asset(
+      //                     riveIcon.src,
+      //                     artboard: riveIcon.artboard,
+      //                     onInit: (artboard) {
+      //                       riveOnInIt(artboard,
+      //                           stateMachineName: riveIcon.stateMachine);
+      //                     },
+      //                   ),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         );
+      //       }),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

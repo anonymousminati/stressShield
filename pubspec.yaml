@@ -79,6 +79,9 @@ dependencies:
   pinput: ^4.0.0
   rive: ^0.13.1
   flutter_profile_picture: ^2.0.0
+  pdf: ^3.8.4
+  downloads_path_provider_28: ^0.1.2
+  android_path_provider: ^0.3.0
 
 dev_dependencies:
   flutter_test:
