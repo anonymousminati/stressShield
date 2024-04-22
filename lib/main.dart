@@ -76,7 +76,11 @@
 //   }
 // }
 
+// import 'dart:async';
+// import 'dart:isolate';
 
+import 'dart:async';
+import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -87,6 +91,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/welcome_feature/screens/welcome_screen.dart';
 import 'package:stress_sheild/router.dart';
 
@@ -97,7 +102,7 @@ List<CameraDescription>? cameras;
 Future<void> main() async {
   // Initialize Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  cameras= await availableCameras();
+  cameras = await availableCameras();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -109,27 +114,56 @@ Future<void> main() async {
     // Check if the user exists in the Firestore database
     bool userExists = await isUserExistsInDatabase(user.uid);
     if (userExists) {
-      AppRouter.initialScreen = BottomNavWithAnimations(); // User is already logged in but not in the database
+      AppRouter.initialScreen =
+          BottomNavWithAnimations(); // User is already logged in but not in the database
     } else {
-      AppRouter.initialScreen = BottomNavWithAnimations(); // User is already logged in and exists in the database
+      AppRouter.initialScreen =
+          BottomNavWithAnimations(); // User is already logged in and exists in the database
     }
   } else {
     // Check if it's the user's first time opening the app
     bool isFirstTimeUser = await isFirstTimeUserCheck();
     if (isFirstTimeUser) {
-      AppRouter.initialScreen = WelcomeScreen(); // Show splash screen for first-time users
+      AppRouter.initialScreen =
+          WelcomeScreen(); // Show splash screen for first-time users
     } else {
       // Check if the user is registered in the database
       bool isRegisteredUser = await isRegisteredUserInDatabase();
       if (isRegisteredUser) {
-        AppRouter.initialScreen = LoginScreen(); // User is not logged in but registered in the database
+        AppRouter.initialScreen =
+            LoginScreen(); // User is not logged in but registered in the database
       } else {
-        AppRouter.initialScreen = LoginScreen(); // User is not logged in and not registered, show login page
+        AppRouter.initialScreen =
+            LoginScreen(); // User is not logged in and not registered, show login page
       }
     }
   }
 
   runApp(MyApp());
+  startBackgroundTimer();
+}
+
+Future<void> startBackgroundTimer() async {
+  UserInformation _userInformation = Get.put(UserInformation());
+  ReceivePort receivePort = ReceivePort();
+  await Isolate.spawn(startTimer, receivePort.sendPort);
+
+  receivePort.listen((data) {
+    if (data % 9 == 0) {
+      //convert data into minutes and update the user's mindfulness score
+      _userInformation.mindfulness_score.value = data ~/ 60;
+    }
+    print('Time elapsed: ${data ~/ 60} minutes');
+    // Here you can store the elapsed time to a database or shared preferences
+  });
+}
+
+void startTimer(SendPort sendPort) {
+  int counter = 0;
+  Timer.periodic(Duration(seconds: 1), (Timer t) {
+    counter++;
+    sendPort.send(counter);
+  });
 }
 
 // Function to check if it's the user's first time opening the app
@@ -152,7 +186,8 @@ Future<bool> isFirstTimeUserCheck() async {
 // Function to check if the user exists in the Firestore database
 Future<bool> isUserExistsInDatabase(String userId) async {
   try {
-    DocumentSnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     return userSnapshot.exists;
   } catch (e) {
     print('Error checking user existence: $e');
@@ -165,7 +200,8 @@ Future<bool> isRegisteredUserInDatabase() async {
   // Implement your logic to check if the user is registered in the database
   // For example, you can check if there are any documents in the users collection
   try {
-    QuerySnapshot<Map<String, dynamic>> usersSnapshot = await FirebaseFirestore.instance.collection('users').get();
+    QuerySnapshot<Map<String, dynamic>> usersSnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
     return usersSnapshot.docs.isNotEmpty;
   } catch (e) {
     print('Error checking registered user in database: $e');
@@ -179,7 +215,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

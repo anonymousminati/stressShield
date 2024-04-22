@@ -1,103 +1,67 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class UserInfo {
-  String uid;
-  DateTime dateOfBirth;
-  String gender;
-  String location;
-  double weight;
-  String mobileNo;
-  String governmentId;
-
-  UserInfo({
-    required this.uid,
-    required this.dateOfBirth,
-    required this.gender,
-    required this.location,
-    required this.weight,
-    required this.mobileNo,
-    required this.governmentId,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'uid': uid,
-      'dateOfBirth': dateOfBirth,
-      'gender': gender,
-      'location': location,
-      'weight': weight,
-      'mobileNo': mobileNo,
-      'governmentId': governmentId,
-    };
-  }
-}
+UserInformation _userInformation = Get.put(UserInformation());
 
 class UpdateUserInfoPage extends StatefulWidget {
-  final String uid;
-
-  const UpdateUserInfoPage({Key? key, required this.uid}) : super(key: key);
+  const UpdateUserInfoPage({Key? key}) : super(key: key);
 
   @override
   _UpdateUserInfoPageState createState() => _UpdateUserInfoPageState();
 }
 
 class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _dateOfBirthController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _mobileNoController = TextEditingController();
   final TextEditingController _governmentIdController = TextEditingController();
-
-  late UserInfo userInfo = UserInfo(
-    uid: '',
-    dateOfBirth: DateTime.now(),
-    gender: '',
-    location: '',
-    weight: 0,
-    mobileNo: '',
-    governmentId: '',
-  );
-
-  bool isLoading = true;
+  final TextEditingController _locationController = TextEditingController();
+  bool _isLoading = true;
+  String _selectedDate = '';
+  String _dateCount = '';
+  String _range = '';
+  String _rangeCount = '';
 
   @override
   void initState() {
     super.initState();
-    fetchUserInfo();
+    print("location ${_userInformation.userInformation['location']}");
+
+    _fetchUserInformation();
   }
 
-  Future<void> fetchUserInfo() async {
+  Future<void> _fetchUserInformation() async {
+    await _userInformation.fetchUserInformation();
+    _setControllers();
+  }
+
+  void _setControllers() {
     setState(() {
-      isLoading = true;
+      _locationController.text =
+          _userInformation.userInformation['location'] ?? '';
+      _weightController.text =
+          _userInformation.userInformation['weight'].toString() ?? '';
+      _mobileNoController.text =
+          _userInformation.userInformation['mobileNo'] ?? '';
+      _governmentIdController.text =
+          _userInformation.userInformation['governmentId'] ?? '';
+      _genderController.text = _userInformation.userInformation['gender'] ?? '';
+      _dateOfBirthController.text = DateFormat('MM/dd/yyyy')
+              .format(_userInformation.userInformation['dateOfBirth'].toDate())
+              .toString() ??
+          '';
     });
 
-    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('users')
-        .doc(widget.uid)
-        .get();
-
-    setState(() {
-      userInfo = UserInfo(
-        uid: widget.uid,
-        dateOfBirth: (snapshot['dateOfBirth'] as Timestamp).toDate(),
-        gender: snapshot['gender'],
-        location: snapshot['location'],
-        weight: snapshot['weight'].toDouble(),
-        mobileNo: snapshot['mobileNo'],
-        governmentId: snapshot['governmentId'],
-      );
-
-      _locationController.text = userInfo.location;
-      _weightController.text = userInfo.weight.toString();
-      _mobileNoController.text = userInfo.mobileNo;
-      _governmentIdController.text = userInfo.governmentId;
-      isLoading = false;
-    });
+    if (_locationController.text.isNotEmpty) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -106,124 +70,151 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
       appBar: AppBar(
         title: Text('Update User Information'),
       ),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(20.0),
               child: Form(
-                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ListTile(
-                      title: Text(
-                        'Date of Birth',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                    TextFormField(
+                      controller: _locationController,
+                      decoration: InputDecoration(
+                        labelText: 'Location',
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple.shade300),
+                        ),
+                        labelStyle: const TextStyle(color: Colors.deepPurple),
                       ),
-                      subtitle: Text(
-                        '${userInfo.dateOfBirth.year}-${userInfo.dateOfBirth.month}-${userInfo.dateOfBirth.day}',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                      onTap: () {
-                        _selectDate(context);
-                      },
                     ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: _weightController,
+                      decoration: InputDecoration(
+                        labelText: 'Weight',
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple.shade300),
+                        ),
+                        labelStyle: const TextStyle(color: Colors.deepPurple),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: _mobileNoController,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile No',
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple.shade300),
+                        ),
+                        labelStyle: const TextStyle(color: Colors.deepPurple),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: _governmentIdController,
+                      decoration: InputDecoration(
+                        labelText: 'Government ID',
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple.shade300),
+                        ),
+                        labelStyle: const TextStyle(color: Colors.deepPurple),
+                      ),
+                    ),
+                    SizedBox(height: 20),
                     DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         labelText: 'Gender',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      style: TextStyle(fontSize: 16.0, color: Colors.black),
-                      value: userInfo.gender,
+                      value: _genderController.text.isNotEmpty
+                          ? _genderController.text
+                          : null,
                       onChanged: (newValue) {
                         setState(() {
-                          userInfo.gender = newValue!;
+                          _genderController.text = newValue!;
                         });
                       },
-                      items: ['Male', 'Female', 'Don\'t want to specify']
-                          .map((gender) {
+                      items: ['Male', 'Female', 'Other'].map((gender) {
                         return DropdownMenuItem<String>(
                           value: gender,
                           child: Text(gender),
                         );
                       }).toList(),
                     ),
-                    TextFormField(
-                      controller: _locationController,
-                      decoration: InputDecoration(
-                        labelText: 'Location',
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.deepPurple.shade300),
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
-                      style: TextStyle(fontSize: 16.0),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your location';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _weightController,
-                      decoration: InputDecoration(
-                        labelText: 'Weight',
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                      child: ListTile(
+                        title: Text(
+                          'Date of Birth',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16.0),
+                        ),
+                        subtitle: Text(
+                          '${_dateOfBirthController.text}',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        onTap: () {
+                          _selectDate(context);
+                        },
                       ),
-                      style: TextStyle(fontSize: 16.0),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your weight';
-                        }
-                        return null;
-                      },
                     ),
-                    TextFormField(
-                      controller: _mobileNoController,
-                      decoration: InputDecoration(
-                        labelText: 'Mobile No.',
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      style: TextStyle(fontSize: 16.0),
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your mobile number';
-                        } else if (value.length != 10) {
-                          return 'Mobile number should be 10 digits';
-                        }
-                        return null;
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        // Update the UserInformation class's variables with the new values
+                        DateTime parsedDate = DateFormat('MM/dd/yyyy')
+                            .parse(_dateOfBirthController.text);
+
+                        // Update the UserInformation class's variables with the new values
+                        _userInformation.location.value =
+                            _locationController.text;
+                        _userInformation.weight.value =
+                            double.parse(_weightController.text);
+                        _userInformation.mobileNo.value =
+                            _mobileNoController.text;
+                        _userInformation.governmentId.value =
+                            _governmentIdController.text;
+                        _userInformation.gender.value = _genderController.text;
+                        _userInformation.dateOfBirth.value =
+                            Timestamp.fromDate(parsedDate);
+
+                        // Call the uploadUserInformation function to store these updated values in the database
+                        _userInformation.uploadUserInformation();
+                        Navigator.pop(context);
                       },
-                    ),
-                    TextFormField(
-                      controller: _governmentIdController,
-                      decoration: InputDecoration(
-                        labelText: 'Government ID',
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          updateUserInformation();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue,
-                        textStyle: TextStyle(fontSize: 16.0),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 32.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.deepPurple.shade300),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Text(
+                            'Update',
+                            style: TextStyle(
+                                fontSize: 20.0, color: Colors.deepPurple),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                      child: Text('Save'),
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -234,23 +225,14 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: userInfo.dateOfBirth,
+      initialDate: _userInformation.userInformation['dateOfBirth'].toDate(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
-    if (pickedDate != null) {
+    if (pickedDate != null)
       setState(() {
-        userInfo.dateOfBirth = pickedDate;
+        _dateOfBirthController.text =
+            DateFormat('MM/dd/yyyy').format(pickedDate).toString();
       });
-    }
-  }
-
-  Future<void> updateUserInformation() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.uid)
-        .update(userInfo.toMap());
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations()));
   }
 }

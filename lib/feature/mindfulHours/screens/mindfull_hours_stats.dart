@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise.dart';
@@ -40,20 +41,9 @@ class MindFullHoursStats extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(width: 2, color: Colors.black),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            color: Colors.black,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
+
                         title: Text(
+                          textAlign: TextAlign.center,
                           'Mindful Hours',
                           style: TextStyle(
                               color: Colors.black,
@@ -88,3 +78,4 @@ class MindFullHoursStats extends StatelessWidget {
 
 
 }
+

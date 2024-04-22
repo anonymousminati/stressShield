@@ -1,5 +1,18 @@
+import 'dart:async';
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise2.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
+
+void startMindfullTimer(SendPort sendPort) {
+  int counter = 0;
+  Timer.periodic(Duration(seconds: 1), (Timer t) {
+    counter++;
+    sendPort.send(counter);
+  });
+}
 
 class NewExercise extends StatefulWidget {
   const NewExercise({Key? key}) : super(key: key);
@@ -18,8 +31,41 @@ class _NewExerciseState extends State<NewExercise> {
     // Add more goals if needed
   ];
 
-
   String selectedGoal = '';
+
+  ReceivePort mindfullReceivePort = ReceivePort();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startMindfullBackgroundTimer();
+  }
+
+  Future<void> startMindfullBackgroundTimer() async {
+    UserInformation _userInformation = Get.put(UserInformation());
+
+    try {
+      await Isolate.spawn(startMindfullTimer, mindfullReceivePort.sendPort);
+      mindfullReceivePort.listen((data) {
+        if (data % 9 == 0) {
+          //convert data into minutes and update the user's mindfulness score
+          _userInformation.meditaion_score.value = data ~/ 60;
+        }
+        print('mindfull Time elapsed: ${data ~/ 60} minutes');
+        // Here you can store the elapsed time to a database or shared preferences
+      });
+    } on Object {
+      print("Error in starting mindfull timer");
+      mindfullReceivePort.close();
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    //remove Isolate thread
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +104,8 @@ class _NewExerciseState extends State<NewExercise> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Color(0xffd68ade),
@@ -79,17 +126,30 @@ class _NewExerciseState extends State<NewExercise> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          extendedPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
-          label: Text('Continue', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-          icon: Icon(Icons.arrow_forward , color: Colors.white,),
+          extendedPadding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.2),
+          label: Text('Continue',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+          icon: Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+          ),
           backgroundColor: Colors.brown,
-          onPressed: _selectedIndex != -1 ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewExercise2(selectedGoal: selectedGoal)),
-              );
-            } : null,
-
+          onPressed: _selectedIndex != -1
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewExercise2(
+                              selectedGoal: selectedGoal,
+                              receivePort: mindfullReceivePort,
+                            )),
+                  );
+                }
+              : null,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40.0),
           ),
@@ -125,18 +185,20 @@ class _NewExerciseState extends State<NewExercise> {
                         _selectedIndex = index;
                         selectedGoal = exerciseGoals[index];
                       });
-
-
                     },
                     child: Card(
-                      color: _selectedIndex == index ? Colors.green.withOpacity(0.3) : null,
+                      color: _selectedIndex == index
+                          ? Colors.green.withOpacity(0.3)
+                          : null,
                       child: ListTile(
                         title: Text(exerciseGoals[index]),
                         selected: _selectedIndex == index,
                       ),
                     ),
                   );
-                }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
               ),
             ),
           ],

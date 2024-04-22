@@ -7,6 +7,78 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:192727806596:android:852cf11a27d57ef20908d1",
+        "android_client_info": {
+          "package_name": "com.example.music_player_intern"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo8QVUVaFIcbtb8IJbweEC_2rPYksMu7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192727806596-gsb6mjrlfk5ffn6psvui2bu1it8956o9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.musicPlayerIntern"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192727806596:android:5cc565f03b5f69360908d1",
+        "android_client_info": {
+          "package_name": "com.example.musicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo8QVUVaFIcbtb8IJbweEC_2rPYksMu7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192727806596-gsb6mjrlfk5ffn6psvui2bu1it8956o9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.musicPlayerIntern"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:192727806596:android:c3ec8a9264b3c03e0908d1",
         "android_client_info": {
           "package_name": "com.example.stress_shield"
@@ -39,10 +111,46 @@
               "client_type": 3
             },
             {
-              "client_id": "192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com",
+              "client_id": "192727806596-gsb6mjrlfk5ffn6psvui2bu1it8956o9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.stressShield"
+                "bundle_id": "com.example.musicPlayerIntern"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192727806596:android:60496f5e8161ecc80908d1",
+        "android_client_info": {
+          "package_name": "com.musicplayer1.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo8QVUVaFIcbtb8IJbweEC_2rPYksMu7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192727806596-qr9a01p6li6sdvifec5pqimjp0u3o9nh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192727806596-gsb6mjrlfk5ffn6psvui2bu1it8956o9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.musicPlayerIntern"
               }
             }
           ]

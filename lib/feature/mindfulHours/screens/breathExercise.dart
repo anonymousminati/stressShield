@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,19 +21,19 @@ class BreathExercise extends StatefulWidget {
       {Key? key,
       required this.selectedGoal,
       required this.selectedDuration,
-      required this.audioUrl})
+      required this.audioUrl,
+      required this.receivePort})
       : super(key: key);
   final String selectedGoal;
   final Duration selectedDuration;
   final String audioUrl;
+  final ReceivePort receivePort;
 
   @override
   _BreathExerciseState createState() => _BreathExerciseState();
 }
 
 class _BreathExerciseState extends State<BreathExercise> {
-
-
   late Color _currentColor;
   final audioPlayer = AudioPlayer(); // Create a player
   PlayerState audioPlayerState = PlayerState.stopped;
@@ -47,7 +48,6 @@ class _BreathExerciseState extends State<BreathExercise> {
     // Start playing the audio automatically
     playAudio(widget.audioUrl);
     //create a 30sec timer after which it will redirect to next screen
-
   }
 
   dispose() {
@@ -90,24 +90,24 @@ class _BreathExerciseState extends State<BreathExercise> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: TextButton.icon(
-                    onPressed:(){
-
-
+                    onPressed: () {
                       var addScore = 5;
                       _userInformation.freud_score.value += addScore;
-                      print('Freud Score: ${_userInformation.freud_score.value}');
-                      _userInformation.mindful_hours_score.value +=addScore;
-                      print('mindful Score: ${_userInformation.mindful_hours_score}');
+                      print(
+                          'Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.mindful_hours_score.value += addScore;
+                      print(
+                          'mindful Score: ${_userInformation.mindful_hours_score}');
                       _userInformation.uploadUserInformation();
                       // Handle 'Mark as Read' button press
                       print('Mark as Read Pressed!');
                       _userInformation.fetchUserInformation();
-
+                      widget.receivePort.close();
                       Navigator.pushAndRemoveUntil(
-
                         context,
-                        MaterialPageRoute(builder: (context) =>  BottomNavWithAnimations()),
-                            (Route<dynamic> route) => false,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavWithAnimations()),
+                        (Route<dynamic> route) => false,
                       );
                     },
                     style: ButtonStyle(
@@ -173,15 +173,18 @@ class _BreathExerciseState extends State<BreathExercise> {
 
         await audioFile.writeAsBytes(response.bodyBytes);
         print('this line printed7');
-        await audioPlayer.play(DeviceFileSource(audioPath));
-        Future.delayed(Duration(seconds: 5), () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return _popup();
-            },
-          );
+        await audioPlayer.play(DeviceFileSource(audioPath)).then((value) {
+          var seconds = widget.selectedDuration.inSeconds;
+          Future.delayed(Duration(seconds: seconds), () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return _popup();
+              },
+            );
+          });
         });
+
         // await audioPlayer.setSourceBytes(audioFile as Uint8List ); // Use setUrl instead of setSource
         // await audioPlayer.play(url);
       }
@@ -298,7 +301,9 @@ class _BreathExerciseState extends State<BreathExercise> {
                     },
                   ),
                 ),
-SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(

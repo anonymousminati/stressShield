@@ -1,11 +1,18 @@
+import 'dart:isolate';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise3.dart';
 import 'package:wheel_picker/wheel_picker.dart';
 
 class NewExercise2 extends StatefulWidget {
-  const NewExercise2({super.key, required  this.selectedGoal, });
+  const NewExercise2({
+    super.key,
+    required this.selectedGoal,
+    required this.receivePort,
+  });
   final String selectedGoal;
+  final ReceivePort receivePort;
 
   @override
   State<NewExercise2> createState() => _NewExercise2State();
@@ -16,9 +23,8 @@ class _NewExercise2State extends State<NewExercise2> {
   final secondsWheel = WheelPickerController(itemCount: 59);
   final minutesWheel = WheelPickerController(itemCount: 59);
 
-  
-  
-  static const textStyle = TextStyle(fontSize: 70, height: 1.5 , color: Colors.white);
+  static const textStyle =
+      TextStyle(fontSize: 70, height: 1.5, color: Colors.white);
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +100,19 @@ class _NewExercise2State extends State<NewExercise2> {
           onPressed: () {
             int selectedMinutes = minutesWheel.selected;
             int selectedSeconds = secondsWheel.selected;
-            print('Selected Duration: ${selectedMinutes} minutes ${selectedSeconds} seconds');
+            print(
+                'Selected Duration: ${selectedMinutes} minutes ${selectedSeconds} seconds');
             if (selectedMinutes != 0 || selectedSeconds != 0) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => NewExercise3(
-                  selectedGoal: widget.selectedGoal,
-                  selectedDuration: Duration(minutes: selectedMinutes, seconds: selectedSeconds),
-                )),
+                MaterialPageRoute(
+                    builder: (context) => NewExercise3(
+                          selectedGoal: widget.selectedGoal,
+                          selectedDuration: Duration(
+                              minutes: selectedMinutes,
+                              seconds: selectedSeconds),
+                          receivePort: widget.receivePort,
+                        )),
               );
             } else {
               // Handle the case when duration is 0, for example, show a snackbar
@@ -143,98 +154,100 @@ class _NewExercise2State extends State<NewExercise2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
-                      // child: DurationPicker(
-                      //   duration: _duration,
-                      //   onChange: (val) {
-                      //     setState(() => _duration = val);
-                      //   },
-                      //   snapToMins: 5.0,
-                      // ),
-                      child: Container(
-                        padding: EdgeInsets.all(16),
+                        // child: DurationPicker(
+                        //   duration: _duration,
+                        //   onChange: (val) {
+                        //     setState(() => _duration = val);
+                        //   },
+                        //   snapToMins: 5.0,
+                        // ),
+                        child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                // width: MediaQuery.of(context).size.width * 0.8,
 
-
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-
-                              children: [
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 0.8,
-
-                                  padding: EdgeInsets.symmetric(horizontal: 25, ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(200),
-                                    color: Color(0xff9BB167),
-                                    border: Border.all(width: 7, color: Color(
-                                        0xffE8DDD9).withOpacity(0.7)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-
-                                    children: [WheelPicker(
-                                      builder: (context, index) => Text("$index", style: textStyle),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(200),
+                                  color: Color(0xff9BB167),
+                                  border: Border.all(
+                                      width: 7,
+                                      color:
+                                          Color(0xffE8DDD9).withOpacity(0.7)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    WheelPicker(
+                                      builder: (context, index) =>
+                                          Text("$index", style: textStyle),
                                       controller: secondsWheel,
                                       selectedIndexColor: Colors.white,
                                       onIndexChanged: (index) {
                                         print("On index $index");
                                       },
                                       style: WheelPickerStyle(
-
-                                        itemExtent: textStyle.fontSize! * textStyle.height!, // Text height
+                                        itemExtent: textStyle.fontSize! *
+                                            textStyle.height!, // Text height
                                         squeeze: 1.25,
                                         diameterRatio: .8,
                                         surroundingOpacity: 0,
                                         magnification: 1.2,
                                       ),
                                     ),
-                                      Text(":", style: textStyle,),
-                                      WheelPicker(
-                                        builder: (context, index) => Text("$index", style: textStyle),
-                                        controller: minutesWheel,
-
-                                        selectedIndexColor: Colors.white,
-                                        onIndexChanged: (index) {
-                                          print("On index $index");
-                                        },
-
-
-                                        style: WheelPickerStyle(
-                                          itemExtent: textStyle.fontSize! * textStyle.height!, // Text height
-                                          squeeze: 1.25,
-                                          diameterRatio: .8,
-                                          surroundingOpacity: 0,
-                                          magnification: 1.2,
-                                        ),
-                                      )],
-                                  ),
+                                    Text(
+                                      ":",
+                                      style: textStyle,
+                                    ),
+                                    WheelPicker(
+                                      builder: (context, index) =>
+                                          Text("$index", style: textStyle),
+                                      controller: minutesWheel,
+                                      selectedIndexColor: Colors.white,
+                                      onIndexChanged: (index) {
+                                        print("On index $index");
+                                      },
+                                      style: WheelPickerStyle(
+                                        itemExtent: textStyle.fontSize! *
+                                            textStyle.height!, // Text height
+                                        squeeze: 1.25,
+                                        diameterRatio: .8,
+                                        surroundingOpacity: 0,
+                                        magnification: 1.2,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-
-                            Text(
-                              'Minutes',
-                              style: TextStyle(
-                                color: Color(0xff756D68),
-                                fontSize: 32,
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            //create a Container with sound logo and text " sound: Chirping Birds" with color D2CECB and font size 24,make background color E8DDD9
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
 
-                          ],
-                        ),
-                      )
-                    ),
+                          Text(
+                            'Minutes',
+                            style: TextStyle(
+                              color: Color(0xff756D68),
+                              fontSize: 32,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          //create a Container with sound logo and text " sound: Chirping Birds" with color D2CECB and font size 24,make background color E8DDD9
+                        ],
+                      ),
+                    )),
                     //create a text "minutes" with color D2CECB and font size 24
-
                   ],
                 ),
               ),

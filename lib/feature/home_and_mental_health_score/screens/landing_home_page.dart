@@ -1,6 +1,7 @@
 import 'package:card_slider/card_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_s
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/audio_therapy/songs.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
+
 final UserInformation _userInformation = Get.put(UserInformation());
 
 class LandingHomePage extends StatefulWidget {
@@ -44,13 +46,11 @@ class _LandingHomePageState extends State<LandingHomePage> {
     _pageController = PageController();
   }
 
-
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +58,23 @@ class _LandingHomePageState extends State<LandingHomePage> {
     String formattedDate = DateFormat('EE').format(now);
     String formattedTime = DateFormat('h:mm a').format(now);
     return RefreshIndicator(
-      onRefresh:
-        _userInformation.fetchUserInformation,
+      onRefresh: _userInformation.fetchUserInformation,
       child: Scaffold(
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(100),
         floatingActionButton: FloatingActionButton(
           heroTag: "chatBotFloatingButton",
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBotChatScreen()));
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ChatBotChatScreen()));
           },
           elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
           tooltip: 'AI Therapist',
-          child: Icon(Icons.adb_outlined, color: Colors.white,),
+          child: Icon(
+            Icons.adb_outlined,
+            color: Colors.white,
+          ),
           backgroundColor: Color(0xFFEC7D1C),
         ),
         body: SafeArea(
@@ -82,19 +87,22 @@ class _LandingHomePageState extends State<LandingHomePage> {
                 children: [
                   //first above part
                   LandingprofileContainer(
-                      formattedDate: formattedDate, formattedTime: formattedTime, userInformation: _userInformation.userInformation,),
+                    formattedDate: formattedDate,
+                    formattedTime: formattedTime,
+                    userInformation: _userInformation.userInformation,
+                  ),
                   //second part slider
                   MentalHealthSliderContainer(
                       scrollController: _scrollController),
-      
+
                   MindfulTrackerContainer(
                       mindfulTrackerCustomListTile: ListOfMindfullTracker()),
-      
+
                   //Ai therapist
                   AiTherapistContainer(),
-      
+
                   //mindfull resources
-      
+
                   MindfulResourceContainer(),
                 ],
               )),
@@ -136,7 +144,6 @@ class _LandingHomePageState extends State<LandingHomePage> {
         //     ),
         //   ],
         // ),
-      
       ),
     );
   }
@@ -148,118 +155,106 @@ class ListOfMindfullTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
-      children: [
-        CustomListTile(
-          leadingIcon: Icons.accessibility_new,
-          title: 'Meditation',
-          subtitle: '${_userInformation.meditaion_score} minutes',
-          trailingIcon: Icons.arrow_forward_ios,
-          color: Color(0xFFA694F5),
-          headingColor: Color(0xFF2ACAD9),
-          subheadingColor: Color(0xFF2ACAD9),
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MindfulActivities()),
-            );
-          },
-        ),
-        CustomListTile(
-          leadingIcon: Icons.schedule,
-          title: 'Mindful Hours',
-          subtitle: '${_userInformation.mindfulness_score}min Today',
-          trailingIcon: Icons.timer,
-          color: Color(0xFF9BB167),
-          headingColor: Color(0xFFB2B60F),
-          subheadingColor: Color(0xFFB2B60F),
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MindFullHoursLandingPage()),
-            );
-          },
-        ),
-        // CustomListTile(
-        //   leadingIcon: Icons.bedtime,
-        //   title: 'Sleep Quality',
-        //   subtitle: 'Insomniac (~2hrAvg)',
-        //   trailingIcon: Icons.nights_stay,
-        //   color: Color(0xFFA694F5),
-        //   headingColor: Color(0xFFC86E6E),
-        //   subheadingColor: Color(0xFFC86E6E),
-        //   onPress: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => MindfulActivities()),
-        //     );
-        //   },
-        // ),
-        // CustomListTile(
-        //   leadingIcon: Icons.book,
-        //   title: 'Mindful Journal',
-        //   subtitle: '64 Day Streak',
-        //   trailingIcon: Icons.assignment,
-        //   color: Color(0xFFED7E1C),
-        //   headingColor: Color(0xFF6E6EC8),
-        //   subheadingColor: Color(0xFF6E6EC8),
-        //   onPress: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => MindfulActivities()),
-        //     );
-        //   },
-        // ),
-        CustomListTile(
-          leadingIcon: Icons.favorite,
-          title: 'Mood',
-          subtitle: '${_userInformation.mood_label}',
-          trailingIcon: Icons.mood,
-          color: Color(0xFFFFBD19),
-          headingColor: Color(0xFF6E6EC8),
-          subheadingColor: Color(0xFF6E6EC8),
-          onPress: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => DummyContainer()),
-            // );
-          },
-        ),
-        CustomListTile(
-          leadingIcon: Icons.face,
-          title: 'Chatty Community',
-          subtitle: '${_userInformation.mindfulness_score} minutes',
-          trailingIcon: Icons.emoji_emotions,
-          color: Color(0xFF926247),
-          headingColor: Color(0xFF6E6EC8),
-          subheadingColor: Color(0xFF6E6EC8),
-          onPress: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => MindfulActivities()),
-            // );
-          },
-        ), CustomListTile(
-          leadingIcon: Icons.audio_file_outlined,
-          title: 'Trending Audio',
-          subtitle: '${_userInformation.trending_song} ',
-          trailingIcon: Icons.audiotrack,
-            color: Color(0xFFA694F5),
-            headingColor: Color(0xFFC86E6E),
-            subheadingColor: Color(0xFFC86E6E),
-          onPress: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => MindfulActivities()),
-            // );
-          },
-        ),
-      ],
-    ));
+          children: [
+            CustomListTile(
+              leadingIcon: Icons.accessibility_new,
+              title: 'Meditation',
+              subtitle: '${_userInformation.meditaion_score} minutes',
+              trailingIcon: Icons.arrow_forward_ios,
+              color: Color(0xFFA694F5),
+              headingColor: Color(0xFF2ACAD9),
+              subheadingColor: Color(0xFF2ACAD9),
+              onPress: () {},
+            ),
+            CustomListTile(
+              leadingIcon: Icons.schedule,
+              title: 'Mindful Hours',
+              subtitle: '${_userInformation.mindfulness_score}min Today',
+              trailingIcon: Icons.timer,
+              color: Color(0xFF9BB167),
+              headingColor: Color(0xFFB2B60F),
+              subheadingColor: Color(0xFFB2B60F),
+              onPress: () {},
+            ),
+            // CustomListTile(
+            //   leadingIcon: Icons.bedtime,
+            //   title: 'Sleep Quality',
+            //   subtitle: 'Insomniac (~2hrAvg)',
+            //   trailingIcon: Icons.nights_stay,
+            //   color: Color(0xFFA694F5),
+            //   headingColor: Color(0xFFC86E6E),
+            //   subheadingColor: Color(0xFFC86E6E),
+            //   onPress: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => MindfulActivities()),
+            //     );
+            //   },
+            // ),
+            // CustomListTile(
+            //   leadingIcon: Icons.book,
+            //   title: 'Mindful Journal',
+            //   subtitle: '64 Day Streak',
+            //   trailingIcon: Icons.assignment,
+            //   color: Color(0xFFED7E1C),
+            //   headingColor: Color(0xFF6E6EC8),
+            //   subheadingColor: Color(0xFF6E6EC8),
+            //   onPress: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => MindfulActivities()),
+            //     );
+            //   },
+            // ),
+            CustomListTile(
+              leadingIcon: Icons.favorite,
+              title: 'Mood',
+              subtitle: '${_userInformation.mood_label}',
+              trailingIcon: Icons.mood,
+              color: Color(0xFFFFBD19),
+              headingColor: Color(0xFF6E6EC8),
+              subheadingColor: Color(0xFF6E6EC8),
+              onPress: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => DummyContainer()),
+                // );
+              },
+            ),
+            CustomListTile(
+              leadingIcon: Icons.face,
+              title: 'Chatty Community',
+              subtitle: '${_userInformation.mindfulness_score} minutes',
+              trailingIcon: Icons.emoji_emotions,
+              color: Color(0xFF926247),
+              headingColor: Color(0xFF6E6EC8),
+              subheadingColor: Color(0xFF6E6EC8),
+              onPress: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MindfulActivities()),
+                // );
+              },
+            ),
+            CustomListTile(
+              leadingIcon: Icons.audio_file_outlined,
+              title: 'Trending Audio',
+              subtitle: '${_userInformation.trending_song} ',
+              trailingIcon: Icons.audiotrack,
+              color: Color(0xFFA694F5),
+              headingColor: Color(0xFFC86E6E),
+              subheadingColor: Color(0xFFC86E6E),
+              onPress: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MindfulActivities()),
+                // );
+              },
+            ),
+          ],
+        ));
   }
 }
-
-
 
 class BottomNavigationBar extends StatelessWidget {
   const BottomNavigationBar({
@@ -322,7 +317,6 @@ class BottomNavigationBar extends StatelessWidget {
               GButton(
                 icon: Icons.person,
                 text: 'Profile',
-
               )
             ]),
       ),
@@ -362,77 +356,131 @@ class MindfulResourceContainer extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => OurResources()));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MindFullResourceCard(
-                        titleImg: 'assets/icons/profileUser.svg',
-                        title: 'Mental Health',
-                        description: 'Will Meditation Help Me Sleep Better?',
-                        likes: 100,
-                        views: 100,
-                      ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: [
+            //       GestureDetector(
+            //         onTap: (){
+            //           Navigator.push(context, MaterialPageRoute(builder: (context) => OurResources()));
+            //         },
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: MindFullResourceCard(
+            //             titleImg: 'assets/icons/profileUser.svg',
+            //             title: 'Mental Health',
+            //             description: 'Will Meditation Help Me Sleep Better?',
+            //             likes: 100,
+            //             views: 100,
+            //           ),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: MindFullResourceCard(
+            //             titleImg: 'assets/icons/profileUser.svg',
+            //             title: 'Stress Management',
+            //             description: 'Tips to Manage Stress in Daily Life',
+            //             likes: 150,
+            //             views: 200,
+            //           ),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: MindFullResourceCard(
+            //             titleImg: 'assets/icons/profileUser.svg',
+            //             title: 'Mindfulness Meditation',
+            //             description: 'How to Practice Mindfulness Meditation',
+            //             likes: 120,
+            //             views: 180,
+            //           ),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: MindFullResourceCard(
+            //             titleImg: 'assets/icons/profileUser.svg',
+            //             title: 'Emotional Wellness',
+            //             description: 'Understanding and Nurturing Your Emotions',
+            //             likes: 90,
+            //             views: 150,
+            //           ),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: MindFullResourceCard(
+            //             titleImg: 'assets/icons/profileUser.svg',
+            //             title: 'Self-care Practices',
+            //             description:
+            //                 'Effective Self-care Tips for Better Well-being',
+            //             likes: 110,
+            //             views: 170,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            //create a Card Showing Image and Text "Our Resources"
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OurResources(),
+                    ));
+              },
+              child: Container(
+                height: 300,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40.0),
+                    image: DecorationImage(
+                      image: AssetImage('images/mindfullhourscard.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                    border: Border.all(
+                        width: 1,
+                        style: BorderStyle.solid,
+                        color: Colors.white),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        offset: Offset(0, 0),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ]),
+                child: Center(
+                  child: Text(
+                    'Our Resources',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 34.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 5.0,
+                          color: Colors.black,
+                          offset: Offset(2.0, 2.0),
+                        ),
+                      ],
                     ),
                   ),
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MindFullResourceCard(
-                        titleImg: 'assets/icons/profileUser.svg',
-                        title: 'Stress Management',
-                        description: 'Tips to Manage Stress in Daily Life',
-                        likes: 150,
-                        views: 200,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MindFullResourceCard(
-                        titleImg: 'assets/icons/profileUser.svg',
-                        title: 'Mindfulness Meditation',
-                        description: 'How to Practice Mindfulness Meditation',
-                        likes: 120,
-                        views: 180,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MindFullResourceCard(
-                        titleImg: 'assets/icons/profileUser.svg',
-                        title: 'Emotional Wellness',
-                        description: 'Understanding and Nurturing Your Emotions',
-                        likes: 90,
-                        views: 150,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MindFullResourceCard(
-                        titleImg: 'assets/icons/profileUser.svg',
-                        title: 'Self-care Practices',
-                        description:
-                            'Effective Self-care Tips for Better Well-being',
-                        likes: 110,
-                        views: 170,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
+                padding: EdgeInsets.all(20.0),
               ),
             ),
+            SizedBox(
+              height: 80,
+            )
           ],
         ),
       ),
@@ -664,83 +712,97 @@ class MentalHealthSliderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-      //create a slider with 3 cards
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        //create a row having text "mental health" and an icon of three dots . make them space between
-          children: [
-            //text "mental health" and an icon of three dots
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //create a slider with 3 cards
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+              //create a row having text "mental health" and an icon of three dots . make them space between
               children: [
-                Text(
-                  'Mental Health',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w600,
+                //text "mental health" and an icon of three dots
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Mental Health',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Icon(
+                      Icons.more_horiz,
+                      size: 40.0,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                //create a card
+                ScrollbarTheme(
+                  data: ScrollbarThemeData(
+                    thumbColor:
+                        MaterialStateProperty.all<Color>(Color(0xFFEC7D1C)),
+                    // Color of the thumb
+                    trackColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent),
+                    // Color of the track
+                    crossAxisMargin: -20,
+                    // Margin on the cross axis
+                    mainAxisMargin: 10,
+                    // Margin on the main axis
+                    radius: Radius.circular(8),
+                    // Radius of the thumb
+                    minThumbLength: 60,
+                    thickness: MaterialStateProperty.all<double>(
+                        8), // Thickness of the thumb
                   ),
-                ),
-                Icon(
-                  Icons.more_horiz,
-                  size: 40.0,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            //create a card
-            ScrollbarTheme(
-              data: ScrollbarThemeData(
-                thumbColor: MaterialStateProperty.all<Color>(Color(0xFFEC7D1C)),
-                // Color of the thumb
-                trackColor:
-                MaterialStateProperty.all<Color>(Colors.transparent),
-                // Color of the track
-                crossAxisMargin: -20,
-                // Margin on the cross axis
-                mainAxisMargin: 10,
-                // Margin on the main axis
-                radius: Radius.circular(8),
-                // Radius of the thumb
-                minThumbLength: 60,
-                thickness: MaterialStateProperty.all<double>(
-                    8), // Thickness of the thumb
-              ),
-              child: Scrollbar(
-                thumbVisibility: true, // Show the scrollbar always
-                controller: _scrollController, // Pass the ScrollController
-
-                child: SizedBox(
-                  height: 200, // Adjust height as needed
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
+                  child: Scrollbar(
+                    thumbVisibility: true, // Show the scrollbar always
                     controller: _scrollController, // Pass the ScrollController
 
-                    children: [
-                      _buildCard('🧠 MindFull', '${_userInformation.mindful_hours_score}', Color(0xFF736B66),
-                          onTap: () {
+                    child: SizedBox(
+                      height: 200, // Adjust height as needed
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        controller:
+                            _scrollController, // Pass the ScrollController
+
+                        children: [
+                          _buildCard(
+                              '🧠 MindFull',
+                              '${_userInformation.mindful_hours_score}',
+                              Color(0xFF736B66), onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NewExercise()),
                             );
                           }),
-                      _buildCard('📃 Articles', '${_userInformation.articles_scores}', Color(0xFF9AB067),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => OurArticle()));
+                          _buildCard(
+                              '📃 Articles',
+                              '${_userInformation.articles_scores}',
+                              Color(0xFF9AB067), onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OurArticle()));
                           }),
-                      _buildCard('😔 Mood', '${_userInformation.mood_score}', Color(0xFFB2B60F),
-                          onTap: (){
+                          _buildCard(
+                              '😔 Mood',
+                              '${_userInformation.mood_score}',
+                              Color(0xFFB2B60F), onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DummyContainer(),),
+                                builder: (context) => DummyContainer(),
+                              ),
                             );
                           }),
-                      _buildCard('🔥 Audios', '${_userInformation.audio_score}', Color(0xFF2ACAD9),
-                          onTap: (){
+                          _buildCard(
+                              '🔥 Audios',
+                              '${_userInformation.audio_score}',
+                              Color(0xFF2ACAD9), onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -748,42 +810,47 @@ class MentalHealthSliderContainer extends StatelessWidget {
                             );
                           }),
 
-                      _buildCard('🗣️ Chats', '${_userInformation.chatbot_score}', Color(0xFFC86E6E),
-                          onTap:  (){
+                          _buildCard(
+                              '🗣️ Chats',
+                              '${_userInformation.chatbot_score}',
+                              Color(0xFFC86E6E), onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChatBotChatScreen(),),
+                                builder: (context) => ChatBotChatScreen(),
+                              ),
                             );
                           }),
-                      _buildCard('🔉 Courses', '${_userInformation.course_score}', Color(0xFF6E6EC8),
-                          onTap: (){
+                          _buildCard(
+                              '🔉 Courses',
+                              '${_userInformation.course_score}',
+                              Color(0xFF6E6EC8), onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OurCourses(),),
+                                builder: (context) => OurCourses(),
+                              ),
                             );
-                          } ),
+                          }),
 
-                      // Add more cards as needed
-                    ],
+                          // Add more cards as needed
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ]),
-    ));
+              ]),
+        ));
   }
 }
 
 class LandingprofileContainer extends StatelessWidget {
-
   const LandingprofileContainer({
     super.key,
     required this.formattedDate,
-    required this.formattedTime, required this.userInformation,
+    required this.formattedTime,
+    required this.userInformation,
   });
-
 
   final String formattedDate;
   final String formattedTime;
@@ -872,10 +939,12 @@ class LandingprofileContainer extends StatelessWidget {
                     width: 60.0,
                     height: 60.0,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(width: 2,style: BorderStyle.solid,color: Colors.lightBlueAccent)
-                    ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            width: 2,
+                            style: BorderStyle.solid,
+                            color: Colors.lightBlueAccent)),
                     // child: CircleAvatar(
                     //   radius: 30.0,
                     //   child: SvgPicture.asset(
@@ -883,14 +952,17 @@ class LandingprofileContainer extends StatelessWidget {
                     //     width: 60.0,
                     //   ),
                     // ),
-                    child:   Obx(() => ProfilePicture(
-                      name: _userInformation.userInformation['fullName'] ?? "User",
-                      role: '',
-                      radius: 30,
-                      fontsize: 21,
-                      tooltip: true,
-                      random: true,
-                    ), ),
+                    child: Obx(
+                      () => ProfilePicture(
+                        name: _userInformation.userInformation['fullName'] ??
+                            "User",
+                        role: '',
+                        radius: 30,
+                        fontsize: 21,
+                        tooltip: true,
+                        random: true,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 20.0,
@@ -898,24 +970,26 @@ class LandingprofileContainer extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-                      Obx(() => Text(
-                        userInformation['fullName'] ?? "User",
-                        style: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
-                      ),),
-
-                     Obx(() =>  Text(
-                       'Freud Score: ${_userInformation.freud_score}',
-                       style: TextStyle(
-                         fontSize: 20.0,
-                         fontWeight: FontWeight.w600,
-                         color: Colors.white,
-                       ),
-                     ),)
+                      Obx(
+                        () => Text(
+                          userInformation['fullName'] ?? "User",
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                          'Freud Score: ${_userInformation.freud_score}',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -1087,4 +1161,21 @@ Widget _buildCard(String title, String value, Color color,
       ),
     ),
   );
+}
+
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  final double offset;
+
+  CustomFloatingActionButtonLocation(this.offset);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    final double x = scaffoldGeometry.scaffoldSize.width - 70.0; // Width of FAB
+    final double y =
+        scaffoldGeometry.scaffoldSize.height - 56.0 - offset; // Height of FAB
+    return Offset(x, y);
+  }
+
+  @override
+  String toString() => 'FloatingActionButtonLocation.bottomRight';
 }

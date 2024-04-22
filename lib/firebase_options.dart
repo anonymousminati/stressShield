@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -74,12 +71,23 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyA1dMHm7FlmM1TVp3EiCKJyqbwjv2DBmIU',
-    appId: '1:192727806596:ios:7c8ac4d7e325759e0908d1',
+    appId: '1:192727806596:ios:26742083676066300908d1',
     messagingSenderId: '192727806596',
     projectId: 'stressshield-833ce',
     storageBucket: 'stressshield-833ce.appspot.com',
     androidClientId: '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
-    iosClientId: '192727806596-mrn8ou2gvenj8fr7m4lknnrahjpa6c0k.apps.googleusercontent.com',
-    iosBundleId: 'com.example.stressShield.RunnerTests',
+    iosClientId: '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
+    iosBundleId: 'com.example.stressShield',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDQ_XSu4TVbS3Xn__DaqdTxp70OPKamcfY',
+    appId: '1:192727806596:web:1c1a01cf412f20b80908d1',
+    messagingSenderId: '192727806596',
+    projectId: 'stressshield-833ce',
+    authDomain: 'stressshield-833ce.firebaseapp.com',
+    storageBucket: 'stressshield-833ce.appspot.com',
+    measurementId: 'G-6R2C6RV4C3',
+  );
+
 }

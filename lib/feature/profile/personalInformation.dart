@@ -148,7 +148,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                               Navigator.push(
                                 context,
                                   MaterialPageRoute(
-                                  builder: (context) => UpdateUserInfoPage(uid: userInfo?['uid']),
+                                  builder: (context) => UpdateUserInfoPage(),
                               ));
 
                             },
