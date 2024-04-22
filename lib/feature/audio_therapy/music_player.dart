@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart';
 
@@ -18,7 +19,6 @@ class MusicPlay extends StatefulWidget {
 }
 
 class _MusicPlayState extends State<MusicPlay> {
-
   final List<Map<String, dynamic>> emotions = [
     {'emotion': 'happy', 'icon': Icons.sentiment_satisfied},
     {'emotion': 'sad', 'icon': Icons.sentiment_dissatisfied},
@@ -46,7 +46,6 @@ class _MusicPlayState extends State<MusicPlay> {
     super.initState();
     _fetchSongsData();
 
-
     audioPlayer.onPlayerStateChanged.listen((state) {
       if (mounted) {
         setState(() {
@@ -54,9 +53,8 @@ class _MusicPlayState extends State<MusicPlay> {
         });
       }
     });
-
-
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -66,11 +64,14 @@ class _MusicPlayState extends State<MusicPlay> {
   Future<void> _fetchSongsData() async {
     try {
       audioPlayer.stop();
-      currentIndex=0;
+      currentIndex = 0;
       setState(() {
         musicList = [];
       });
-      snapshotStream = FirebaseFirestore.instance.collection('Music').doc(detectedLabel).snapshots();
+      snapshotStream = FirebaseFirestore.instance
+          .collection('Music')
+          .doc(detectedLabel)
+          .snapshots();
 
       snapshotStream.listen((snapshot) {
         if (snapshot.exists) {
@@ -92,7 +93,6 @@ class _MusicPlayState extends State<MusicPlay> {
       });
     }
   }
-
 
   Future<void> playAudio(String url, String title, String imageUrl) async {
     try {
@@ -163,7 +163,7 @@ class _MusicPlayState extends State<MusicPlay> {
           content: Text('Error playing audio. Please try again.'),
         ),
       );
-      playAudio(url, title, imageUrl );
+      playAudio(url, title, imageUrl);
     }
   }
 
@@ -176,10 +176,8 @@ class _MusicPlayState extends State<MusicPlay> {
         },
         child: Scaffold(
           backgroundColor: Color(0xFF2A5360),
-
           body: Column(
             children: [
-
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -188,9 +186,18 @@ class _MusicPlayState extends State<MusicPlay> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(onPressed: (){
-                      Navigator.pop(context);
-                    },icon: Icon(Icons.arrow_back),color: Colors.white,),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BottomNavWithAnimations(),
+                            ),
+                            (route) => false);
+                      },
+                      icon: Icon(Icons.arrow_back),
+                      color: Colors.white,
+                    ),
                     Text(
                       'Audio Therapy',
                       style: TextStyle(
@@ -200,15 +207,22 @@ class _MusicPlayState extends State<MusicPlay> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    IconButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationLandingPage()));
-                    },icon: Icon(Icons.notifications), color: Colors.white,),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NotificationLandingPage()));
+                      },
+                      icon: Icon(Icons.notifications),
+                      color: Colors.white,
+                    ),
                   ],
                 ),
               ),
               Container(
                 height: 100,
-
                 child: ListView.builder(
                   itemCount: emotions.length,
                   scrollDirection: Axis.horizontal,
@@ -231,7 +245,8 @@ class _MusicPlayState extends State<MusicPlay> {
                               height: 56,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: detectedLabel == emotion['emotion'].toLowerCase()
+                                color: detectedLabel ==
+                                        emotion['emotion'].toLowerCase()
                                     ? Color(0xFF50E4FF)
                                     : Colors.transparent,
                                 border: Border.all(
@@ -241,7 +256,8 @@ class _MusicPlayState extends State<MusicPlay> {
                               ),
                               child: Icon(
                                 emotion['icon'],
-                                color: detectedLabel == emotion['emotion'].toLowerCase()
+                                color: detectedLabel ==
+                                        emotion['emotion'].toLowerCase()
                                     ? Colors.white
                                     : Color(0xFF50E4FF),
                               ),
@@ -263,11 +279,10 @@ class _MusicPlayState extends State<MusicPlay> {
                 ),
               ),
               Expanded(
-                child: AudioListWidget(
-                  musicList: musicList,
-                  playAudio: playAudio,
-                )
-              ),
+                  child: AudioListWidget(
+                musicList: musicList,
+                playAudio: playAudio,
+              )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -277,10 +292,7 @@ class _MusicPlayState extends State<MusicPlay> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
-
-
                     children: [
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -288,7 +300,8 @@ class _MusicPlayState extends State<MusicPlay> {
                             radius: 30,
                             backgroundImage: currentImageUrl.isNotEmpty
                                 ? NetworkImage(currentImageUrl)
-                                : AssetImage('images/dummyImage.jpg') as ImageProvider,
+                                : AssetImage('images/dummyImage.jpg')
+                                    as ImageProvider,
                           ),
                           Text(
                             currentTitle,
@@ -306,19 +319,23 @@ class _MusicPlayState extends State<MusicPlay> {
                                   currentIndex--; // Move to the previous song in the list
                                 });
                                 playAudio(
-                                  musicList[currentIndex]['song_url'].toString(),
+                                  musicList[currentIndex]['song_url']
+                                      .toString(),
                                   musicList[currentIndex]['name'].toString(),
-                                  musicList[currentIndex]['image_url'].toString(),
+                                  musicList[currentIndex]['image_url']
+                                      .toString(),
                                 );
                               }
                             },
-                            icon: Icon(Icons.skip_previous, color: Colors.white),
+                            icon:
+                                Icon(Icons.skip_previous, color: Colors.white),
                           ),
                           IconButton(
                             onPressed: () {
                               if (audioPlayerState == PlayerState.playing) {
                                 audioPlayer.pause();
-                              } else if (audioPlayerState == PlayerState.paused) {
+                              } else if (audioPlayerState ==
+                                  PlayerState.paused) {
                                 audioPlayer.resume();
                               }
                             },
@@ -336,9 +353,11 @@ class _MusicPlayState extends State<MusicPlay> {
                                   currentIndex++; // Move to the next song in the list
                                 });
                                 playAudio(
-                                  musicList[currentIndex]['song_url'].toString(),
+                                  musicList[currentIndex]['song_url']
+                                      .toString(),
                                   musicList[currentIndex]['name'].toString(),
-                                  musicList[currentIndex]['image_url'].toString(),
+                                  musicList[currentIndex]['image_url']
+                                      .toString(),
                                 );
                               }
                             },
@@ -357,4 +376,3 @@ class _MusicPlayState extends State<MusicPlay> {
     );
   }
 }
-

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
+import 'package:stress_sheild/feature/profile/about_us.dart';
+import 'package:stress_sheild/feature/profile/feed_back.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
 class AccountSettings extends StatefulWidget {
@@ -168,6 +170,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                     height: 10,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FeedbackForm(),
+                          ));
+                    },
                     child: Card(
                       margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
@@ -235,32 +244,32 @@ class _AccountSettingsState extends State<AccountSettings> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    child: Card(
-                      color: Colors.white70,
-                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.history,
-                          color: Colors.black54,
-                        ),
-                        title: Text(
-                          'Purchase History',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // GestureDetector(
+                  //   child: Card(
+                  //     color: Colors.white70,
+                  //     margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(30)),
+                  //     child: ListTile(
+                  //       leading: Icon(
+                  //         Icons.history,
+                  //         color: Colors.black54,
+                  //       ),
+                  //       title: Text(
+                  //         'Purchase History',
+                  //         style: TextStyle(
+                  //             fontSize: 18, fontWeight: FontWeight.bold),
+                  //       ),
+                  //       trailing: Icon(
+                  //         Icons.arrow_forward_ios_outlined,
+                  //         color: Colors.black54,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -289,6 +298,12 @@ class _AccountSettingsState extends State<AccountSettings> {
                     height: 10,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutUsPage()));
+                    },
                     child: Card(
                       color: Colors.white70,
                       margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
@@ -296,11 +311,11 @@ class _AccountSettingsState extends State<AccountSettings> {
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(
                         leading: Icon(
-                          Icons.privacy_tip_sharp,
+                          Icons.supervised_user_circle_sharp,
                           color: Colors.black54,
                         ),
                         title: Text(
-                          'Settings',
+                          'About Us',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -308,32 +323,32 @@ class _AccountSettingsState extends State<AccountSettings> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    child: Card(
-                      color: Colors.white70,
-                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.add_reaction_sharp,
-                          color: Colors.black54,
-                        ),
-                        title: Text(
-                          'Invite a Friend',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // GestureDetector(
+                  //   child: Card(
+                  //     color: Colors.white70,
+                  //     margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(30)),
+                  //     child: ListTile(
+                  //       leading: Icon(
+                  //         Icons.add_reaction_sharp,
+                  //         color: Colors.black54,
+                  //       ),
+                  //       title: Text(
+                  //         'Invite a Friend',
+                  //         style: TextStyle(
+                  //             fontSize: 18, fontWeight: FontWeight.bold),
+                  //       ),
+                  //       trailing: Icon(
+                  //         Icons.arrow_forward_ios_outlined,
+                  //         color: Colors.black54,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10,
                   ),

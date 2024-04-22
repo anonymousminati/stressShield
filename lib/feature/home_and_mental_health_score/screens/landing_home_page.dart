@@ -331,7 +331,6 @@ class MindfulResourceContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: remove this container and create a Card which will redirect to mindfull resource
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -666,7 +665,6 @@ class MindfulTrackerContainer extends StatelessWidget {
   }) : super(key: key);
 
   final Widget mindfulTrackerCustomListTile; // Adjusted to accept any Widget
-//TODO : ADD updated values to tiles
   @override
   Widget build(BuildContext context) {
     return Container(

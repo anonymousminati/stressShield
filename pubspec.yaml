@@ -83,6 +83,7 @@ dependencies:
   downloads_path_provider_28: ^0.1.2
   android_path_provider: ^0.3.0
   syncfusion_flutter_datepicker: ^25.1.40
+  firebase_messaging: ^14.8.2
 
 dev_dependencies:
   flutter_test:

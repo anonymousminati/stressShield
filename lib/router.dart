@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_courses.dart';
 import 'package:stress_sheild/feature/profile/acountSettings.dart';
+import 'package:stress_sheild/feature/profile/feed_back.dart';
 import 'package:stress_sheild/feature/profile/personalInformation.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/changePassword.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/forgot_password.dart';
@@ -16,12 +17,11 @@ import 'feature/splash_and_loading/screens/loading_screen_quote.dart';
 import 'feature/splash_and_loading/screens/splash.dart';
 import 'feature/welcome_feature/screens/welcome_screen.dart';
 
-
 class AppRouter {
   static Widget initialScreen = Container();
 
   static final routes = {
-    // '/': (BuildContext context) => BottomNavWithAnimations(),
+    // '/': (BuildContext context) => FeedbackForm(),
     '/': (BuildContext context) => initialScreen,
 
     // '/': (BuildContext context) => MusicPlay(),
@@ -43,6 +43,6 @@ class AppRouter {
     'accountSettings': (BuildContext context) => AccountSettings(),
     'personalInformation': (BuildContext context) => PersonalInformation(),
     'changePassword': (BuildContext context) => ChangePasswordScreen(),
-    'otpverification':  (BuildContext context) => OtpVerificationPage(),
+    'otpverification': (BuildContext context) => OtpVerificationPage(),
   };
 }
