@@ -2,7 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:appinio_video_player/appinio_video_player.dart';
+
 import 'package:stress_sheild/global_widgets/reusable_material_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/services.dart';
@@ -190,10 +190,14 @@ class _MindfulActivitiesState extends State<MindfulActivities> {
                         ],
                       ),
 
-                      ReusableButton(icon: Icon(Icons.check,size: 24,color: Colors.white,), text: 'Mark As Complete', onPressed: () {
-
-
-                      }),
+                      ReusableButton(
+                          icon: Icon(
+                            Icons.check,
+                            size: 24,
+                            color: Colors.white,
+                          ),
+                          text: 'Mark As Complete',
+                          onPressed: () {}),
                     ],
                   ),
                 ),
@@ -205,8 +209,6 @@ class _MindfulActivitiesState extends State<MindfulActivities> {
     );
   }
 }
-
-
 
 class YoutubePlayerWidget extends StatefulWidget {
   @override
@@ -248,6 +250,7 @@ class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
     super.dispose();
   }
 }
+
 class PlayerWidget extends StatefulWidget {
   const PlayerWidget({Key? key}) : super(key: key);
 

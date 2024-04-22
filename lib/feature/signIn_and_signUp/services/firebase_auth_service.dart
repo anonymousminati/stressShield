@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 
 
 class UserInformation extends GetxController {
+
   var userInformation = {}.obs; // use .obs to make it observable
   var fullname = ''.obs;
   var email = ''.obs;
   var uid = ''.obs;
   var gender = ''.obs;
-  var dateOfBirth = DateTime.timestamp().obs;
+  var dateOfBirth =Timestamp(0, 0).obs;//date of birth
   var location = ''.obs;
   var weight = 0.0.obs;
   var governmentId = ''.obs;
@@ -52,8 +53,8 @@ Future<void> uploadUserInformation() async {
 
       };
 
-      userInformation['fullname'] = fullname.value;
-      userInformation['email'] = email.value;
+      userInformation['fullName'] = fullname.value;
+      userInformation['emailId'] = email.value;
       userInformation['gender'] = gender.value;
       userInformation['dateOfBirth'] = dateOfBirth.value;
       userInformation['location'] = location.value;
@@ -73,7 +74,16 @@ Future<void> uploadUserInformation() async {
     }
   }
 
+  DateTime? parseFirestoreTimestamp(Map<String, dynamic> timestamp) {
+    int seconds = timestamp['_seconds'];
+    int nanoseconds = timestamp['_nanoseconds'];
 
+    DateTime dateTime =
+    DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true)
+        .add(Duration(microseconds: nanoseconds ~/ 1000));
+
+    return dateTime;
+  }
   Future<void> fetchUserInformation() async {
     try {
       // Fetch user information from Firestore
@@ -85,6 +95,15 @@ Future<void> uploadUserInformation() async {
       // Convert userDoc to Map and assign to userInformation
       userInformation.value =await (userDoc.data() as Map<String, dynamic>?) ?? {};
       print('User Information: $userInformation' );
+       fullname.value = userInformation['fullName'];
+       email.value = userInformation['emailId'];
+       uid.value = userInformation['uid'];
+       gender.value = userInformation['gender'];
+      dateOfBirth.value =userInformation['dateOfBirth'];
+       location.value = userInformation['location'];
+       weight.value = userInformation['weight'];
+       governmentId.value = userInformation['governmentId'];
+       mobileNo.value = userInformation['mobileNo'];
       mindful_hours_score.value = await userInformation['scores']['mindful_hours_score'];
       mood_score.value = await userInformation['scores']['mood_score'];
       audio_score.value = await userInformation['scores']['audio_score'];

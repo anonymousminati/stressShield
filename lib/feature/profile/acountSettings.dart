@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
 class AccountSettings extends StatefulWidget {
-   AccountSettings({super.key});
+  AccountSettings({super.key});
 
   @override
   State<AccountSettings> createState() => _AccountSettingsState();
@@ -16,7 +16,7 @@ class AccountSettings extends StatefulWidget {
 class _AccountSettingsState extends State<AccountSettings> {
   final UserInformation _userInformation = Get.put(UserInformation());
   String? username;
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -28,73 +28,62 @@ class _AccountSettingsState extends State<AccountSettings> {
 //
 //   });
 
-username = _userInformation.userInformation['fullName'];
-}
+    username = _userInformation.userInformation['fullName'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await _userInformation.fetchUserInformation();
-          },
-          child: Scaffold(
-              body: Stack(children: [
-                Column(
+      onRefresh: () async {
+        await _userInformation.fetchUserInformation();
+      },
+      child: Scaffold(
+          body: Stack(children: [
+        Column(
           children: [
-             SizedBox(
+            SizedBox(
               height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                // CircleAvatar(
-                //   maxRadius: 65,
-                //   backgroundImage: AssetImage("images/profileFace.jpg"),
-                // ),
-                Obx(() => ProfilePicture(
-                  name: _userInformation.userInformation['fullName'] ?? "User",
-                  role: '',
-                  radius: 31,
-                  fontsize: 21,
-                  tooltip: true,
-                ), ),
-
-              ],
-            ),
-             SizedBox(
-              height: 15,
-            ),
-             SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-
-                Obx(() => Text(
-                  _userInformation.userInformation['fullName'] ?? "User",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
-                ))
-
-              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding:  EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(20),
+                // CircleAvatar(
+                //   maxRadius: 65,
+                //   backgroundImage: AssetImage("images/profileFace.jpg"),
+                // ),
+                Obx(
+                  () => ProfilePicture(
+                    name:
+                        _userInformation.userInformation['fullName'] ?? "User",
+                    role: '',
+                    radius: 31,
+                    fontsize: 21,
+                    tooltip: true,
                   ),
-                  child: Text("Basic Member"),
                 ),
               ],
             ),
-             SizedBox(
+            SizedBox(
               height: 15,
             ),
-             SizedBox(
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() => Text(
+                      _userInformation.userInformation['fullName'] ?? "User",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+                    ))
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SizedBox(
               height: 15,
             ),
             Container(
@@ -102,10 +91,10 @@ username = _userInformation.userInformation['fullName'];
                   child: ListView(
                 children: [
                   Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(
                           "Generat Settings",
                           style: TextStyle(
@@ -117,7 +106,7 @@ username = _userInformation.userInformation['fullName'];
                       ],
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
@@ -125,12 +114,11 @@ username = _userInformation.userInformation['fullName'];
                       Navigator.pushNamed(context, "notification");
                     },
                     child: Card(
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.notifications,
                           color: Colors.black54,
@@ -147,7 +135,7 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
@@ -155,12 +143,11 @@ username = _userInformation.userInformation['fullName'];
                       Navigator.pushNamed(context, "personalInformation");
                     },
                     child: Card(
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.person,
                           color: Colors.black54,
@@ -177,17 +164,16 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.feedback_sharp,
                           color: Colors.black54,
@@ -204,14 +190,14 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(
                           "Security and Privacy",
                           style: TextStyle(
@@ -223,17 +209,16 @@ username = _userInformation.userInformation['fullName'];
                       ],
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.privacy_tip_sharp,
                           color: Colors.black54,
@@ -250,17 +235,16 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
                       color: Colors.white70,
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.history,
                           color: Colors.black54,
@@ -277,18 +261,18 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
                       color: Colors.white70,
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
-                        leading: Icon(Icons.help_outline, color: Colors.black54),
+                      child: ListTile(
+                        leading:
+                            Icon(Icons.help_outline, color: Colors.black54),
                         title: Text(
                           'Help & Support',
                           style: TextStyle(
@@ -301,17 +285,16 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
                       color: Colors.white70,
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.privacy_tip_sharp,
                           color: Colors.black54,
@@ -325,17 +308,16 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     child: Card(
                       color: Colors.white70,
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.add_reaction_sharp,
                           color: Colors.black54,
@@ -352,13 +334,13 @@ username = _userInformation.userInformation['fullName'];
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   //create a devider with horizontal line
                   Padding(
-                    padding:  EdgeInsets.all(16.0),
-                    child:  Divider(
+                    padding: EdgeInsets.all(16.0),
+                    child: Divider(
                       color: Color(0xb34f3422),
                       thickness: 1,
                     ),
@@ -366,17 +348,17 @@ username = _userInformation.userInformation['fullName'];
                   GestureDetector(
                     //onTap logout delete the session and navigate to login page , session is of firebase
                     onTap: () {
-                      FirebaseAuthService().signOut().then((value) =>  Navigator.pushNamed(context, "login"));
-
+                      FirebaseAuthService().signOut().then((value) =>
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, "login", (route) => false));
                     },
 
                     child: Card(
                       color: Colors.white70,
-                      margin:
-                           EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                      margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(
                           Icons.logout,
                           color: Colors.black54,
@@ -395,10 +377,13 @@ username = _userInformation.userInformation['fullName'];
                   )
                 ],
               )),
+            ),
+            SizedBox(
+              height: 80,
             )
           ],
-                ),
-              ])),
-        ));
+        ),
+      ])),
+    ));
   }
 }

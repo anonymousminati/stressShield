@@ -82,6 +82,7 @@ dependencies:
   pdf: ^3.8.4
   downloads_path_provider_28: ^0.1.2
   android_path_provider: ^0.3.0
+  syncfusion_flutter_datepicker: ^25.1.40
 
 dev_dependencies:
   flutter_test:

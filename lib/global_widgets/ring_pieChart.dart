@@ -40,6 +40,28 @@ class PieChart2State extends State<PieChartSample2> {
               ),
               child: pw.Column(
                 children: [
+
+                  pw.Text('Health Report', style: pw.TextStyle(fontSize: 30, fontWeight: pw.FontWeight.bold)),
+                  pw.Divider(color: PdfColors.blueGrey, thickness: 2, height: 20),
+                  pw.Row(children: [
+                    pw.Text('Name:', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                    pw.Text('${_userInformation.fullname}', style: pw.TextStyle(fontSize: 24)),
+                  ]),
+                  pw.Row(children: [
+                    pw.Text('Email:', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                    pw.Text('${_userInformation.email}', style: pw.TextStyle(fontSize: 24)),
+                  ]),
+                  pw.Row(children: [
+                    pw.Text('Phone:', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                    pw.Text('${_userInformation.mobileNo}', style: pw.TextStyle(fontSize: 24)),
+                  ]),
+                  //add current time
+                  pw.Row(children: [
+                    pw.Text('Date:', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                    pw.Text('${DateTime.now().toString()}', style: pw.TextStyle(fontSize: 24)),
+                  ]),
+                  pw.Divider(color: PdfColors.blueGrey, thickness: 2, height: 20),
+
                   pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                     children: [
@@ -203,20 +225,20 @@ class PieChart2State extends State<PieChartSample2> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RawMaterialButton(
-                    onPressed: () {},
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(
-                      side: BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                    child: Icon(
-                      Icons.settings,
-                      color: Colors.black,
-                      size: 24.0,
-                    ),
-                  ),
+                  // RawMaterialButton(
+                  //   onPressed: () {},
+                  //   elevation: 2.0,
+                  //   fillColor: Colors.white,
+                  //   padding: EdgeInsets.all(15.0),
+                  //   shape: CircleBorder(
+                  //     side: BorderSide(color: Colors.black, width: 1.0),
+                  //   ),
+                  //   child: Icon(
+                  //     Icons.settings,
+                  //     color: Colors.black,
+                  //     size: 24.0,
+                  //   ),
+                  // ),
                   SizedBox(width: 16.0), // Adjust the space between buttons
                   RawMaterialButton(
                     onPressed: generatePDF,
