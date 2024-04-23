@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/OurResources.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/article.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/audio/audioplayer%20widget.dart';
 import 'package:stress_sheild/global_widgets/courseList.dart';
 import 'package:stress_sheild/global_widgets/service/firebaseStorageService.dart';
@@ -9,7 +10,7 @@ import 'package:stress_sheild/global_widgets/dynamic_article_card.dart';
 import 'package:stress_sheild/global_widgets/youtubePlayer.dart';
 
 class OurCourses extends StatefulWidget {
-   OurCourses({super.key});
+  OurCourses({super.key});
 
   @override
   State<OurCourses> createState() => _OurCoursesState();
@@ -18,18 +19,17 @@ class OurCourses extends StatefulWidget {
 class _OurCoursesState extends State<OurCourses> {
   final firebaseStorageService = FirebaseStorageService();
   // late  String audioUrl;
-Future<String> getAudioUrl(String filename) async {
+  Future<String> getAudioUrl(String filename) async {
     final url = await firebaseStorageService.getAudioUrl(filename);
     return url;
-}
-  void initState()  {
+  }
+
+  void initState() {
     super.initState();
-}
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -113,7 +113,7 @@ Future<String> getAudioUrl(String filename) async {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                NotificationLandingPage()),
+                                                NotificationPage()),
                                       );
                                     },
                                     icon: Icon(
@@ -202,10 +202,14 @@ Future<String> getAudioUrl(String filename) async {
                           height: 20.0,
                         ),
                         //create a Youtube Video Player
-                    YouTubePlayerWidget(videoUrl: 'https://www.youtube.com/watch?v=8OVh5HzCWYE', videoTitle: 'shree krishn gyan_life lesson | bhagwat Gita | vani', creatorName: 'Krishna',)
-
-
-                    ],
+                        YouTubePlayerWidget(
+                          videoUrl:
+                              'https://www.youtube.com/watch?v=8OVh5HzCWYE',
+                          videoTitle:
+                              'shree krishn gyan_life lesson | bhagwat Gita | vani',
+                          creatorName: 'Krishna',
+                        )
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -227,8 +231,7 @@ Future<String> getAudioUrl(String filename) async {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                              },
+                              onTap: () {},
                               child: Icon(
                                 Icons.more_vert,
                                 size: 24.0,
@@ -242,7 +245,7 @@ Future<String> getAudioUrl(String filename) async {
                         ),
                         CourseListViewBuilder()
                         // ListOfOurCources(),
-                    ],
+                      ],
                     ),
                   ),
                 ],

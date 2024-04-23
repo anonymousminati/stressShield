@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart';
 
 class MusicPlay extends StatefulWidget {
@@ -212,8 +213,7 @@ class _MusicPlayState extends State<MusicPlay> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    NotificationLandingPage()));
+                                builder: (context) => NotificationPage()));
                       },
                       icon: Icon(Icons.notifications),
                       color: Colors.white,

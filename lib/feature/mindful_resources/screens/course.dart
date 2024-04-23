@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/playcourse.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/audio/audioplayer%20widget.dart';
 import 'package:stress_sheild/global_widgets/courseContentListWidget.dart';
 import 'package:stress_sheild/global_widgets/service/firebaseStorageService.dart';
@@ -19,7 +20,6 @@ import 'package:http/http.dart' as http;
 
 class Course extends StatefulWidget {
   final Map<String, dynamic> data;
-
 
   Course({Key? key, required this.data}) : super(key: key);
 
@@ -52,7 +52,6 @@ class _CourseState extends State<Course> {
     super.initState();
     // _fetchSongsData();
 
-
     audioPlayer.onPlayerStateChanged.listen((state) {
       if (mounted) {
         setState(() {
@@ -60,9 +59,8 @@ class _CourseState extends State<Course> {
         });
       }
     });
-
-
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -156,8 +154,6 @@ class _CourseState extends State<Course> {
         currentImageUrl = imageUrl;
         currentAudioUrl = url;
       });
-
-
     } catch (e) {
       print('Error playing audio: $e');
 
@@ -166,17 +162,15 @@ class _CourseState extends State<Course> {
           content: Text('Error playing audio. Please try again.'),
         ),
       );
-      playAudio(url, title, imageUrl );
+      playAudio(url, title, imageUrl);
     }
   }
 
   // late  String audioUrl;
-Future<String> getAudioUrl(String filename) async {
+  Future<String> getAudioUrl(String filename) async {
     final url = await firebaseStorageService.getAudioUrl(filename);
     return url;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +185,6 @@ Future<String> getAudioUrl(String filename) async {
           'song_url': course['file_url'],
           'image_url': widget.data['img_url'],
         });
-
 
         // courseContainers.add(
         //   GestureDetector(
@@ -247,7 +240,6 @@ Future<String> getAudioUrl(String filename) async {
               height: double.infinity,
             ),
             SingleChildScrollView(
-
               child: Column(
                 children: [
                   Container(
@@ -298,7 +290,7 @@ Future<String> getAudioUrl(String filename) async {
                                     constraints: BoxConstraints(),
                                     // Remove any default constraints
                                     splashRadius:
-                                    24.0, // Adjust the splash radius as needed
+                                        24.0, // Adjust the splash radius as needed
                                     // You can also add other properties like tooltip, alignment, etc. if needed
                                   ),
                                 ),
@@ -328,7 +320,7 @@ Future<String> getAudioUrl(String filename) async {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                NotificationLandingPage()),
+                                                NotificationPage()),
                                       );
                                     },
                                     icon: Icon(
@@ -337,7 +329,7 @@ Future<String> getAudioUrl(String filename) async {
                                       color: Colors.white,
                                     ),
                                     splashRadius:
-                                    24.0, // Adjust the splash radius as needed
+                                        24.0, // Adjust the splash radius as needed
                                   ),
                                 )
                               ],
@@ -402,7 +394,7 @@ Future<String> getAudioUrl(String filename) async {
                             ),
 
                             Text(
-                            widget.data['course_title'],
+                              widget.data['course_title'],
                               style: TextStyle(
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.w600,
@@ -470,7 +462,6 @@ Future<String> getAudioUrl(String filename) async {
                               height: 20.0,
                             ),
                             //create a container with text "By: John Doe" and a profile picture with background white. make follow button
-
                           ],
                         ),
                       ),
@@ -500,7 +491,7 @@ Future<String> getAudioUrl(String filename) async {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                     widget.data['desc'],
+                      widget.data['desc'],
                       softWrap: true,
                       style: TextStyle(
                         fontSize: 18.0,
@@ -646,21 +637,19 @@ Future<String> getAudioUrl(String filename) async {
                   // )
 
                   Container(
-
                     height: 400,
-                    child: CourseAudioListWidget(musicList: musicList, playAudio: playAudio),
+                    child: CourseAudioListWidget(
+                        musicList: musicList, playAudio: playAudio),
                   ),
 
-                 // ListView(
-                 //    shrinkWrap: true,
-                 //    physics: NeverScrollableScrollPhysics(),
-                 //    children: courseContainers,
-                 //  ),
+                  // ListView(
+                  //    shrinkWrap: true,
+                  //    physics: NeverScrollableScrollPhysics(),
+                  //    children: courseContainers,
+                  //  ),
                   SizedBox(
                     height: 20.0,
                   ),
-
-
                 ],
               ),
             ),

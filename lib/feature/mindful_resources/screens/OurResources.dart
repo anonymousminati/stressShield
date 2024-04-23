@@ -6,6 +6,7 @@ import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landi
 import 'package:stress_sheild/feature/mindful_resources/screens/course.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_article.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/courseList.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
@@ -102,7 +103,7 @@ class OurResources extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              NotificationLandingPage()),
+                                              NotificationPage()),
                                     );
                                   },
                                   icon: Icon(

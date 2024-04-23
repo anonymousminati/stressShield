@@ -915,6 +915,7 @@ class LandingprofileContainer extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+                              // builder: (context) => NotificationPage()),
                               builder: (context) => NotificationPage()),
                         );
                       },

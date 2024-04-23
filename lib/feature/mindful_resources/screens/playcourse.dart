@@ -9,9 +9,11 @@ import 'package:stress_sheild/feature/home_and_mental_health_score/screens/custo
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/audioPlayertest.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
 final UserInformation _userInformation = Get.put(UserInformation());
 
 class PlayCourse extends StatefulWidget {
@@ -69,7 +71,6 @@ class _PlayCourseState extends State<PlayCourse> {
       }
     });
 
-
     audioPlayer.onPositionChanged.listen((Duration duration) {
       if (mounted) {
         setState(() {
@@ -96,14 +97,12 @@ class _PlayCourseState extends State<PlayCourse> {
       }
     });
     audioPlayer.onPlayerComplete.listen((event) {
-
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return _popup();
-          },
-        );
-
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return _popup();
+        },
+      );
     });
   }
 
@@ -199,8 +198,8 @@ class _PlayCourseState extends State<PlayCourse> {
     super.dispose();
     audioPlayer.dispose();
   }
-  Widget _popup(){
 
+  Widget _popup() {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -235,22 +234,27 @@ class _PlayCourseState extends State<PlayCourse> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: TextButton.icon(
-                    onPressed: (){
+                    onPressed: () {
                       var addScore = 5;
                       _userInformation.freud_score.value += addScore;
-                      print('Freud Score: ${_userInformation.freud_score.value}');
-                      _userInformation.audio_score.value +=addScore;
+                      print(
+                          'Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.audio_score.value += addScore;
                       print('audio Score: ${_userInformation.audio_score}');
                       _userInformation.uploadUserInformation();
                       // Handle 'Mark as Read' button press
                       print('Mark as Read Pressed!');
                       _userInformation.fetchUserInformation();
-                      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) =>BottomNavWithAnimations() ,) , (route) => false);
-
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavWithAnimations(),
+                          ),
+                          (route) => false);
                     },
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     ),
                     icon: Icon(
                       Icons.check,
@@ -271,11 +275,10 @@ class _PlayCourseState extends State<PlayCourse> {
         ],
       ),
     );
-
   }
+
   @override
   Widget build(BuildContext context) {
-
     final maxValue = totalDuration.inMilliseconds.ceil().toDouble();
 
     return SafeArea(
@@ -369,7 +372,7 @@ class _PlayCourseState extends State<PlayCourse> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                NotificationLandingPage()),
+                                                NotificationPage()),
                                       );
                                     },
                                     icon: Icon(
@@ -439,7 +442,7 @@ class _PlayCourseState extends State<PlayCourse> {
                             value: currentPosition.inMilliseconds.toDouble(),
                             onChanged: (value) {
                               final Duration newPosition =
-                              Duration(milliseconds: value.toInt());
+                                  Duration(milliseconds: value.toInt());
                               audioPlayer.seek(newPosition);
                             },
                             activeColor: Colors.white,
@@ -476,19 +479,20 @@ class _PlayCourseState extends State<PlayCourse> {
                                 ),
                               ),
                               ElevatedButton(
-                                onPressed: audioPlayerState == PlayerState.completed ? null : _seekForward,
+                                onPressed:
+                                    audioPlayerState == PlayerState.completed
+                                        ? null
+                                        : _seekForward,
                                 child: Text('Seek Forward 5s'),
                               ),
                             ],
                           ),
-
                           Container(
                             width: double.infinity,
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             // Adjust padding as needed
                             child: ElevatedButton(
-
-                              onPressed:(){
+                              onPressed: () {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -498,7 +502,8 @@ class _PlayCourseState extends State<PlayCourse> {
                               },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
-                                backgroundColor: Color(0xFF4F3422), // Text color
+                                backgroundColor:
+                                    Color(0xFF4F3422), // Text color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
@@ -514,7 +519,6 @@ class _PlayCourseState extends State<PlayCourse> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
