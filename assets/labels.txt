@@ -1,8 +1,5 @@
+Angry
 Fear
-Anger
-Disgust
-Sad
 Happy
-Contempt
-Neutral
+Sad
 Surprise

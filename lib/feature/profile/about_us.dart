@@ -13,6 +13,27 @@ class AboutUsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //add center aligned image
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: Image.asset('images/stressShieldLogo.jpg',
+                    height: 200.0, width: 200.0),
+              ),
+            ),
             Text(
               'Our Story',
               style: TextStyle(

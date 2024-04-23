@@ -24,9 +24,9 @@ class _MusicPlayState extends State<MusicPlay> {
     {'emotion': 'happy', 'icon': Icons.sentiment_satisfied},
     {'emotion': 'sad', 'icon': Icons.sentiment_dissatisfied},
     {'emotion': 'angry', 'icon': Icons.sentiment_very_dissatisfied},
-    {'emotion': 'neutral', 'icon': Icons.sentiment_neutral},
+    // {'emotion': 'neutral', 'icon': Icons.sentiment_neutral},
     {'emotion': 'surprise', 'icon': Icons.sentiment_satisfied_alt},
-    {'emotion': 'disgust', 'icon': Icons.sentiment_very_dissatisfied},
+    // {'emotion': 'disgust', 'icon': Icons.sentiment_very_dissatisfied},
     {'emotion': 'fear', 'icon': Icons.sentiment_very_dissatisfied},
   ];
   late Stream<DocumentSnapshot> snapshotStream;

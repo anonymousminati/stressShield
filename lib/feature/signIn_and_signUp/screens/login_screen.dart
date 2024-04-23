@@ -47,12 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
       if (FirebaseAuth.instance.currentUser != null) {
         // if (!mounted) return;
         _userInformation.fetchUserInformation();
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => BottomNavWithAnimations(),
-            // builder: (context) => LoadingScreenQuote(),
+            // builder: (context) => BottomNavWithAnimations(),
+            builder: (context) => LoadingScreenQuote(),
           ),
+          (route) => false,
         );
       }
 
