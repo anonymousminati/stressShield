@@ -10,6 +10,7 @@ import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dar
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/otpverification.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/signup_screen.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'feature/mindful_resources/screens/our_article.dart';
 import 'feature/signIn_and_signUp/screens/authenticationUI.dart';
 import 'feature/splash_and_loading/screens/loading_screen_interactive.dart';
@@ -32,14 +33,15 @@ class AppRouter {
     'loadingQuote': (BuildContext context) => LoadingScreenQuote(),
     'login': (BuildContext context) => LoginScreen(),
     'register': (BuildContext context) => SignUpScreen(),
-
+    // 'notificationpage': (BuildContext context) => NotificationPage(),
     'authUI': (BuildContext context) => AuthenticationUI(),
     // 'article': (BuildContext context) =>  Article(),
     // 'courses': (BuildContext context) => Course(course: null),
     'forgotPassword': (BuildContext context) => ForgotPassword(),
     'ourArticle': (BuildContext context) => OurArticle(),
     'ourCourses': (BuildContext context) => OurCourses(),
-    'notification': (BuildContext context) => NotificationLandingPage(),
+    // 'notification': (BuildContext context) => NotificationLandingPage(),
+    'notification': (BuildContext context) => NotificationPage(),
     'accountSettings': (BuildContext context) => AccountSettings(),
     'personalInformation': (BuildContext context) => PersonalInformation(),
     'changePassword': (BuildContext context) => ChangePasswordScreen(),

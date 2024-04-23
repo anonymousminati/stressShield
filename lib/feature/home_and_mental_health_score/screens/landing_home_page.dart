@@ -23,6 +23,7 @@ import 'package:stress_sheild/feature/profile/acountSettings.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/audio_therapy/songs.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
 
 final UserInformation _userInformation = Get.put(UserInformation());
@@ -914,7 +915,7 @@ class LandingprofileContainer extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationLandingPage()),
+                              builder: (context) => NotificationPage()),
                         );
                       },
                       icon: Icon(

@@ -25,9 +25,21 @@ class _NewExerciseState extends State<NewExercise> {
   int _selectedIndex = -1; // Initially no card is selected
 
   List<String> exerciseGoals = [
-    "goal1",
-    "goal2",
-    "goal3",
+    "Exercise to stay physically fit",
+
+    "I want a nap",
+
+    "I want to improve myself",
+
+    "I want to meditate",
+
+    "I want to stay calm",
+
+    "I want to stay happy",
+
+    "I want to stay motivated",
+
+    "Overcome from trauma"
     // Add more goals if needed
   ];
 

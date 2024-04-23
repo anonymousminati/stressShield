@@ -93,19 +93,23 @@ import 'package:stress_sheild/feature/home_and_mental_health_score/screens/custo
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/welcome_feature/screens/welcome_screen.dart';
+import 'package:stress_sheild/global_widgets/api/firebase_api.dart';
 import 'package:stress_sheild/router.dart';
 
 import 'firebase_options.dart';
 
 List<CameraDescription>? cameras;
 
+final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   // Initialize Firebase
   WidgetsFlutterBinding.ensureInitialized();
+
   cameras = await availableCameras();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotification();
 
   // Check if the user is already logged in
   User? user = FirebaseAuth.instance.currentUser;
@@ -217,6 +221,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       initialRoute: '/',
       routes: AppRouter.routes,
     );
