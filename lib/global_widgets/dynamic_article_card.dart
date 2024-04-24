@@ -83,24 +83,23 @@ class DynamicCard extends StatelessWidget {
                           ),
                         ),
                         child: IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.pushNamed(context, onPress);
                             print("Pressed");
 
                             // Navigate to the article page
-                                             },
+                          },
                           icon: Icon(
                             Icons.arrow_forward,
                             size: 24.0,
                             color: Colors.grey,
                           ),
                           splashRadius:
-                          24.0, // Adjust the splash radius as needed
+                              24.0, // Adjust the splash radius as needed
                         ),
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),

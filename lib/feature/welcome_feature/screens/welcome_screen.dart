@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stress_sheild/feature/welcome_feature/screens/welcome_step1.dart';
 import 'package:stress_sheild/global_widgets/reusable_material_button.dart';

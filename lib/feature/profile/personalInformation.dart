@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stress_sheild/feature/profile/updateUserInformation.dart';
-import 'package:stress_sheild/feature/signIn_and_signUp/screens/newUserInformation.dart';
-
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({Key? key}) : super(key: key);
@@ -25,7 +23,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   Future<DocumentSnapshot<Map<String, dynamic>>> _fetchUserInfo() async {
     final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
-    final userDocument = await FirebaseFirestore.instance.collection('users').doc(currentUserUid).get();
+    final userDocument = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserUid)
+        .get();
     return userDocument;
   }
 
@@ -46,119 +47,119 @@ class _PersonalInformationState extends State<PersonalInformation> {
               );
             } else {
               final userInfo = snapshot.data!.data();
-              final dateOfBirth = (userInfo?['dateOfBirth'] as Timestamp?)?.toDate();
-              final formattedDateOfBirth = DateFormat('MMMM dd, yyyy').format(dateOfBirth!);
-              return
-                Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xff538634),
-                      ),
+              final dateOfBirth =
+                  (userInfo?['dateOfBirth'] as Timestamp?)?.toDate();
+              final formattedDateOfBirth =
+                  DateFormat('MMMM dd, yyyy').format(dateOfBirth!);
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xff538634),
                     ),
-                    SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.arrow_back),
-                                  onPressed: () {
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
 // Navigate back to previous screen
-                                    Navigator.pop(context);
-                                  },
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Personal Information',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  'Personal Information',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-// Navigate to edit information screen
-// You can implement this navigation logic
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Date of Birth',
-                            value: ' $formattedDateOfBirth',
-                            onTap: () {
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Date of Birth',
+                          value: ' $formattedDateOfBirth',
+                          onTap: () {
 // Show date picker to edit Date of Birth
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Gender',
-                            value: '${userInfo?['gender']}',
-                            onTap: () {
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Gender',
+                          value: '${userInfo?['gender']}',
+                          onTap: () {
 // Show gender selection dropdown to edit Gender
-                            },
-                          ), SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Location',
-                            value: '${userInfo?['location']}',
-                            onTap: () {
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Location',
+                          value: '${userInfo?['location']}',
+                          onTap: () {
 // Show gender selection dropdown to edit Gender
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Weight',
-                            value: '${userInfo?['weight']}',
-                            onTap: () {
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Weight',
+                          value: '${userInfo?['weight']}',
+                          onTap: () {
 // Show text input field to edit Weight
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Mobile Number',
-                            value: '${userInfo?['mobileNo']}',
-                            onTap: () {
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Mobile Number',
+                          value: '${userInfo?['mobileNo']}',
+                          onTap: () {
 // Show text input field to edit Mobile Number
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          buildInfoItem(
-                            title: 'Government ID',
-                            value: '${userInfo?['governmentId']}',
-                            onTap: () {
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        buildInfoItem(
+                          title: 'Government ID',
+                          value: '${userInfo?['governmentId']}',
+                          onTap: () {
 // Show text input field to edit Government ID
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          //create a button which will redirect to page UserInfoPage()
-                          ElevatedButton(
-                            onPressed: () {
-                              print("userid: ${userInfo?['uid']}");
-                              Navigator.push(
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        //create a button which will redirect to page UserInfoPage()
+                        ElevatedButton(
+                          onPressed: () {
+                            print("userid: ${userInfo?['uid']}");
+                            Navigator.push(
                                 context,
-                                  MaterialPageRoute(
+                                MaterialPageRoute(
                                   builder: (context) => UpdateUserInfoPage(),
-                              ));
-
-                            },
-                            child: Text('Edit User Information'),
-                          ),
-                        ],
-                      ),
+                                ));
+                          },
+                          child: Text('Edit User Information'),
+                        ),
+                      ],
                     ),
-                  ],
-                );
+                  ),
+                ],
+              );
             }
           },
         ),
@@ -166,7 +167,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
     );
   }
 
-  Widget buildInfoItem({required String title, required String value, required VoidCallback onTap}) {
+  Widget buildInfoItem(
+      {required String title,
+      required String value,
+      required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Card(

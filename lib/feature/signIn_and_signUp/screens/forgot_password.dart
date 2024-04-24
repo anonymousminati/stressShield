@@ -1,7 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stress_sheild/global_widgets/common.dart';
 import 'package:stress_sheild/global_widgets/custom_widgets.dart';
@@ -54,8 +52,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         delay: 1.6,
                         child: Text(
                           "Don't worry! It occurs. Please enter the email address linked with your account.",
-                          style: Common().mediumTheme.copyWith(color: Colors.black45),
-
+                          style: Common()
+                              .mediumTheme
+                              .copyWith(color: Colors.black45),
                         ),
                       )
                     ],

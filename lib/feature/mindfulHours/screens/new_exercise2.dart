@@ -1,6 +1,5 @@
 import 'dart:isolate';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise3.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -11,6 +10,7 @@ class NewExercise2 extends StatefulWidget {
     required this.selectedGoal,
     required this.receivePort,
   });
+
   final String selectedGoal;
   final ReceivePort receivePort;
 
@@ -22,6 +22,7 @@ class _NewExercise2State extends State<NewExercise2> {
   Duration _duration = Duration(hours: 0, minutes: 0);
   final secondsWheel = WheelPickerController(itemCount: 59);
   final minutesWheel = WheelPickerController(itemCount: 59);
+
   // Initially no card is selected
 
   static const textStyle =
@@ -197,7 +198,8 @@ class _NewExercise2State extends State<NewExercise2> {
                                       },
                                       style: WheelPickerStyle(
                                         itemExtent: textStyle.fontSize! *
-                                            textStyle.height!, // Text height
+                                            textStyle.height!,
+                                        // Text height
                                         squeeze: 1.25,
                                         diameterRatio: .8,
                                         surroundingOpacity: 0,
@@ -218,7 +220,8 @@ class _NewExercise2State extends State<NewExercise2> {
                                       },
                                       style: WheelPickerStyle(
                                         itemExtent: textStyle.fontSize! *
-                                            textStyle.height!, // Text height
+                                            textStyle.height!,
+                                        // Text height
                                         squeeze: 1.25,
                                         diameterRatio: .8,
                                         surroundingOpacity: 0,

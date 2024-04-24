@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +45,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/background.webp"), // Your background image
+            image: AssetImage("assets/images/background.webp"),
+            // Your background image
             fit: BoxFit.cover, // Cover the entire area of the Container
           ),
         ),
@@ -83,7 +83,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         delay: 1.6,
                         child: Text(
                           "Enter the verification code we just sent on your email address.",
-                          style: Common().mediumTheme.copyWith(color: Colors.black45),                      ),
+                          style: Common()
+                              .mediumTheme
+                              .copyWith(color: Colors.black45),
+                        ),
                       )
                     ],
                   ),
@@ -103,7 +106,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                               return s == '2222' ? null : 'Pin is incorrect';
                             },
                             pinputAutovalidateMode:
-                            PinputAutovalidateMode.onSubmit,
+                                PinputAutovalidateMode.onSubmit,
                             showCursor: true,
                             onCompleted: (pin) {
                               print(pin);

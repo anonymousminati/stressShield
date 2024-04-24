@@ -1,18 +1,10 @@
-import 'dart:convert';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
-
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/carousel_slider.dart';
-import 'package:stress_sheild/global_widgets/songListWidget.dart'; // Import Lottie package
 
 UserInformation _userInformation = Get.put(UserInformation());
 
@@ -333,6 +325,7 @@ class _DetectorHomeState extends State<DetectorHome>
       ),
     );
   }
+
   // Inside _showBottomSheet function
 
   void _showBottomSheet(Map<String, dynamic> song) {

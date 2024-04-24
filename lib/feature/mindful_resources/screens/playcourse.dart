@@ -3,16 +3,12 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
-import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
-import 'package:stress_sheild/global_widgets/audioPlayertest.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
+import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
+import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 
 final UserInformation _userInformation = Get.put(UserInformation());
 

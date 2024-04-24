@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
@@ -71,73 +70,75 @@ class _FeedbackFormState extends State<FeedbackForm> {
         ),
         title: Text('Feedback Form'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //use lottiefile
-              Lottie.asset('assets/lottie/feedback.json'),
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: ' TITLE',
-                  border: const OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurple.shade300),
-                  ),
-                  labelStyle: const TextStyle(color: Colors.deepPurple),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a title for your feedback';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: _feedbackController,
-                decoration: InputDecoration(
-                  labelText: 'FEEDBACK',
-                  border: const OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurple.shade300),
-                  ),
-                  labelStyle: const TextStyle(color: Colors.deepPurple),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your feedback';
-                  }
-                  return null;
-                },
-                maxLines: 3,
-              ),
-              SizedBox(height: 20),
-              GestureDetector(
-                onTap: _submitFeedback,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple.shade300,
-                      border: Border.all(color: Colors.deepPurple.shade300),
-                      borderRadius: BorderRadius.circular(5.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //use lottiefile
+                Lottie.asset('assets/lottie/feedback.json'),
+                TextFormField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    labelText: ' TITLE',
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurple.shade300),
                     ),
-                    child: Text(
-                      'Submit Feedback',
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
-                      textAlign: TextAlign.center,
+                    labelStyle: const TextStyle(color: Colors.deepPurple),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a title for your feedback';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _feedbackController,
+                  decoration: InputDecoration(
+                    labelText: 'FEEDBACK',
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurple.shade300),
+                    ),
+                    labelStyle: const TextStyle(color: Colors.deepPurple),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your feedback';
+                    }
+                    return null;
+                  },
+                  maxLines: 3,
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _submitFeedback,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade300,
+                        border: Border.all(color: Colors.deepPurple.shade300),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Text(
+                        'Submit Feedback',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

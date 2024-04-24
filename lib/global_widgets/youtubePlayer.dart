@@ -4,13 +4,13 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class YouTubePlayerWidget extends StatefulWidget {
   final String videoUrl;
   final String videoTitle;
-  final String creatorName;
+  // final String creatorName;
 
-   YouTubePlayerWidget({
+  YouTubePlayerWidget({
     Key? key,
     required this.videoUrl,
     required this.videoTitle,
-    required this.creatorName,
+    // required this.creatorName,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,6 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,7 +52,8 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
                     blurRadius: 7,
                     offset: Offset(0, 3),
                   ),
-                ],              ),
+                ],
+              ),
               child: YoutubePlayerBuilder(
                 player: YoutubePlayer(
                   controller: _controller,
@@ -86,16 +86,16 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              'By: ${widget.creatorName}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //   child: Text(
+          //     'By: ${widget.creatorName}',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: Colors.grey,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

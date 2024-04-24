@@ -1,23 +1,22 @@
-
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/communityChat/helper/helper_function.dart';
-import 'package:stress_sheild/feature/communityChat/pages/profile_page.dart';
 import 'package:stress_sheild/feature/communityChat/pages/search_page.dart';
 import 'package:stress_sheild/feature/communityChat/services/database_service.dart';
 import 'package:stress_sheild/feature/communityChat/widgets/group_tile.dart';
 import 'package:stress_sheild/feature/communityChat/widgets/widgets.dart';
-import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dart';
+
 import '../services/auth_service.dart';
 
 class CommunityChatLandingPage extends StatefulWidget {
   const CommunityChatLandingPage({Key? key}) : super(key: key);
 
   @override
-  State<CommunityChatLandingPage> createState() => _CommunityChatLandingPageState();
+  State<CommunityChatLandingPage> createState() =>
+      _CommunityChatLandingPageState();
 }
 
 class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
@@ -50,43 +49,53 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
       });
     });
     await HelperFunction.getUserEmailFromSF().then((val) => {
-      setState(() {
-        email = val!;
-      })
-    });
+          setState(() {
+            email = val!;
+          })
+        });
 
     // Ensure `DataBaseService` is properly initialized
-    groups = DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid).getUserGroups() as Stream<QuerySnapshot<Object?>>;
+    groups = DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getUserGroups() as Stream<QuerySnapshot<Object?>>;
 
     // Optional: Manually refresh stream for debugging (comment out later)
     // groups?.listen((event) => event.ref.get());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          actions: [
-            IconButton(
-                onPressed:(){ nextScreen(context, const SearchPage());},
-                icon: const Icon(Icons.search,  ))
-          ],
-          centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
-          title: const Text("Groups", style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),),
+      appBar: AppBar(
+        elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () {
+                nextScreen(context, const SearchPage());
+              },
+              icon: const Icon(
+                Icons.search,
+              ))
+        ],
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text(
+          "Groups",
+          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
         ),
-
-
+      ),
       body: groupList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           popUpDialog(context);
         },
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add, color: Colors.white, size: 30,),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
-
     );
   }
 
@@ -164,60 +173,61 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-      return StatefulBuilder(
-          builder: ((context, setState) {
-        return AlertDialog(
-          title: const Text("Create a group", textAlign: TextAlign.left),
-          content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-          _isLoading == true
-          ? Center(
-          child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-        ),
-    )
-        : TextField(
-    onChanged: (val) {
-    setState(() {
-    groupName = val;
-    });
-    },
-    style: const TextStyle(color: Colors.black),
-    decoration: InputDecoration(
-    enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Theme.of(context).primaryColor),
-    borderRadius: BorderRadius.circular(15),
-    ),
-    focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Theme.of(context).primaryColor),
-      borderRadius: BorderRadius.circular(15),
-    ),
-      hintText: "Group Name",
-      hintStyle: const TextStyle(color: Colors.grey),
-      fillColor: Colors.white,
-    ),
-          ),
-              ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () => createGroup(context, groupName),
-              child: const Text("Create"),
-            ),
-          ],
-        );
-          }),
-      );
+          return StatefulBuilder(
+            builder: ((context, setState) {
+              return AlertDialog(
+                title: const Text("Create a group", textAlign: TextAlign.left),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _isLoading == true
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                        : TextField(
+                            onChanged: (val) {
+                              setState(() {
+                                groupName = val;
+                              });
+                            },
+                            style: const TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: "Group Name",
+                              hintStyle: const TextStyle(color: Colors.grey),
+                              fillColor: Colors.white,
+                            ),
+                          ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () => createGroup(context, groupName),
+                    child: const Text("Create"),
+                  ),
+                ],
+              );
+            }),
+          );
         });
   }
-
 
   // groupList(){
   //   return StreamBuilder(stream: groups,
@@ -414,8 +424,9 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
       });
 
       // Create a new group document in Firestore
-      String groupId = await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
-          .createGroup(groupName);
+      String groupId =
+          await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+              .createGroup(groupName);
 
       // Add current user to the group's member list
       await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
@@ -449,7 +460,8 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
           print('No groups found in Firestore snapshot.');
           return noGroupWidget();
         } else {
-          final List<QueryDocumentSnapshot<Object?>> documents = snapshot.data!.docs;
+          final List<QueryDocumentSnapshot<Object?>> documents =
+              snapshot.data!.docs;
 
           // Optional: Filter groups based on membership (if needed)
           final userUid = FirebaseAuth.instance.currentUser!.uid;
@@ -465,9 +477,11 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
               final doc = userGroups[index];
               final data = doc.data() as Map<String, dynamic>;
 
-              final groupName = data['groupName'] ?? ''; // Handle potential null value
+              final groupName =
+                  data['groupName'] ?? ''; // Handle potential null value
               final groupId = doc.id;
-              final userName = data['fullName'] ?? ''; // Handle potential null value (if applicable)
+              final userName = data['fullName'] ??
+                  ''; // Handle potential null value (if applicable)
 
               return GroupTile(
                 groupName: groupName,
@@ -481,8 +495,7 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
     );
   }
 
-
-  noGroupWidget(){
+  noGroupWidget() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
@@ -490,13 +503,20 @@ class _CommunityChatLandingPageState extends State<CommunityChatLandingPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: (){
-              popUpDialog(context);
-            },
-              child: Icon(Icons.add_circle, color: Colors.grey[700], size: 75,)),
-          const SizedBox(height: 20,),
-          const Text("You've not joined any gruops, tap on the add icon to create a group otherwise search from top search button"
-          , textAlign: TextAlign.center,
+              onTap: () {
+                popUpDialog(context);
+              },
+              child: Icon(
+                Icons.add_circle,
+                color: Colors.grey[700],
+                size: 75,
+              )),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "You've not joined any gruops, tap on the add icon to create a group otherwise search from top search button",
+            textAlign: TextAlign.center,
           )
         ],
       ),

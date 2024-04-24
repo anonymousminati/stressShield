@@ -5,8 +5,8 @@ import 'package:stress_sheild/feature/signIn_and_signUp/screens/login_screen.dar
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/register_success.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
-
 final UserInformation _userInformation = Get.put(UserInformation());
+
 class UserInfo {
   String fullName;
   String uid;
@@ -18,17 +18,15 @@ class UserInfo {
   String governmentId;
   String emailId;
   Map scores = {
-    'articles_scores':0,
+    'articles_scores': 0,
     'audio_score': 0,
     'chatbot_score': 0,
     'course_score': 0,
     'mindful_hours_score': 0,
-    'mood_score':0,
-    'total_score':0,
-
+    'mood_score': 0,
+    'total_score': 0,
   };
   UserInfo({
-
     required this.uid,
     required this.fullName,
     required this.dateOfBirth,
@@ -61,7 +59,8 @@ class UserInfoPage extends StatefulWidget {
   final String uid;
   final String emailId;
 
-  const UserInfoPage({Key? key, required this.uid, required this.emailId}) : super(key: key);
+  const UserInfoPage({Key? key, required this.uid, required this.emailId})
+      : super(key: key);
 
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
@@ -76,8 +75,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _mobileNoController = TextEditingController();
   final TextEditingController _governmentIdController = TextEditingController();
-
-
 
   DateTime selectedDate = DateTime.now();
 
@@ -95,9 +92,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 TextFormField(
-                  controller:_fullNameController,
+                  controller: _fullNameController,
                   decoration: InputDecoration(
                     labelText: 'FullName',
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -114,7 +110,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ListTile(
                   title: Text(
                     'Date of Birth',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
                   subtitle: Text(
                     '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
@@ -125,14 +122,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   },
                 ),
 
-        // Gender Dropdown
+                // Gender Dropdown
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     labelText: 'Gender',
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   style: TextStyle(fontSize: 16.0, color: Colors.black),
-                  value: _genderController.text.isNotEmpty ? _genderController.text : null,
+                  value: _genderController.text.isNotEmpty
+                      ? _genderController.text
+                      : null,
                   onChanged: (newValue) {
                     setState(() {
                       _genderController.text = newValue!;
@@ -144,10 +143,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       value: gender,
                       child: Text(gender),
                     );
-                  })
-                      .toList(),
+                  }).toList(),
                 ),
-        //fullname
+                //fullname
 
                 TextFormField(
                   controller: _locationController,
@@ -164,7 +162,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   },
                 ),
 
-        // Weight
+                // Weight
                 TextFormField(
                   controller: _weightController,
                   decoration: InputDecoration(
@@ -181,7 +179,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   },
                 ),
 
-        // Mobile Number
+                // Mobile Number
                 TextFormField(
                   controller: _mobileNoController,
                   decoration: InputDecoration(
@@ -200,7 +198,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   },
                 ),
 
-        // Government ID
+                // Government ID
                 TextFormField(
                   controller: _governmentIdController,
                   decoration: InputDecoration(
@@ -226,28 +224,33 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         weight: double.parse(_weightController.text.trim()),
                         mobileNo: _mobileNoController.text.trim(),
                         governmentId: _governmentIdController.text.trim(),
-                        emailId: widget.emailId, scores: {
-                          'articles_scores':0,
+                        emailId: widget.emailId,
+                        scores: {
+                          'articles_scores': 0,
                           'audio_score': 0,
                           'chatbot_score': 0,
                           'course_score': 0,
                           'mindful_hours_score': 0,
-                          'mood_score':0,
-                          'total_score':0,
-
-                      },
-
+                          'mood_score': 0,
+                          'total_score': 0,
+                        },
                       );
                       // Save user information to Firestore
-                      FirebaseAuthService().saveUserInfo('users', userInfo.toMap(), widget.uid);
+                      FirebaseAuthService()
+                          .saveUserInfo('users', userInfo.toMap(), widget.uid);
 
                       // Navigate back to login screen
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterSuccessPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterSuccessPage()));
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.black),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
                     textStyle: MaterialStateProperty.all<TextStyle>(
                       TextStyle(fontSize: 16.0),
                     ),
@@ -262,7 +265,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                   child: Text('Save'),
                 ),
-
               ],
             ),
           ),
@@ -284,6 +286,4 @@ class _UserInfoPageState extends State<UserInfoPage> {
         _dateOfBirthController.text = pickedDate.toString();
       });
   }
-
-
 }

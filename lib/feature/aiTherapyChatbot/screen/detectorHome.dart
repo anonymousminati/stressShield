@@ -188,7 +188,6 @@
 //   }
 // }
 
-
 import 'dart:async';
 
 import 'package:camera/camera.dart';
@@ -198,8 +197,8 @@ import 'package:get/get.dart';
 import 'package:stress_sheild/feature/aiTherapyChatbot/screen/resultScreen.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
-import '../../../main.dart';
 UserInformation userInformation = Get.put(UserInformation());
+
 class DummyContainer extends StatefulWidget {
   const DummyContainer({Key? key}) : super(key: key);
 
@@ -286,7 +285,8 @@ class _DummyContainerState extends State<DummyContainer> {
       } catch (e) {
         print("Error running model: $e");
       } finally {
-        isModelBusy = false; // Reset the flag when the model inference is completed
+        isModelBusy =
+            false; // Reset the flag when the model inference is completed
       }
     }
   }
@@ -345,78 +345,77 @@ class _DummyContainerState extends State<DummyContainer> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-         Container(
-           color: Color(0xFFEC7D1C),
-         ),
+          Container(
+            color: Color(0xFFEC7D1C),
+          ),
           SafeArea(
             child: isCameraInitialized
                 ? Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 10.0,
-                  ),
-                  child: Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 10.0,
                         ),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.arrow_back),
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Mood Recognition',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Stack(
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        elevation: 10,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: Container(
-                            height:
-                            MediaQuery.of(context).size.height * 0.7,
-                            width: MediaQuery.of(context).size.width,
-                            child: !cameraController!.value.isInitialized
-                                ? Container()
-                                : AspectRatio(
-                              aspectRatio: cameraController!
-                                  .value.aspectRatio,
-                              child: CameraPreview(
-                                  cameraController!),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.arrow_back),
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Mood Recognition',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Stack(
+                          children: [
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              elevation: 10,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30.0),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: !cameraController!.value.isInitialized
+                                      ? Container()
+                                      : AspectRatio(
+                                          aspectRatio: cameraController!
+                                              .value.aspectRatio,
+                                          child:
+                                              CameraPreview(cameraController!),
+                                        ),
+                                ),
+                              ),
+                            ),
                             Positioned(
                                 child: Image.asset(
                                   'images/cornerTopRight.png',
@@ -446,48 +445,49 @@ class _DummyContainerState extends State<DummyContainer> {
                                 top: 20,
                                 left: 20),
                           ],
-                  ),
-                ),
-                if (isLabelStable)
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 43, 107, 255),
-                          Color.fromARGB(255, 133, 57, 255)
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: proceedToNextScreen,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent, // Transparent background
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 24.0,
-                        ),
-                        child: Text(
-                          'Proceed',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                      if (isLabelStable)
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 43, 107, 255),
+                                Color.fromARGB(255, 133, 57, 255)
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: proceedToNextScreen,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              // Transparent background
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 12.0,
+                                horizontal: 24.0,
+                              ),
+                              child: Text(
+                                'Proceed',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-              ],
-            )
+                    ],
+                  )
                 : Center(
-              child: CircularProgressIndicator(),
-            ),
+                    child: CircularProgressIndicator(),
+                  ),
           ),
         ],
       ),

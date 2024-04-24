@@ -3,20 +3,12 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:stress_sheild/feature/mindful_resources/screens/playcourse.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
-import 'package:stress_sheild/global_widgets/audio/audioplayer%20widget.dart';
 import 'package:stress_sheild/global_widgets/courseContentListWidget.dart';
 import 'package:stress_sheild/global_widgets/service/firebaseStorageService.dart';
-import 'package:stress_sheild/global_widgets/songListWidget.dart';
-import 'package:stress_sheild/model/dataModels.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 class Course extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -47,6 +39,7 @@ class _CourseState extends State<Course> {
   PlayerState audioPlayerState = PlayerState.stopped;
 
   final firebaseStorageService = FirebaseStorageService();
+
   @override
   void initState() {
     super.initState();
@@ -569,14 +562,6 @@ class _CourseState extends State<Course> {
                           ),
                         ),
                         //create "view all" button
-                        GestureDetector(
-                          onTap: () {},
-                          child: Icon(
-                            Icons.more_vert,
-                            size: 40.0,
-                            color: Colors.grey,
-                          ),
-                        ),
                       ],
                     ),
                   ),

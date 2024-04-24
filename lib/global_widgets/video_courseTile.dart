@@ -44,16 +44,13 @@ class VideoCourseTile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40.0,
-
-               child: ClipRRect(
-                 borderRadius: BorderRadius.circular(50.0),
-
-                 child: Image.asset(
-                   'images/jungle.jpg',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Image.asset(
+                    'images/jungle.jpg',
                     fit: BoxFit.fill,
-
-                 ),
-               ),
+                  ),
+                ),
               ),
               Icon(
                 Icons.play_circle_filled,

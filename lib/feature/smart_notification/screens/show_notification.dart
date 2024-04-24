@@ -46,7 +46,8 @@ class ShowNotification extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Color(0xFF4F3422)),
+                          border:
+                              Border.all(width: 1, color: Color(0xFF4F3422)),
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: IconButton(
@@ -65,7 +66,9 @@ class ShowNotification extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.45,
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(250), topRight: Radius.circular(250)),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(250),
+                        topRight: Radius.circular(250)),
                     color: Colors.white,
                   ),
                   child: Column(
@@ -106,9 +109,11 @@ class ShowNotification extends StatelessWidget {
                           onPressed: onNextNavigation,
                           style: ButtonStyle(
                             padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                              EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF4F3422)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xFF4F3422)),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),

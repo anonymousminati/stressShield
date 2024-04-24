@@ -35,7 +35,7 @@ class NotificationLandingPage extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             border:
-                            Border.all(width: 1, color: Color(0xFF4F3422)),
+                                Border.all(width: 1, color: Color(0xFF4F3422)),
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: IconButton(
@@ -118,7 +118,10 @@ class NotificationLandingPage extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.more_vert,color: Colors.grey,),
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: Colors.grey,
+                          ),
                           onPressed: () {},
                         ),
                       ],
@@ -133,10 +136,12 @@ class NotificationLandingPage extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return NotificationTile(
                           leadingIcon: _notificationData[index]['leadingIcon'],
-                          leadingBackgroundColor: _notificationData[index]['leadingBackgroundColor'],
+                          leadingBackgroundColor: _notificationData[index]
+                              ['leadingBackgroundColor'],
                           title: _notificationData[index]['title'],
                           subtitle: _notificationData[index]['subtitle'],
-                          notificationData: _notificationData[index]['notification_data'],
+                          notificationData: _notificationData[index]
+                              ['notification_data'],
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

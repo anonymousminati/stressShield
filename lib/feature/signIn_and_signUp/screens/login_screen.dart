@@ -1,13 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/signup_screen.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/splash_and_loading/screens/loading_screen_quote.dart';
@@ -133,300 +129,260 @@ class _LoginScreenState extends State<LoginScreen> {
         fit: StackFit.expand,
         children: [
           SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FadeInAnimation(
-                        delay: 1,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'authUI');
-                          },
-                          icon: const Icon(
-                            CupertinoIcons.back,
-                            size: 35,
-                          ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FadeInAnimation(
+                      delay: 1,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'authUI');
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.back,
+                          size: 35,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FadeInAnimation(
+                            delay: 1.3,
+                            child: Text(
+                              "Welcome back! Glad ",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontFamily: "Urbanist",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          FadeInAnimation(
+                            delay: 1.6,
+                            child: Text(
+                              "to see you, Again!",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontFamily: "Urbanist",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Form(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FadeInAnimation(
-                              delay: 1.3,
-                              child: Text(
-                                "Welcome back! Glad ",
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontFamily: "Urbanist",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                              delay: 1.9,
+                              child: TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(18),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Enter your email',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your email';
+                                  }
+                                  if (!EmailValidator.validate(value)) {
+                                    return 'Please enter a valid email';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            FadeInAnimation(
+                              delay: 2.2,
+                              child: TextFormField(
+                                controller: _passwordController,
+                                obscureText: _obscurePassword,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(18),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Enter your password',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  suffixIcon: IconButton(
+                                    onPressed: _togglePasswordVisibility,
+                                    icon: Icon(
+                                      _obscurePassword
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your password';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             FadeInAnimation(
-                              delay: 1.6,
-                              child: Text(
-                                "to see you, Again!",
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontFamily: "Urbanist",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                              delay: 2.5,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      'forgotPassword',
+                                    );
+                                  },
+                                  child: Text(
+                                    "Forget Password?",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            FadeInAnimation(
+                              delay: 2.8,
+                              child: CustomElevatedButton(
+                                message: "Login",
+                                function: _login,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Form(
-                          child: Column(
-                            children: [
-                              FadeInAnimation(
-                                delay: 1.9,
-                                child: TextFormField(
-                                  controller: _emailController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(18),
-                                    border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    hintText: 'Enter your email',
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your email';
-                                    }
-                                    if (!EmailValidator.validate(value)) {
-                                      return 'Please enter a valid email';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              FadeInAnimation(
-                                delay: 2.2,
-                                child: TextFormField(
-                                  controller: _passwordController,
-                                  obscureText: _obscurePassword,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(18),
-                                    border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    hintText: 'Enter your password',
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    suffixIcon: IconButton(
-                                      onPressed: _togglePasswordVisibility,
-                                      icon: Icon(
-                                        _obscurePassword
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                      ),
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your password';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              FadeInAnimation(
-                                delay: 2.5,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        'forgotPassword',
-                                      );
-                                    },
-                                    child: Text(
-                                      "Forget Password?",
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              FadeInAnimation(
-                                delay: 2.8,
-                                child: CustomElevatedButton(
-                                  message: "Login",
-                                  function: _login,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SizedBox(
-                          height: 300,
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              FadeInAnimation(
-                                delay: 2.2,
-                                child: Text(
-                                  "Or Log with",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              FadeInAnimation(
-                                delay: 2.4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
-                                    bottom: 10,
-                                    right: 30,
-                                    left: 30,
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                          height: 50,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black, width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              FontAwesomeIcons.facebookF,
-                                              color: Colors.blue,
-                                            ),
-                                            onPressed: () {},
-                                          )),
-                                      Container(
-                                        height: 50,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black, width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: IconButton(
-                                          icon: const Icon(
-                                            FontAwesomeIcons.google,
-                                            // color: Colors.blue,
-                                          ),
-                                          onPressed: () async {
-                                            await FirebaseAuthService()
-                                                .signInWithGoogle();
-                                            print('stopped this');
-
-                                            if (FirebaseAuth
-                                                    .instance.currentUser !=
-                                                null) {
-                                              if (!mounted) {
-                                                print('stopped');
-                                                return;
-                                              }
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          LoadingScreenQuote()));
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                          height: 50,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black, width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              FontAwesomeIcons.apple,
-                                              // color: Colors.blue,
-                                            ),
-                                            onPressed: () {},
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      FadeInAnimation(
-                        delay: 2.8,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 50),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Don’t have an account?",
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SizedBox(
+                        height: 300,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            FadeInAnimation(
+                              delay: 2.2,
+                              child: Text(
+                                "Or Log with",
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    'register',
-                                  );
-                                },
-                                child: Text(
-                                  "Register Now",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            FadeInAnimation(
+                              delay: 2.4,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 10,
+                                  right: 30,
+                                  left: 30,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 1),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          FontAwesomeIcons.google,
+                                          // color: Colors.blue,
+                                        ),
+                                        onPressed: () async {
+                                          await FirebaseAuthService()
+                                              .signInWithGoogle();
+                                          print('stopped this');
+
+                                          if (FirebaseAuth
+                                                  .instance.currentUser !=
+                                              null) {
+                                            if (!mounted) {
+                                              print('stopped');
+                                              return;
+                                            }
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoadingScreenQuote()));
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    FadeInAnimation(
+                      delay: 2.8,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don’t have an account?",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  'register',
+                                );
+                              },
+                              child: Text(
+                                "Register Now",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

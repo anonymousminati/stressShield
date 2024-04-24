@@ -31,32 +31,35 @@ class CourseListViewBuilder extends StatelessWidget {
         // Get a random sublist of documents to display
         final random = Random();
         final maxCount = min(documents.length, 5); // Display maximum 5 articles
-        final randomIndices = List.generate(maxCount, (index) => random.nextInt(documents.length));
-        final randomDocuments = randomIndices.map((index) => documents[index]).toList();
+        final randomIndices = List.generate(
+            maxCount, (index) => random.nextInt(documents.length));
+        final randomDocuments =
+            randomIndices.map((index) => documents[index]).toList();
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 20.0), // Add padding at the bottom
+          padding:
+              const EdgeInsets.only(bottom: 20.0), // Add padding at the bottom
           child: Column(
             children: randomDocuments.map((doc) {
               final title = doc['course_title'];
               final desc = doc['desc'];
               final imgUrl = doc['img_url'];
 
-
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10.0), // Add bottom padding to each article box
+                padding: const EdgeInsets.only(
+                    bottom: 10.0), // Add bottom padding to each article box
                 child: GestureDetector(
                   onTap: () {
-
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(builder: (context) => Article(data:doc.data() as Map<String, dynamic>)),
                     // );
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Course(data:doc.data() as Map<String, dynamic>)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Course(data: doc.data() as Map<String, dynamic>)),
                     );
-
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -73,7 +76,8 @@ class CourseListViewBuilder extends StatelessWidget {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
                                   child: Container(
                                     width: 100,
                                     height: 100,
@@ -99,7 +103,9 @@ class CourseListViewBuilder extends StatelessWidget {
                                         fontSize: 17.0,
                                       ),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
                                       desc,
                                       maxLines: 3,

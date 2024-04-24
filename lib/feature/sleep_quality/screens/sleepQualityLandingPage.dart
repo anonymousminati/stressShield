@@ -1,8 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SleepQualityLandingPage extends StatefulWidget {
@@ -32,16 +28,18 @@ class _SleepQualityLandingPageState extends State<SleepQualityLandingPage> {
             ),
             Container(
               child: Column(
-                children:[
+                children: [
                   //create a row with title and and back button
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 16.0),
                     child: Row(
                       children: [
                         Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white), // Add border color
+                            border: Border.all(
+                                color: Colors.white), // Add border color
                           ),
                           child: IconButton(
                             onPressed: () {
@@ -51,7 +49,8 @@ class _SleepQualityLandingPageState extends State<SleepQualityLandingPage> {
                             color: Colors.white, // Set the color of the icon
                           ),
                         ),
-                        SizedBox(width: 10), // Add some spacing between the button and text
+                        SizedBox(width: 10),
+                        // Add some spacing between the button and text
                         Text(
                           'Sleep Quality',
                           style: TextStyle(
@@ -66,41 +65,50 @@ class _SleepQualityLandingPageState extends State<SleepQualityLandingPage> {
                   SizedBox(height: 20),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.4,
-
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(child: Card(
+                        Expanded(
+                            child: Card(
                           elevation: 5,
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("sleep cycle"),
-                                  TextButton(onPressed: (){}, child: Text("see all"),)
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text("see all"),
+                                  )
                                 ],
                               ),
-                              _buildRangePointerExampleGauge()],
+                              _buildRangePointerExampleGauge()
+                            ],
                           ),
                         )),
-                        Expanded(child: Card(
+                        Expanded(
+                            child: Card(
                           elevation: 5,
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("sleep cycle"),
-                                  TextButton(onPressed: (){}, child: Text("see all"),)
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text("see all"),
+                                  )
                                 ],
                               ),
-                              _buildRangePointerExampleGauge()],
+                              _buildRangePointerExampleGauge()
+                            ],
                           ),
                         ))
                       ],
-
                     ),
                   )
                 ],
@@ -116,7 +124,6 @@ class _SleepQualityLandingPageState extends State<SleepQualityLandingPage> {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-
             showLabels: false,
             showTicks: false,
             startAngle: 270,

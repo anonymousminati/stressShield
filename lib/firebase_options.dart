@@ -64,8 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '192727806596',
     projectId: 'stressshield-833ce',
     storageBucket: 'stressshield-833ce.appspot.com',
-    androidClientId: '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
-    iosClientId: '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
+    androidClientId:
+        '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
+    iosClientId:
+        '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
     iosBundleId: 'com.example.stressShield',
   );
 
@@ -75,8 +77,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '192727806596',
     projectId: 'stressshield-833ce',
     storageBucket: 'stressshield-833ce.appspot.com',
-    androidClientId: '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
-    iosClientId: '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
+    androidClientId:
+        '192727806596-tj6pij23jof5ejpf0tju3f52ufl1vnq5.apps.googleusercontent.com',
+    iosClientId:
+        '192727806596-l83lt8d7eov94163vt5cg7n2ichv9qcj.apps.googleusercontent.com',
     iosBundleId: 'com.example.stressShield',
   );
 
@@ -89,5 +93,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'stressshield-833ce.appspot.com',
     measurementId: 'G-6R2C6RV4C3',
   );
-
 }

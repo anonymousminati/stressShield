@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart';
 
@@ -294,7 +292,7 @@ class _MusicPlayState extends State<MusicPlay> {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CircleAvatar(
                             radius: 30,
@@ -303,9 +301,13 @@ class _MusicPlayState extends State<MusicPlay> {
                                 : AssetImage('images/dummyImage.jpg')
                                     as ImageProvider,
                           ),
+                          SizedBox(
+                            width: 20,
+                          ),
                           Text(
                             currentTitle,
                             style: TextStyle(color: Colors.white),
+                            softWrap: true,
                           ),
                         ],
                       ),

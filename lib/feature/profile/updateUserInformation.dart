@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 UserInformation _userInformation = Get.put(UserInformation());
 

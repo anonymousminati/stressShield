@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stress_sheild/feature/audio_therapy/music_player.dart';
-import 'package:stress_sheild/feature/home_and_mental_health_score/screens/landing_home_page.dart';
-import 'package:stress_sheild/feature/mindful_resources/screens/course.dart';
 import 'package:stress_sheild/feature/mindful_resources/screens/our_article.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/courseList.dart';
-import 'package:stress_sheild/global_widgets/mindfullResourcetile.dart';
-import 'package:stress_sheild/global_widgets/video_courseTile.dart';
-import 'package:stress_sheild/model/dataModels.dart';
-import 'package:stress_sheild/router.dart';
 
 //TODO:add audio Resources
 class OurResources extends StatelessWidget {

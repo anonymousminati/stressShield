@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -28,8 +28,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image.asset("images/changepassword.jpg",
-              width: MediaQuery.of(context).size.width,
+              Image.asset(
+                "images/changepassword.jpg",
+                width: MediaQuery.of(context).size.width,
               ),
               TextFormField(
                 controller: _oldPasswordController,
@@ -47,7 +48,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fillColor: Colors.white,
                   hintText: 'Enter your old password',
                   hintStyle: TextStyle(color: Colors.grey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
                   suffixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
@@ -75,7 +77,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fillColor: Colors.white,
                   hintText: 'Enter a new password',
                   hintStyle: TextStyle(color: Colors.grey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
                   suffixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
@@ -103,7 +106,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fillColor: Colors.white,
                   hintText: 'Confirm the new password',
                   hintStyle: TextStyle(color: Colors.grey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
                   suffixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
@@ -121,18 +125,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                     EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
                   ),
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.brown),
-                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.brown),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0), // Adjust the radius as needed
-                      side: BorderSide(color: Colors.brown), // Add border side color
+                      borderRadius: BorderRadius.circular(40.0),
+                      // Adjust the radius as needed
+                      side: BorderSide(
+                          color: Colors.brown), // Add border side color
                     ),
                   ),
                 ),
                 child: Text('Change Password'),
               ),
-
               if (_errorMessage != null)
                 Text(
                   _errorMessage!,
@@ -177,7 +184,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'personalInformation');
+                    Navigator.pushReplacementNamed(
+                        context, 'personalInformation');
                   },
                   child: Text('OK'),
                 ),

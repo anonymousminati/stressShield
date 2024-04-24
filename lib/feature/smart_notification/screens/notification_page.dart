@@ -199,6 +199,9 @@ class _NotificationPageState extends State<NotificationPage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 30,
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: ListView.separated(

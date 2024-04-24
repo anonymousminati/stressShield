@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
-import 'package:stress_sheild/model/dataModels.dart';
 
 final UserInformation _userInformation = Get.put(UserInformation());
 
 class Article extends StatefulWidget {
   Article({super.key, required this.data});
+
   //create a parameter which will take map of a article
   final Map<String, dynamic> data;
 

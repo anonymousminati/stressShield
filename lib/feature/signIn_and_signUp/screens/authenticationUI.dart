@@ -120,8 +120,6 @@ class _AuthenticationUIState extends State<AuthenticationUI> {
                       ),
                     ],
                   ),
-
-
                   SizedBox(
                     height: 10,
                   ),

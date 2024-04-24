@@ -40,68 +40,72 @@ class CourseAudioListWidget extends StatelessWidget {
     print('musicList: ${musicList.length}');
     return musicList.isNotEmpty
         ? ListView.builder(
-      itemCount: musicList.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
+            itemCount: musicList.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayCourse(
+                        audioUrl: musicList[index]['song_url'].toString(),
+                        audioTitle: musicList[index]['name'].toString(),
+                        imageUrl: musicList[index]['image_url'].toString(),
+                      ),
+                    ),
+                  );
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PlayCourse(audioUrl:  musicList[index]['song_url'].toString(), audioTitle: musicList[index]['name'].toString(), imageUrl: musicList[index]['image_url'].toString(),),
-              ),
-            );
+                  print(
+                      "musicList[index]['song_url'].toString(): ${musicList[index]['song_url'].toString()}");
 
-            print("musicList[index]['song_url'].toString(): ${musicList[index]['song_url'].toString()}");
-
-            // playAudio(
-            //   musicList[index]['song_url'].toString(),
-            //   musicList[index]['name'].toString(),
-            //   musicList[index]['image_url'].toString(),
-            // );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blueGrey,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: ListTile(
-                title: Text(
-                  musicList[index]['name'].toString(),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                  // playAudio(
+                  //   musicList[index]['song_url'].toString(),
+                  //   musicList[index]['name'].toString(),
+                  //   musicList[index]['image_url'].toString(),
+                  // );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blueGrey,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        musicList[index]['name'].toString(),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      leading: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          musicList[index]['image_url'].toString(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                leading: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    musicList[index]['image_url'].toString(),
-                  ),
-                ),
+              );
+            },
+          )
+        : Center(
+            child: Text(
+              'There is no Audio list',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        );
-      },
-    )
-        : Center(
-      child: Text(
-        'There is no Audio list',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
+          );
   }
 }

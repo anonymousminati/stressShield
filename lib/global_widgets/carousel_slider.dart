@@ -5,13 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CarouselWithEmotionIndicator extends StatefulWidget {
   final String detectedLabel; // Add detectedLabel parameter
-  const CarouselWithEmotionIndicator({Key? key, required this.detectedLabel}) : super(key: key);
+  const CarouselWithEmotionIndicator({Key? key, required this.detectedLabel})
+      : super(key: key);
 
   @override
-  _CarouselWithEmotionIndicatorState createState() => _CarouselWithEmotionIndicatorState();
+  _CarouselWithEmotionIndicatorState createState() =>
+      _CarouselWithEmotionIndicatorState();
 }
 
-class _CarouselWithEmotionIndicatorState extends State<CarouselWithEmotionIndicator> {
+class _CarouselWithEmotionIndicatorState
+    extends State<CarouselWithEmotionIndicator> {
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
   List<String> _imageUrls = []; // List to store fetched image URLs
@@ -26,11 +29,13 @@ class _CarouselWithEmotionIndicatorState extends State<CarouselWithEmotionIndica
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('emotions') // Collection containing animal images
-          .doc(widget.detectedLabel.toLowerCase()) // Document ID is the detected label
+          .doc(widget.detectedLabel
+              .toLowerCase()) // Document ID is the detected label
           .get();
 
       if (querySnapshot.exists) {
-        final List<dynamic>? images = querySnapshot['images']; // Assuming 'images' is the array field name
+        final List<dynamic>? images = querySnapshot[
+            'images']; // Assuming 'images' is the array field name
 
         if (images != null && images.isNotEmpty) {
           final List<String> urls = images.cast<String>().toList();
@@ -48,8 +53,6 @@ class _CarouselWithEmotionIndicatorState extends State<CarouselWithEmotionIndica
       print('Error fetching carousel images: $e');
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

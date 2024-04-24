@@ -1,7 +1,5 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stress_sheild/feature/mindfulHours/screens/new_exercise.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 import 'package:stress_sheild/global_widgets/ring_pieChart.dart';
 
@@ -17,18 +15,15 @@ class MindFullHoursStats extends StatelessWidget {
     "Play": 2.21,
   };
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await _userInformation.fetchUserInformation();
-          },
+      onRefresh: () async {
+        await _userInformation.fetchUserInformation();
+      },
       child: Scaffold(
-         backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -41,7 +36,6 @@ class MindFullHoursStats extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-
                         title: Text(
                           textAlign: TextAlign.center,
                           'Mindful Hours',
@@ -72,10 +66,6 @@ class MindFullHoursStats extends StatelessWidget {
           ],
         ),
       ),
-
     ));
   }
-
-
 }
-

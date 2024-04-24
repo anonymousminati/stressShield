@@ -46,6 +46,7 @@ class _NewExerciseState extends State<NewExercise> {
   String selectedGoal = '';
 
   ReceivePort mindfullReceivePort = ReceivePort();
+
   @override
   void initState() {
     // TODO: implement initState

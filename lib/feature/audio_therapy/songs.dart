@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:stress_sheild/feature/audio_therapy/music_player.dart';
-import 'package:stress_sheild/global_widgets/songListWidget.dart';
 
 class SongRecommendationPage extends StatefulWidget {
   @override
@@ -303,4 +301,3 @@ class _SongRecommendationPageState extends State<SongRecommendationPage>
     }
   }
 }
-

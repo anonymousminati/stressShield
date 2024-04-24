@@ -86,14 +86,14 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
       child: loading
           ? const CupertinoActivityIndicator()
           : FittedBox(
-          child: Text(
-            widget.message,
-            style: TextStyle(
-                fontSize: 15,
-                fontFamily: "Urbanist-SemiBold",
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          )),
+              child: Text(
+              widget.message,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: "Urbanist-SemiBold",
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            )),
     );
   }
 }
@@ -142,7 +142,7 @@ class _DynamicFilledButtonState extends State<DynamicFilledButton> {
             color: widget.color ?? Color(0xFF1E232C),
             onPressed: isLoading ? null : func,
             child:
-            isLoading ? const CupertinoActivityIndicator() : widget.child,
+                isLoading ? const CupertinoActivityIndicator() : widget.child,
           ),
         ),
       );
@@ -155,15 +155,15 @@ class _DynamicFilledButtonState extends State<DynamicFilledButton> {
           style: FilledButton.styleFrom(
             backgroundColor: widget.color ?? Color(0xFF35C2C1),
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           ),
           onPressed: isLoading ? null : func,
           child: isLoading
               ? const SizedBox(
-            width: 30,
-            height: 30,
-            child: CircularProgressIndicator(),
-          )
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(),
+                )
               : widget.child,
         ),
       ),

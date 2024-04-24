@@ -16,28 +16,32 @@ class NavigationMenu extends StatelessWidget {
             icon: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => BottomNavWithAnimations()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => BottomNavWithAnimations()));
               },
             ),
             label: 'Home',
           ),
           NavigationDestination(
-            icon:IconButton(
+            icon: IconButton(
               icon: Icon(Icons.chat),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) =>  CommunityChatLandingPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CommunityChatLandingPage()));
               },
             ),
             label: 'chat',
           ),
           NavigationDestination(
-            icon:IconButton(
+            icon: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) =>  AccountSettings()));
+                    MaterialPageRoute(builder: (_) => AccountSettings()));
               },
             ),
             label: 'Profile',

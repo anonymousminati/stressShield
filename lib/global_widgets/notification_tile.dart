@@ -20,7 +20,7 @@ class NotificationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -31,8 +31,9 @@ class NotificationTile extends StatelessWidget {
               description: notificationData['description'],
               buttonText: 'Next', // You can customize this if needed
               buttonIcon: Icons.arrow_forward,
-              onNextNavigation: (){
-                Navigator.pushNamed(context, notificationData['nextNavigation']);
+              onNextNavigation: () {
+                Navigator.pushNamed(
+                    context, notificationData['nextNavigation']);
               },
               // You can customize this if needed
             ),

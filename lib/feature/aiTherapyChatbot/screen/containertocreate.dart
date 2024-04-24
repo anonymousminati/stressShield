@@ -31,10 +31,34 @@ class DummyContainer extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(child: Image.asset('images/cornerTopRight.png',width: 70,), top: 20, right: 20),
-            Positioned(child: Image.asset('images/cornerBottomLeft.png',width: 70,), bottom: 20, left: 20),
-            Positioned(child: Image.asset('images/cornerBottomRight.png',width: 70,), bottom: 20, right: 20),
-            Positioned(child: Image.asset('images/cornerTopLeft.png',width: 70,), top: 20, left: 20),
+            Positioned(
+                child: Image.asset(
+                  'images/cornerTopRight.png',
+                  width: 70,
+                ),
+                top: 20,
+                right: 20),
+            Positioned(
+                child: Image.asset(
+                  'images/cornerBottomLeft.png',
+                  width: 70,
+                ),
+                bottom: 20,
+                left: 20),
+            Positioned(
+                child: Image.asset(
+                  'images/cornerBottomRight.png',
+                  width: 70,
+                ),
+                bottom: 20,
+                right: 20),
+            Positioned(
+                child: Image.asset(
+                  'images/cornerTopLeft.png',
+                  width: 70,
+                ),
+                top: 20,
+                left: 20),
           ],
         ),
       ),

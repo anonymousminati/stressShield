@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/screens/authenticationUI.dart';
-import 'package:stress_sheild/feature/signIn_and_signUp/screens/signInwelcome_screen.dart';
 import 'package:stress_sheild/feature/welcome_feature/widgets/welcome_screen_reusable_steps.dart';
 
 class WelcomeScreen1 extends StatefulWidget {

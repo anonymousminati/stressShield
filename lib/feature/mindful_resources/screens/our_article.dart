@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stress_sheild/feature/mindful_resources/screens/article.dart';
-import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/feature/smart_notification/screens/notification_page.dart';
 import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/dynamic_article_card.dart';
@@ -148,41 +146,41 @@ class _OurArticleState extends State<OurArticle>
                               height: 20.0,
                             ),
                             //create a Row which has icon and text "184 Article" and another icon and text "12 Video"
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 0.0,
-                                      blurRadius: 40,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ]),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.all(15.0),
-                                  hintText: 'Search',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                  ),
-                                  suffixIcon: Icon(
-                                    Icons.search,
-                                    size: 40.0,
-                                    color: Colors.grey,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //       color: Colors.white,
+                            //       borderRadius: BorderRadius.circular(50.0),
+                            //       boxShadow: [
+                            //         BoxShadow(
+                            //           color: Colors.grey.withOpacity(0.5),
+                            //           spreadRadius: 0.0,
+                            //           blurRadius: 40,
+                            //           offset: Offset(0, 3),
+                            //         ),
+                            //       ]),
+                            //   child: TextField(
+                            //     decoration: InputDecoration(
+                            //       filled: true,
+                            //       fillColor: Colors.white,
+                            //       contentPadding: EdgeInsets.all(15.0),
+                            //       hintText: 'Search',
+                            //       hintStyle: TextStyle(
+                            //         fontSize: 20.0,
+                            //         fontWeight: FontWeight.w600,
+                            //         color: Colors.grey,
+                            //       ),
+                            //       suffixIcon: Icon(
+                            //         Icons.search,
+                            //         size: 40.0,
+                            //         color: Colors.grey,
+                            //       ),
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(50.0),
+                            //         borderSide: BorderSide.none,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -280,10 +278,6 @@ class _OurArticleState extends State<OurArticle>
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w600,
                               ),
-                            ),
-                            Icon(
-                              Icons.more_horiz,
-                              size: 40.0,
                             ),
                           ],
                         ),

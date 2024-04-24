@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 
@@ -24,10 +23,10 @@ class StorageService {
   }
 }
 
-
 // Audio service class with error handling
 class AudioService {
-  final FirebaseStorage firebaseStorage = FirebaseStorage.instanceFor(bucket: "gs://stressshield-833ce.appspot.com");
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instanceFor(
+      bucket: "gs://stressshield-833ce.appspot.com");
 
   Future<ListResult> listFiles() async {
     ListResult listResults = await firebaseStorage.ref("audio").listAll();
@@ -37,7 +36,8 @@ class AudioService {
   // Get audio file URL with error handling
   Future<String> getAudioFileUrl(String fileName) async {
     try {
-      String url = await firebaseStorage.ref("audio/$fileName").getDownloadURL();
+      String url =
+          await firebaseStorage.ref("audio/$fileName").getDownloadURL();
       return url;
     } catch (error) {
       // Handle error by logging or providing a default URL

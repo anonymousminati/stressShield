@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -156,8 +154,10 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
       //create a appBar with title and back button
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple, // Transparent app bar
-        elevation: 0, // No shadow
+        backgroundColor: Colors.deepPurple,
+        // Transparent app bar
+        elevation: 0,
+        // No shadow
         leading: IconButton(
           style: //create round border
               ButtonStyle(
@@ -181,8 +181,8 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
 
           color: Colors.white,
           splashRadius: 25,
-          highlightColor:
-              Colors.white.withOpacity(0.3), // Highlight color when pressed
+          highlightColor: Colors.white.withOpacity(0.3),
+          // Highlight color when pressed
           iconSize: 30,
         ),
         title: Text(

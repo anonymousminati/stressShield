@@ -9,7 +9,8 @@ final List<Map<String, dynamic>> articles_data = [
     "stars": "2.5",
     "comments": "35",
     "views": "789",
-    "images":"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "images":
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "image_caption": "Multitasking concept hand drawn illustration",
     "sections": [
       {
@@ -38,7 +39,8 @@ final List<Map<String, dynamic>> articles_data = [
     "stars": "3.5",
     "comments": "20",
     "views": "456",
-    "images":"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "images":
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "image_caption": "Multitasking concept hand drawn illustration",
     "sections": [
       {
@@ -67,7 +69,8 @@ final List<Map<String, dynamic>> articles_data = [
     "stars": "4.5",
     "comments": "45",
     "views": "1000",
-    "images":"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "images":
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "image_caption": "Multitasking concept hand drawn illustration",
     "sections": [
       {
@@ -83,7 +86,6 @@ final List<Map<String, dynamic>> articles_data = [
     ]
   }
 ];
-
 
 final List<Map<String, dynamic>> courseData = [
   {
@@ -121,8 +123,7 @@ final List<Map<String, dynamic>> courseData = [
     "comments": 30,
     "courseDuration": "2 hours",
     "description":
-    "This course is designed for beginners who want to learn the basics of meditation. It covers the fundamentals of meditation, including breathing techniques and body scan meditation.",
-
+        "This course is designed for beginners who want to learn the basics of meditation. It covers the fundamentals of meditation, including breathing techniques and body scan meditation.",
     "course": [
       {
         "audioTitle": "Advanced Breathing Techniques",

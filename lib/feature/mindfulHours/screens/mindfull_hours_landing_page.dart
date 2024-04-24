@@ -12,11 +12,12 @@ class MindFullHoursLandingPage extends StatelessWidget {
         // Set background color to transparent
         // appBar: TopAppBar(),
         //create a floating action button with a plus icon and make it large and float center without any title
-        floatingActionButton:  FloatingActionButton.large(
+        floatingActionButton: FloatingActionButton.large(
           onPressed: () {
             // Add your onPressed code here!
             //navigate to mindful hours stat page
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MindFullHoursStats()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MindFullHoursStats()));
           },
           child: const Icon(Icons.add),
           backgroundColor: Color(0xff4F3422),
@@ -34,7 +35,8 @@ class MindFullHoursLandingPage extends StatelessWidget {
             ),
           ),
           materialTapTargetSize: MaterialTapTargetSize.padded,
-          clipBehavior: Clip.antiAlias, // optional
+          clipBehavior: Clip.antiAlias,
+          // optional
           heroTag: null, // optional
           // Set the dimensions
         ),
@@ -111,7 +113,7 @@ class MindFullHoursLandingPage extends StatelessWidget {
                       ),
                       color: Colors.white,
                     ),
-                   width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -120,29 +122,28 @@ class MindFullHoursLandingPage extends StatelessWidget {
                             title: 'Mindful Hours',
                             subtitle: '8/25min',
                             label: 'Nature',
-                            labelColor: Colors.green, // specify label color here
+                            labelColor:
+                                Colors.green, // specify label color here
                           ),
-
                           MindFullHoursHistoryTiles(
                             title: 'Reading Time',
                             subtitle: '5/30min',
                             label: 'Reading',
                             labelColor: Colors.green,
-                          )
-                          ,
+                          ),
                           MindFullHoursHistoryTiles(
                             title: 'Exercise Session',
                             subtitle: '10/45min',
                             label: 'Workout',
                             labelColor: Colors.red,
-                          )
-                          ,MindFullHoursHistoryTiles(
+                          ),
+                          MindFullHoursHistoryTiles(
                             title: 'Study Break',
                             subtitle: '3/20min',
                             label: 'Relaxation',
                             labelColor: Colors.purple,
-                          )
-                          ,MindFullHoursHistoryTiles(
+                          ),
+                          MindFullHoursHistoryTiles(
                             title: 'Mindful Hours',
                             subtitle: '8/25min',
                             label: 'Nature',
@@ -155,8 +156,7 @@ class MindFullHoursLandingPage extends StatelessWidget {
                             labelColor: Colors.green,
                           )
                         ],
-                      )
-,
+                      ),
                     ),
                   )
                 ],
@@ -176,7 +176,6 @@ class MindFullHoursHistoryTiles extends StatelessWidget {
   final Color labelColor;
 
   const MindFullHoursHistoryTiles({
-
     required this.title,
     required this.subtitle,
     required this.label,
@@ -233,6 +232,7 @@ class MindFullHoursHistoryTiles extends StatelessWidget {
     );
   }
 }
+
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TopAppBar({
     super.key,

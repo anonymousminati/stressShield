@@ -1,7 +1,6 @@
 import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stress_sheild/feature/mindfulHours/screens/breathExercise.dart';
@@ -26,9 +25,11 @@ class NewExercise3 extends StatefulWidget {
       required this.selectedGoal,
       required this.selectedDuration,
       required this.receivePort});
+
   final String selectedGoal;
   final Duration selectedDuration;
   final ReceivePort receivePort;
+
   @override
   State<NewExercise3> createState() => _NewExercise3State();
 }

@@ -4,34 +4,33 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 
-
 class UserInformation extends GetxController {
-
   var userInformation = {}.obs; // use .obs to make it observable
   var fullname = ''.obs;
   var email = ''.obs;
   var uid = ''.obs;
   var gender = ''.obs;
-  var dateOfBirth =Timestamp(0, 0).obs;//date of birth
+  var dateOfBirth = Timestamp(0, 0).obs; //date of birth
   var location = ''.obs;
   var weight = 0.0.obs;
   var governmentId = ''.obs;
   var mobileNo = ''.obs;
-  var meditaion_score = 0.obs;//meditation
-  var mindfulness_score = 0.obs;//mindfulness minute
-  var mood_label= 'neutral'.obs;//mood tracker mood label from mood detector
-  var stress_score = 0.obs;//stress score
-  var community_score = 0.obs;//community score and mindfullness are same
-  var trending_song = 'Relaxation Guidline'.obs;// show one song randomly from trending songs
-  var trending_video = 'Relaxation Guidline'.obs;// show one video randomly from trending videos
-  var mindful_hours_score = 0.obs;//mindful hours card score
-  var mood_score = 0.obs;//mood card score
-  var audio_score = 0.obs;//stress card score
-  var chatbot_score = 0.obs;//chatbot card score
-  var articles_scores = 0.obs;//articles card score
-  var course_score  = 0.obs;//course card score
-  var freud_score = 0.obs;//freud card score
-
+  var meditaion_score = 0.obs; //meditation
+  var mindfulness_score = 0.obs; //mindfulness minute
+  var mood_label = 'neutral'.obs; //mood tracker mood label from mood detector
+  var stress_score = 0.obs; //stress score
+  var community_score = 0.obs; //community score and mindfullness are same
+  var trending_song =
+      'Relaxation Guidline'.obs; // show one song randomly from trending songs
+  var trending_video =
+      'Relaxation Guidline'.obs; // show one video randomly from trending videos
+  var mindful_hours_score = 0.obs; //mindful hours card score
+  var mood_score = 0.obs; //mood card score
+  var audio_score = 0.obs; //stress card score
+  var chatbot_score = 0.obs; //chatbot card score
+  var articles_scores = 0.obs; //articles card score
+  var course_score = 0.obs; //course card score
+  var freud_score = 0.obs; //freud card score
 
   @override
   void onInit() {
@@ -40,7 +39,7 @@ class UserInformation extends GetxController {
   }
 
   //create a function to upload user information to firestore
-Future<void> uploadUserInformation() async {
+  Future<void> uploadUserInformation() async {
     try {
       userInformation['scores'] = {
         'mindful_hours_score': mindful_hours_score.value,
@@ -50,7 +49,6 @@ Future<void> uploadUserInformation() async {
         'articles_scores': articles_scores.value,
         'course_score': course_score.value,
         'total_score': freud_score.value,
-
       };
 
       userInformation['fullName'] = fullname.value;
@@ -62,12 +60,12 @@ Future<void> uploadUserInformation() async {
       userInformation['governmentId'] = governmentId.value;
       userInformation['mobileNo'] = mobileNo.value;
 
-
       // Upload user information to Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set(userInformation.toJson()).then((value) => print('uploaded'));
+          .set(userInformation.toJson())
+          .then((value) => print('uploaded'));
     } catch (e) {
       print('Error uploading user information: $e');
       // Handle error here
@@ -79,11 +77,12 @@ Future<void> uploadUserInformation() async {
     int nanoseconds = timestamp['_nanoseconds'];
 
     DateTime dateTime =
-    DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true)
-        .add(Duration(microseconds: nanoseconds ~/ 1000));
+        DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true)
+            .add(Duration(microseconds: nanoseconds ~/ 1000));
 
     return dateTime;
   }
+
   Future<void> fetchUserInformation() async {
     try {
       // Fetch user information from Firestore
@@ -93,42 +92,39 @@ Future<void> uploadUserInformation() async {
           .get();
 
       // Convert userDoc to Map and assign to userInformation
-      userInformation.value =await (userDoc.data() as Map<String, dynamic>?) ?? {};
-      print('User Information: $userInformation' );
-       fullname.value = userInformation['fullName'];
-       email.value = userInformation['emailId'];
-       uid.value = userInformation['uid'];
-       gender.value = userInformation['gender'];
-      dateOfBirth.value =userInformation['dateOfBirth'];
-       location.value = userInformation['location'];
-       weight.value = userInformation['weight'];
-       governmentId.value = userInformation['governmentId'];
-       mobileNo.value = userInformation['mobileNo'];
-      mindful_hours_score.value = await userInformation['scores']['mindful_hours_score'];
+      userInformation.value =
+          await (userDoc.data() as Map<String, dynamic>?) ?? {};
+      print('User Information: $userInformation');
+      fullname.value = userInformation['fullName'];
+      email.value = userInformation['emailId'];
+      uid.value = userInformation['uid'];
+      gender.value = userInformation['gender'];
+      dateOfBirth.value = userInformation['dateOfBirth'];
+      location.value = userInformation['location'];
+      weight.value = userInformation['weight'];
+      governmentId.value = userInformation['governmentId'];
+      mobileNo.value = userInformation['mobileNo'];
+      mindful_hours_score.value =
+          await userInformation['scores']['mindful_hours_score'];
       mood_score.value = await userInformation['scores']['mood_score'];
       audio_score.value = await userInformation['scores']['audio_score'];
       chatbot_score.value = await userInformation['scores']['chatbot_score'];
-      articles_scores.value = await userInformation['scores']['articles_scores'];
+      articles_scores.value =
+          await userInformation['scores']['articles_scores'];
       freud_score.value = await userInformation['scores']['total_score'];
       course_score.value = await userInformation['scores']['course_score'];
 
-
-      print('User Information: $userInformation' );
+      print('User Information: $userInformation');
     } catch (e) {
       print('Error fetching user information: $e');
       // Handle error here
     }
   }
-
-
 }
-
 
 class FirebaseAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-
-
 
   Future<User?> signInWithGoogle() async {
     final GoogleSignInAccount? googleSignInAccount =
@@ -155,10 +151,13 @@ class FirebaseAuthService {
   // create a function which will fetch user information from firebase with collection "users" and document with current user uid
   Future<Map<String, dynamic>> fetchUserInformation() async {
     final User? user = auth.currentUser;
-    final DocumentSnapshot<Map<String, dynamic>> userInformation = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+    final DocumentSnapshot<Map<String, dynamic>> userInformation =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get();
     return userInformation.data()!;
   }
-
 
   Future<void> signOutGoogle() async {
     await googleSignIn.signOut();
@@ -340,9 +339,7 @@ class FirebaseAuthService {
         .set(data)
         .then((value) => print("User Info Added"))
         .catchError((error) => print("Failed to add user: $error"));
-
   }
-
 }
 //firebase_auth_service.dart
 // import 'package:firebase_auth/firebase_auth.dart';
