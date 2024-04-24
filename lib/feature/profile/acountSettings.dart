@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
 import 'package:stress_sheild/feature/profile/about_us.dart';
+import 'package:stress_sheild/feature/profile/faq_page.dart';
 import 'package:stress_sheild/feature/profile/feed_back.dart';
+import 'package:stress_sheild/feature/profile/terms_and_conditions.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
 class AccountSettings extends StatefulWidget {
@@ -222,6 +224,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                     height: 10,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TermsAndConditionsPage(),
+                          ));
+                    },
                     child: Card(
                       margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
                       color: Colors.white70,
@@ -233,7 +242,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                           color: Colors.black54,
                         ),
                         title: Text(
-                          'Privacy',
+                          'Terms and Conditions',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -274,6 +283,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                     height: 10,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FAQPage(),
+                          ));
+                    },
                     child: Card(
                       color: Colors.white70,
                       margin: EdgeInsets.only(left: 35, right: 35, bottom: 10),
@@ -283,7 +299,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                         leading:
                             Icon(Icons.help_outline, color: Colors.black54),
                         title: Text(
-                          'Help & Support',
+                          'FAQs and Help',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),

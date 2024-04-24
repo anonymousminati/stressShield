@@ -96,6 +96,44 @@ class _NewExercise3State extends State<NewExercise3> {
               child: Scaffold(
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: FloatingActionButton.extended(
+                  extendedPadding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.2),
+                  label: Text('Continue',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
+                  backgroundColor: Colors.brown,
+                  onPressed: _selectedIndex != -1
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BreathExercise(
+                                      selectedGoal: widget.selectedGoal,
+                                      selectedDuration: widget.selectedDuration,
+                                      audioUrl: audio_url,
+                                      receivePort: widget.receivePort,
+                                    )),
+                          );
+                        }
+                      : null,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0),
+                  ),
+                  elevation: 4.0,
+                  splashColor: Colors.white,
+                  focusColor: Colors.white,
+                  hoverColor: Colors.white,
+                  highlightElevation: 8.0,
+                  focusElevation: 8.0,
+                  hoverElevation: 8.0,
+                ),
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(kToolbarHeight + 32),
                   child: Padding(
@@ -149,42 +187,6 @@ class _NewExercise3State extends State<NewExercise3> {
                       ),
                     ),
                   ),
-                ),
-                floatingActionButton: FloatingActionButton.extended(
-                  extendedPadding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.2),
-                  label: Text('Continue',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                  ),
-                  backgroundColor: Colors.brown,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BreathExercise(
-                                selectedGoal: widget.selectedGoal,
-                                selectedDuration: widget.selectedDuration,
-                                audioUrl: audio_url,
-                                receivePort: widget.receivePort,
-                              )),
-                    );
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0),
-                  ),
-                  elevation: 4.0,
-                  splashColor: Colors.white,
-                  focusColor: Colors.white,
-                  hoverColor: Colors.white,
-                  highlightElevation: 8.0,
-                  focusElevation: 8.0,
-                  hoverElevation: 8.0,
                 ),
                 body: Column(
                   children: [

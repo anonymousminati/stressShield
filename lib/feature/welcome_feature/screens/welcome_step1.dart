@@ -88,6 +88,7 @@ class _WelcomeScreen1State extends State<WelcomeScreen1> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           child: PageView.builder(

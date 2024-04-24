@@ -22,6 +22,7 @@ class _NewExercise2State extends State<NewExercise2> {
   Duration _duration = Duration(hours: 0, minutes: 0);
   final secondsWheel = WheelPickerController(itemCount: 59);
   final minutesWheel = WheelPickerController(itemCount: 59);
+  // Initially no card is selected
 
   static const textStyle =
       TextStyle(fontSize: 70, height: 1.5, color: Colors.white);

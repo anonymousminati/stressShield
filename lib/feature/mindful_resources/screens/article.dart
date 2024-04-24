@@ -6,9 +6,7 @@ import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_s
 import 'package:stress_sheild/feature/smart_notification/screens/notification_landingPage.dart';
 import 'package:stress_sheild/model/dataModels.dart';
 
-
 final UserInformation _userInformation = Get.put(UserInformation());
-
 
 class Article extends StatefulWidget {
   Article({super.key, required this.data});
@@ -20,9 +18,7 @@ class Article extends StatefulWidget {
 }
 
 class _ArticleState extends State<Article> {
-
-  Widget _popup(){
-
+  Widget _popup() {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -46,7 +42,7 @@ class _ArticleState extends State<Article> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'You have successfully completed the article. You have earned 5 points.',
+                    'You have successfully completed the Task. You have earned 5 points.',
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),
@@ -57,22 +53,27 @@ class _ArticleState extends State<Article> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: TextButton.icon(
-                    onPressed: (){
+                    onPressed: () {
                       var addScore = 5;
                       _userInformation.freud_score.value += addScore;
-                      print('Freud Score: ${_userInformation.freud_score.value}');
-                      _userInformation.articles_scores.value +=addScore;
-                      print('Articles Score: ${_userInformation.articles_scores}');
+                      print(
+                          'Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.articles_scores.value += addScore;
+                      print(
+                          'Articles Score: ${_userInformation.articles_scores}');
                       _userInformation.uploadUserInformation();
                       // Handle 'Mark as Read' button press
                       print('Mark as Read Pressed!');
                       _userInformation.fetchUserInformation();
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations()), (route) => false);
-
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavWithAnimations()),
+                          (route) => false);
                     },
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     ),
                     icon: Icon(
                       Icons.check,
@@ -93,9 +94,7 @@ class _ArticleState extends State<Article> {
         ],
       ),
     );
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -242,63 +241,63 @@ class _ArticleState extends State<Article> {
                             height: 20.0,
                           ),
                           //create a Row with Text "Article" and "Phylosophy"
-                         SizedBox(
-
+                          SizedBox(
                             height: 50.0,
-                          child:  Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12 ,vertical: 4),
-                                // Adjust padding as needed
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white, // Border color
-                                    width: 1, // Border width
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  // Adjust padding as needed
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.white, // Border color
+                                      width: 1, // Border width
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                        25), // Border radius
                                   ),
-                                  borderRadius:
-                                  BorderRadius.circular(25), // Border radius
-                                ),
-                                child: Text(
-                                  "Article",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              // Add spacing between the two texts
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12 ,vertical: 4),
-                                // Adjust padding as needed
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white, // Border color
-                                    width: 1, // Border width
-                                  ),
-                                  borderRadius:
-                                  BorderRadius.circular(25), // Border radius
-                                ),
-                                child: Text(
-                                  "Philosophy",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
+                                  child: Text(
+                                    "Article",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 10),
+                                // Add spacing between the two texts
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  // Adjust padding as needed
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.white, // Border color
+                                      width: 1, // Border width
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                        25), // Border radius
+                                  ),
+                                  child: Text(
+                                    "Philosophy",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                         ),
                           SizedBox(
                             height: 20.0,
                           ),
 
                           Text(
-                              widget.data['article_title']
-                              ,
+                            widget.data['article_title'],
                             style: TextStyle(
                               fontSize: 30.0,
                               fontWeight: FontWeight.w600,
@@ -365,8 +364,6 @@ class _ArticleState extends State<Article> {
                           SizedBox(
                             height: 20.0,
                           ),
-
-
                         ],
                       ),
                     ),
@@ -379,24 +376,19 @@ class _ArticleState extends State<Article> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     width: double.infinity,
-
                     height: 300,
-
                     decoration: BoxDecoration(
-
                       borderRadius: BorderRadius.circular(20),
-
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image.network(
-                      widget.data['img_url'],
+                        widget.data['img_url'],
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -416,15 +408,12 @@ class _ArticleState extends State<Article> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: articleContainers,
                 ),
-
-
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   // Adjust padding as needed
                   child: ElevatedButton(
-
-                    onPressed:(){
+                    onPressed: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -453,15 +442,11 @@ class _ArticleState extends State<Article> {
                 SizedBox(
                   height: 20.0,
                 ),
-
-
               ],
             )),
           ],
         ),
       ),
     );
-
-
   }
 }

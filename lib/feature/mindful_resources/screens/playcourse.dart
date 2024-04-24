@@ -223,7 +223,7 @@ class _PlayCourseState extends State<PlayCourse> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'You have successfully completed the article. You have earned 5 points.',
+                    'You have successfully completed the Task. You have earned 5 points.',
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),

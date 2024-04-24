@@ -79,7 +79,7 @@ class _BreathExerciseState extends State<BreathExercise> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'You have successfully completed the article. You have earned 5 points.',
+                    'You have successfully completed the Task. You have earned 5 points.',
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),
@@ -175,7 +175,11 @@ class _BreathExerciseState extends State<BreathExercise> {
         print('this line printed7');
         await audioPlayer.play(DeviceFileSource(audioPath)).then((value) {
           var seconds = widget.selectedDuration.inSeconds;
-          Future.delayed(Duration(seconds: seconds), () {
+
+          var minutes = widget.selectedDuration.inMinutes;
+          print("minute:$minutes and seocnds:$seconds");
+
+          Future.delayed(Duration(minutes: minutes, seconds: seconds), () {
             showDialog(
               context: context,
               builder: (context) {
@@ -255,7 +259,7 @@ class _BreathExerciseState extends State<BreathExercise> {
                       ),
                     ),
                     title: Text(
-                      'Sound Chirping Birds',
+                      'AUDIO TRACK',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,

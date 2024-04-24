@@ -1,5 +1,6 @@
 import 'package:card_slider/card_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -347,10 +348,6 @@ class MindfulResourceContainer extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Icon(
-                  Icons.more_horiz,
-                  size: 40.0,
-                ),
               ],
             ),
             SizedBox(
@@ -510,10 +507,6 @@ class AiTherapistContainer extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Icon(
-                  Icons.more_horiz,
-                  size: 40.0,
-                ),
               ],
             ),
             SizedBox(
@@ -631,19 +624,28 @@ class AiTherapistContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
-                        width: 50.0,
-                        height: 50.0,
-                        margin: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFEC7D1C),
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 30.0,
-                            color: Colors.white,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatBotChatScreen()),
+                          );
+                        },
+                        child: Container(
+                          width: 50.0,
+                          height: 50.0,
+                          margin: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFFEC7D1C),
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              size: 30.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -682,10 +684,6 @@ class MindfulTrackerContainer extends StatelessWidget {
                     fontSize: 24.0,
                     fontWeight: FontWeight.w600,
                   ),
-                ),
-                Icon(
-                  Icons.more_horiz,
-                  size: 40.0,
                 ),
               ],
             ),
@@ -727,10 +725,6 @@ class MentalHealthSliderContainer extends StatelessWidget {
                         fontSize: 24.0,
                         fontWeight: FontWeight.w600,
                       ),
-                    ),
-                    Icon(
-                      Icons.more_horiz,
-                      size: 40.0,
                     ),
                   ],
                 ),
@@ -875,21 +869,6 @@ class LandingprofileContainer extends StatelessWidget {
                 //create date and a notification icon and make them space between
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //create a hamburger menu
-                  // IconButton(
-                  //   onPressed: () {
-                  //    Navigator.pushNamed(context, 'accountSettings');
-                  //   },
-                  //   icon: Icon(
-                  //     Icons.menu,
-                  //     size: 24.0,
-                  //     color: Colors.white,
-                  //   ),
-                  //   iconSize: 24.0,
-                  //   padding: EdgeInsets.zero,
-                  //   constraints: BoxConstraints(),
-                  //   splashRadius: 24.0,
-                  // ),
                   Text(
                     '📅$formattedDate, $formattedTime',
                     style: TextStyle(

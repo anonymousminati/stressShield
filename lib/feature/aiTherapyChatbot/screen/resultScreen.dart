@@ -14,7 +14,6 @@ import 'package:stress_sheild/global_widgets/articleList.dart';
 import 'package:stress_sheild/global_widgets/carousel_slider.dart';
 import 'package:stress_sheild/global_widgets/songListWidget.dart'; // Import Lottie package
 
-
 UserInformation _userInformation = Get.put(UserInformation());
 
 class DetectorHome extends StatefulWidget {
@@ -48,46 +47,17 @@ class _DetectorHomeState extends State<DetectorHome>
     _controller.forward();
 
     // Fetch label information
-    fetchLabelInfo(widget.detectedLabel).then((info) {
-      setState(() {
-        _labelInfo = info;
-        _isLoading = false; // Set loading state to false when data is fetched
-      });
-    }).catchError((error) {
-      setState(() {
-        _isLoading = false; // Set loading state to false if there's an error
-      });
-    });
-    _fetchSongsData();
-  }
-
-  Future<void> _fetchSongsData() async {
-    try {
-      // Fetch songs data from Firestore
-      final snapshot = await FirebaseFirestore.instance
-          .collection('Music')
-          .doc(widget.detectedLabel.toLowerCase())
-          .get();
-
-      if (snapshot.exists) {
-        // Extract the list of songs from the document data
-        List<dynamic>? fetchedSongsData = snapshot.get('musics');
-        setState(() {
-          songsData = fetchedSongsData;
-        });
-      } else {
-        // Handle case when no data is found
-        setState(() {
-          songsData = [];
-        });
-      }
-    } catch (e) {
-      // Handle any errors that occur during fetching
-      print('Error fetching songs data: $e');
-      setState(() {
-        songsData = [];
-      });
-    }
+    // fetchLabelInfo(widget.detectedLabel).then((info) {
+    //   setState(() {
+    //     _labelInfo = info;
+    //     _isLoading = false; // Set loading state to false when data is fetched
+    //   });
+    // }).catchError((error) {
+    //   setState(() {
+    //     _isLoading = false; // Set loading state to false if there's an error
+    //   });
+    // });
+    // _fetchSongsData();
   }
 
   @override
@@ -96,48 +66,48 @@ class _DetectorHomeState extends State<DetectorHome>
     super.dispose();
   }
 
-  Future<String> fetchLabelInfo(String label) async {
-    try {
-      final response = await http.get(
-        Uri.parse('https://en.wikipedia.org/api/rest_v1/page/summary/$label'),
-      );
+  // Future<String> fetchLabelInfo(String label) async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse('https://en.wikipedia.org/api/rest_v1/page/summary/$label'),
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> data = json.decode(response.body);
+  //       String extract = data['extract'] ?? '';
+  //       // Limiting to 4-5 lines
+  //       if (extract.length > 500) {
+  //         extract = extract.substring(0, 500) + '...';
+  //       }
+  //       return extract;
+  //     } else {
+  //       throw Exception('Failed to load label information');
+  //     }
+  //   } catch (e) {
+  //     print('Error fetching label information: $e');
+  //     return 'Failed to load label information. Please try again later.';
+  //   }
+  // }
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        String extract = data['extract'] ?? '';
-        // Limiting to 4-5 lines
-        if (extract.length > 500) {
-          extract = extract.substring(0, 500) + '...';
-        }
-        return extract;
-      } else {
-        throw Exception('Failed to load label information');
-      }
-    } catch (e) {
-      print('Error fetching label information: $e');
-      return 'Failed to load label information. Please try again later.';
-    }
-  }
+  // Future<void> _refreshPage() async {
+  //   setState(() {
+  //     _isLoading = true; // Set loading state to true while fetching data
+  //   });
+  //
+  //   // Fetch label information
+  //   await fetchLabelInfo(widget.detectedLabel).then((info) {
+  //     setState(() {
+  //       _labelInfo = info;
+  //       _isLoading = false; // Set loading state to false when data is fetched
+  //     });
+  //   }).catchError((error) {
+  //     setState(() {
+  //       _isLoading = false; // Set loading state to false if there's an error
+  //     });
+  //   });
+  // }
 
-  Future<void> _refreshPage() async {
-    setState(() {
-      _isLoading = true; // Set loading state to true while fetching data
-    });
-
-    // Fetch label information
-    await fetchLabelInfo(widget.detectedLabel).then((info) {
-      setState(() {
-        _labelInfo = info;
-        _isLoading = false; // Set loading state to false when data is fetched
-      });
-    }).catchError((error) {
-      setState(() {
-        _isLoading = false; // Set loading state to false if there's an error
-      });
-    });
-  }
-  Widget _popup(){
-
+  Widget _popup() {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -161,7 +131,7 @@ class _DetectorHomeState extends State<DetectorHome>
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'You have successfully completed the Mood. You have earned 5 points.',
+                    'You have successfully completed the Task. You have earned 5 points.',
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),
@@ -172,22 +142,26 @@ class _DetectorHomeState extends State<DetectorHome>
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: TextButton.icon(
-                    onPressed: (){
+                    onPressed: () {
                       var addScore = 5;
                       _userInformation.freud_score.value += addScore;
-                      print('Freud Score: ${_userInformation.freud_score.value}');
-                      _userInformation.mood_score.value +=addScore;
+                      print(
+                          'Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.mood_score.value += addScore;
                       print('Articles Score: ${_userInformation.mood_score}');
                       _userInformation.uploadUserInformation();
                       // Handle 'Mark as Read' button press
                       print('Mark as Read Pressed!');
                       _userInformation.fetchUserInformation();
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations()), (route) => false);
-
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavWithAnimations()),
+                          (route) => false);
                     },
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     ),
                     icon: Icon(
                       Icons.check,
@@ -208,8 +182,8 @@ class _DetectorHomeState extends State<DetectorHome>
         ],
       ),
     );
-
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -249,7 +223,7 @@ class _DetectorHomeState extends State<DetectorHome>
                 )
               else
                 RefreshIndicator(
-                  onRefresh: _refreshPage,
+                  onRefresh: () async {},
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -318,7 +292,7 @@ class _DetectorHomeState extends State<DetectorHome>
                           opacity: _fadeAnimation,
                           child: Center(
                             child: Text(
-                              'RECOMMENDED Articles',
+                              'RECOMMENDED ARTICLES',
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 color: Colors.blueGrey,
@@ -330,10 +304,8 @@ class _DetectorHomeState extends State<DetectorHome>
                           ),
                         ),
                         SizedBox(height: 20),
-
-
-                       Container(
-                              padding: EdgeInsets.all(10),
+                        Container(
+                            padding: EdgeInsets.all(10),
                             //add border and border-radius
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -342,12 +314,10 @@ class _DetectorHomeState extends State<DetectorHome>
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child:SingleChildScrollView(
+                            child: SingleChildScrollView(
                               physics: NeverScrollableScrollPhysics(),
                               child: ArticleListViewBuilder(),
-                            )
-                          ),
-
+                            )),
                         SizedBox(height: 20),
                         Image(
                           image: AssetImage('images/line.png'),

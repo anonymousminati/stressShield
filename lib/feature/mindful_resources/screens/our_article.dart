@@ -191,82 +191,82 @@ class _OurArticleState extends State<OurArticle>
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Suggested Categories',
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Add your onPressed functionality here
-                              },
-                              child: Text(
-                                'See All',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF4F3422),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        //create a horizontal scrollable list of categories. show icons and below icons show text
-                        SizedBox(
-                          height: 110.0,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                IconTextItem(
-                                  icon: Icons.face,
-                                  text: 'Stress',
-                                  backgroundColor: Color(0xFF4F3422),
-                                ),
-                                IconTextItem(
-                                  icon: Icons.timer_rounded,
-                                  text: 'Anxiety',
-                                  backgroundColor: Color(0xFFAF9CF4),
-                                ),
-                                IconTextItem(
-                                  icon: Icons.cases,
-                                  text: 'Healthy',
-                                  backgroundColor: Color(0xFFED7E1C),
-                                ),
-                                IconTextItem(
-                                  icon: Icons.water_drop,
-                                  text: 'Status',
-                                  backgroundColor: Color(0xFFF2C04C),
-                                ),
-                                IconTextItem(
-                                  icon: Icons.health_and_safety,
-                                  text: 'Health',
-                                  backgroundColor: Color(0xFFC0A091),
-                                ),
-                                IconTextItem(
-                                  icon: Icons.remove_red_eye,
-                                  text: 'Emotion',
-                                  backgroundColor: Color(0xFF70B658),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  //   child: Column(
+                  //     children: [
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           Text(
+                  //             'Suggested Categories',
+                  //             style: TextStyle(
+                  //               fontSize: 24.0,
+                  //               fontWeight: FontWeight.w600,
+                  //             ),
+                  //           ),
+                  //           GestureDetector(
+                  //             onTap: () {
+                  //               // Add your onPressed functionality here
+                  //             },
+                  //             child: Text(
+                  //               'See All',
+                  //               style: TextStyle(
+                  //                 fontSize: 16.0,
+                  //                 fontWeight: FontWeight.w600,
+                  //                 color: Color(0xFF4F3422),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       SizedBox(
+                  //         height: 20.0,
+                  //       ),
+                  //       //create a horizontal scrollable list of categories. show icons and below icons show text
+                  //       SizedBox(
+                  //         height: 110.0,
+                  //         child: SingleChildScrollView(
+                  //           scrollDirection: Axis.horizontal,
+                  //           child: Row(
+                  //             children: [
+                  //               IconTextItem(
+                  //                 icon: Icons.face,
+                  //                 text: 'Stress',
+                  //                 backgroundColor: Color(0xFF4F3422),
+                  //               ),
+                  //               IconTextItem(
+                  //                 icon: Icons.timer_rounded,
+                  //                 text: 'Anxiety',
+                  //                 backgroundColor: Color(0xFFAF9CF4),
+                  //               ),
+                  //               IconTextItem(
+                  //                 icon: Icons.cases,
+                  //                 text: 'Healthy',
+                  //                 backgroundColor: Color(0xFFED7E1C),
+                  //               ),
+                  //               IconTextItem(
+                  //                 icon: Icons.water_drop,
+                  //                 text: 'Status',
+                  //                 backgroundColor: Color(0xFFF2C04C),
+                  //               ),
+                  //               IconTextItem(
+                  //                 icon: Icons.health_and_safety,
+                  //                 text: 'Health',
+                  //                 backgroundColor: Color(0xFFC0A091),
+                  //               ),
+                  //               IconTextItem(
+                  //                 icon: Icons.remove_red_eye,
+                  //                 text: 'Emotion',
+                  //                 backgroundColor: Color(0xFF70B658),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   Container(
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Column(
@@ -287,30 +287,28 @@ class _OurArticleState extends State<OurArticle>
                             ),
                           ],
                         ),
+                        SizedBox(height: 30),
                         FadeTransition(
                           opacity: _fadeAnimation,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 20.0, right: 15.0),
-                            child: ArticleListViewBuilder(),
-                          ),
+                          child: ArticleListViewBuilder(),
                         ),
                         SizedBox(height: 30),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: _articleData.length,
-                          itemBuilder: (context, index) {
-                            return _articleData[index];
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 10.0,
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
+                        // ListView.separated(
+                        //   shrinkWrap: true,
+                        //   physics: NeverScrollableScrollPhysics(),
+                        //   itemCount: _articleData.length,
+                        //   itemBuilder: (context, index) {
+                        //     return _articleData[index];
+                        //   },
+                        //   separatorBuilder: (context, index) {
+                        //     return SizedBox(
+                        //       height: 10.0,
+                        //     );
+                        //   },
+                        // ),
+                        // SizedBox(
+                        //   height: 20.0,
+                        // )
                       ],
                     ),
                   ),

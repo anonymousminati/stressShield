@@ -7,9 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:stress_sheild/feature/home_and_mental_health_score/screens/customnavbar.dart';
 import 'package:stress_sheild/feature/signIn_and_signUp/services/firebase_auth_service.dart';
 
-
-
 final UserInformation _userInformation = Get.put(UserInformation());
+
 class ChatBotChatScreen extends StatefulWidget {
   const ChatBotChatScreen({super.key});
 
@@ -26,14 +25,15 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
   final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
 
   final List<Message> _messages = [];
+
+  @override
   initState() {
     super.initState();
 
     firstMessage();
   }
 
-  Widget _popup(){
-
+  Widget _popup() {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -57,7 +57,7 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'You have successfully completed the article. You have earned 5 points.',
+                    'You have successfully completed the Task. You have earned 5 points.',
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),
@@ -68,22 +68,27 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: TextButton.icon(
-                    onPressed: (){
+                    onPressed: () {
                       var addScore = 5;
                       _userInformation.freud_score.value += addScore;
-                      print('Freud Score: ${_userInformation.freud_score.value}');
-                      _userInformation.chatbot_score.value +=addScore;
+                      print(
+                          'Freud Score: ${_userInformation.freud_score.value}');
+                      _userInformation.chatbot_score.value += addScore;
                       print('chatbot Score: ${_userInformation.chatbot_score}');
                       _userInformation.uploadUserInformation();
                       // Handle 'Mark as Read' button press
                       print('Mark as Read Pressed!');
                       _userInformation.fetchUserInformation();
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavWithAnimations(),), (route) => false);
-
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavWithAnimations(),
+                          ),
+                          (route) => false);
                     },
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     ),
                     icon: Icon(
                       Icons.check,
@@ -104,9 +109,7 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
         ],
       ),
     );
-
   }
-
 
   Future<void> firstMessage() async {
     final content = [
@@ -117,8 +120,12 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
     final response = await model.generateContent(content);
 
     setState(() {
-      _messages.insert(0,Message(
-          isUser: false, message: response.text ?? "", date: DateTime.now()));
+      _messages.insert(
+          0,
+          Message(
+              isUser: false,
+              message: response.text ?? "",
+              date: DateTime.now()));
     });
   }
 
@@ -126,16 +133,20 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
     final message = _userInput.text;
 
     setState(() {
-      _messages
-          .insert(0,Message(isUser: true, message: message, date: DateTime.now()));
+      _messages.insert(
+          0, Message(isUser: true, message: message, date: DateTime.now()));
     });
 
     final content = [Content.text(message)];
     final response = await model.generateContent(content);
 
     setState(() {
-      _messages.insert(0,Message(
-          isUser: false, message: response.text ?? "", date: DateTime.now()));
+      _messages.insert(
+          0,
+          Message(
+              isUser: false,
+              message: response.text ?? "",
+              date: DateTime.now()));
     });
   }
 
@@ -149,7 +160,7 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
         elevation: 0, // No shadow
         leading: IconButton(
           style: //create round border
-          ButtonStyle(
+              ButtonStyle(
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
@@ -159,7 +170,6 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
           ),
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -171,10 +181,12 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
 
           color: Colors.white,
           splashRadius: 25,
-          highlightColor: Colors.white.withOpacity(0.3), // Highlight color when pressed
+          highlightColor:
+              Colors.white.withOpacity(0.3), // Highlight color when pressed
           iconSize: 30,
         ),
-        title: Text( // Title
+        title: Text(
+          // Title
           'Talk with Dr. Alex',
           style: TextStyle(
             color: Colors.white,
@@ -195,9 +207,9 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
           children: [
             Expanded(
                 child: ListView.builder(
-                    controller:_chatScrollController ,
-reverse: true,
-                shrinkWrap: true,
+                    controller: _chatScrollController,
+                    reverse: true,
+                    shrinkWrap: true,
                     itemCount: _messages.length,
                     itemBuilder: (context, index) {
                       final message = _messages[index];
@@ -219,7 +231,7 @@ reverse: true,
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                               color:
-                              Color(0xffffffff)), // Customize border color
+                                  Color(0xffffffff)), // Customize border color
                           borderRadius: BorderRadius.circular(15),
                         ),
                         labelText: 'Enter Your Message',
@@ -234,9 +246,9 @@ reverse: true,
                       iconSize: 30,
                       style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.black),
+                              MaterialStateProperty.all(Colors.black),
                           foregroundColor:
-                          MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
                           shape: MaterialStateProperty.all(CircleBorder())),
                       onPressed: () {
                         sendMessage();
@@ -268,9 +280,9 @@ class Messages extends StatelessWidget {
 
   const Messages(
       {super.key,
-        required this.isUser,
-        required this.message,
-        required this.date});
+      required this.isUser,
+      required this.message,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {

@@ -393,28 +393,28 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.share,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            // Implement share functionality
-                                          },
-                                        ),
-                                        Text(
-                                          '${posts[index].shares}',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.start,
+                                    //   children: [
+                                    //     IconButton(
+                                    //       icon: Icon(
+                                    //         Icons.share,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //       onPressed: () {
+                                    //         // Implement share functionality
+                                    //       },
+                                    //     ),
+                                    //     Text(
+                                    //       '${posts[index].shares}',
+                                    //       style: TextStyle(
+                                    //         color: Colors.white,
+                                    //         fontWeight: FontWeight.bold,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ],

@@ -503,57 +503,57 @@ class _CourseState extends State<Course> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                        // Adjust the radius as needed
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // Add a shadow for depth
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        leading: Icon(
-                          Icons.download,
-                          size: 40.0,
-                          color: Colors.brown,
-                        ),
-                        title: Text(
-                          "Offline Download",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.brown,
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 5.0),
-                            // Add some space between title and subtitle
-                            Text(
-                              "1.2 GB",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.brown,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(16.0),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       borderRadius: BorderRadius.circular(30.0),
+                  //       // Adjust the radius as needed
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           color: Colors.grey.withOpacity(0.5),
+                  //           // Add a shadow for depth
+                  //           spreadRadius: 2,
+                  //           blurRadius: 4,
+                  //           offset: Offset(0, 3), // changes position of shadow
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     child: ListTile(
+                  //       contentPadding: EdgeInsets.symmetric(
+                  //           horizontal: 20.0, vertical: 10.0),
+                  //       leading: Icon(
+                  //         Icons.download,
+                  //         size: 40.0,
+                  //         color: Colors.brown,
+                  //       ),
+                  //       title: Text(
+                  //         "Offline Download",
+                  //         style: TextStyle(
+                  //           fontSize: 20.0,
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Colors.brown,
+                  //         ),
+                  //       ),
+                  //       subtitle: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           SizedBox(height: 5.0),
+                  //           // Add some space between title and subtitle
+                  //           Text(
+                  //             "1.2 GB",
+                  //             style: TextStyle(
+                  //               fontSize: 16.0,
+                  //               fontWeight: FontWeight.w600,
+                  //               color: Colors.brown,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
                   //make a for loop and create a container with heading and description. check how many center are there in the list and create that many containers
                   Padding(
